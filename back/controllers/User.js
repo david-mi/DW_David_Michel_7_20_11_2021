@@ -1,24 +1,30 @@
-// const User = require('../models/user');
 require('sequelize');
 require('../dbConnection');
 const models = require('../models');
-const User = models.User;
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
-exports.selectAllUsers = (req, res) => {
+const User = models.User;
 
-  User.findAll()
-    .then(users => res.status(200).json(users))
-    .catch(err => res.status(404).json(err));
+exports.selectAllUsers = async (req, res) => {
+
+  const users = await User.findAll()
+    .catch(err => res.status(500).json(err));
+
+  res.status(200).json(users);
 
 };
 
-exports.selectOneUser = (req, res) => {
+exports.selectOneUser = async (req, res) => {
 
-  User.findOne({ where: { email: "mdr" } })
-    .then(user => res.status(200).json(user))
-    .catch(err => res.status(404).json(err));
+  const user = await User.findByPk(
+    req.params.id, {
+    attributes: ['username', 'firstname', 'lastname', 'bio', 'isAdmin', 'createdAt'],
+  }).catch((err) => res.status(500).json(err));
+
+  if (!user) return res.status(404).json({ message: "Utilisateur non existant" });
+
+  res.status(500).json(user);
 
 };
 
@@ -51,7 +57,7 @@ exports.login = async (req, res) => {
     const payload = [{ USER_ID: user.id }, process.env.TOKEN_SECRET, { expiresIn: '24h' }];
 
     res.status(200).json({
-      userId: user.id,
+      USER_ID: user.id,
       token: jwt.sign(...payload)
     });
 
@@ -60,3 +66,4 @@ exports.login = async (req, res) => {
   }
 
 };
+
