@@ -2,19 +2,22 @@
 require('dotenv').config();
 const fs = require('fs');
 const path = require('path');
-const Sequelize = require('sequelize');
+const { Sequelize } = require('sequelize');
+
 const basename = path.basename(__filename);
-const env = process.env.NODE_ENV;
-const config = require(__dirname + '/../config/config.json')[env];
 const db = {};
 
-let sequelize;
-if (config.use_env_variable) {
-  sequelize = new Sequelize(process.env[config.use_env_variable], config);
-} else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
-  console.log('hahaha');
-}
+// on définit quelle base de donnée listée dans le fichier config on veut utiliser
+const env = process.env.CURRENT_DB;
+const config = require(__dirname + '/../config/config.js')[env];
+
+// on se connecte sur la base de donnée mysql via sequelize
+let sequelize = new Sequelize(config.database, config.username, config.password, config);
+
+sequelize.authenticate()
+  .then(() => console.log(`Connected on ${config.database}`))
+  .catch((err) => console.log(`Failed to connect to ${config.database}`, err));
+
 
 fs
   .readdirSync(__dirname)

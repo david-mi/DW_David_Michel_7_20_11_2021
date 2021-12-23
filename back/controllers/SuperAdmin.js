@@ -1,7 +1,5 @@
 // //! CONTROLLER TEMPORAIRE POUR FACILITER LES TESTS
 
-require('sequelize');
-require('../dbConnection');
 const models = require('../models');
 const Message = models.Message;
 const User = models.User;

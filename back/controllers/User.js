@@ -1,5 +1,4 @@
-require('sequelize');
-require('../dbConnection');
+
 const models = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
