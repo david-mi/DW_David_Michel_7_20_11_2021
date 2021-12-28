@@ -5,16 +5,7 @@ const jwt = require('jsonwebtoken');
 
 const User = models.User;
 
-exports.selectAllUsers = async (req, res) => {
-
-  const users = await User.findAll()
-    .catch(err => res.status(500).json(err));
-
-  res.status(200).json(users);
-
-};
-
-exports.selectOneUser = async (req, res) => {
+exports.showProfile = async (req, res) => {
 
   const user = await User.findByPk(
     req.params.id, {
@@ -24,6 +15,15 @@ exports.selectOneUser = async (req, res) => {
   if (!user) return res.status(404).json({ message: "Utilisateur non existant" });
 
   res.status(500).json(user);
+
+};
+
+exports.updateProfile = async (req, res) => {
+
+  const user = await User.update(
+    { bio: req.body.bio },
+    { where: { id: req.params.id } }).catch(() => res.status(400).json({ Message: "Vous n'êtes pas le propriétaire de ce compte" }));
+  res.status(201).json(user);
 
 };
 
