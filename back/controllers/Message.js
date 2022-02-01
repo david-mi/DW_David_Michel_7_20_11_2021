@@ -19,8 +19,18 @@ exports.getUserMessages = async (req, res) => {
       }
     );
     !messages.length
-      ? res.status(404).json({ message: "Aucune message trouvé" })
+      ? res.status(404).json({ message: "Aucun message trouvé" })
       : res.status(200).json(messages);
+  } catch (err) {
+    res.send(err);
+  }
+};
+
+exports.getUserMessagesById = async (req, res) => {
+  console.log('pdr');
+  try {
+    const message = await Message.findByPk(req.params.id);
+    message ? res.status(200).json(message) : res.status(404).json({ Message: "message non trouvé" });
   } catch (err) {
     res.send(err);
   }

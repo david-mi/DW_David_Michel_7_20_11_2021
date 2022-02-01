@@ -1,16 +1,21 @@
 // //! CONTROLLER TEMPORAIRE POUR FACILITER LES TESTS
 
+const { sequelize } = require('../models');
 const models = require('../models');
 const Message = models.Message;
 const User = models.User;
-
 
 //* VOIR TOUS LES MESSAGES AVEC TOUTES LES INFOS *//
 
 exports.getMessages = async (req, res) => {
 
   try {
-    const messages = await Message.findAll();
+    const messages = await Message.findAll({
+      include: [{
+        model: models.User,
+        attributes: ['username']
+      }]
+    });
     !messages.length
       ? res.status(404).json({ message: "Aucun message dans la base de donnée" })
       : res.status(200).json(messages);
@@ -26,7 +31,11 @@ exports.getAllUsers = async (req, res) => {
   const users = await User.findAll()
     .catch(err => res.status(500).json(err));
 
-  res.status(200).json(users);
+  !users.length
+    ? res.status(404).json({ message: "aucun utilisateur dans la bdd" })
+    : res.status(200).json(users);
+
+
 
 };
 

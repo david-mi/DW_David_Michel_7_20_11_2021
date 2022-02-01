@@ -5,6 +5,7 @@ const idMsgCompare = require('../middlewares/idMsgCompare');
 const messageCtrl = require('../controllers/Message');
 
 router.get('/', messageCtrl.getUserMessages);
+router.get('/:id', messageCtrl.getUserMessagesById);
 router.post('/new', auth, messageCtrl.postMessage);
 router.delete('/:id', auth, idMsgCompare, messageCtrl.deleteMessage);
 router.put('/:id', auth, idMsgCompare, messageCtrl.editMessage);

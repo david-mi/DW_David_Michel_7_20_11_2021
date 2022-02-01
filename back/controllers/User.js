@@ -9,20 +9,23 @@ exports.showProfile = async (req, res) => {
 
   const user = await User.findByPk(
     req.params.id, {
-    attributes: ['username', 'firstname', 'lastname', 'bio', 'isAdmin', 'createdAt'],
+    attributes: ['username', 'firstname', 'lastname', 'bio', 'profilePicture', 'isAdmin', 'createdAt'],
   }).catch((err) => res.status(500).json(err));
 
   if (!user) return res.status(404).json({ message: "Utilisateur non existant" });
 
-  res.status(500).json(user);
+  res.status(200).json(user);
 
 };
 
 exports.updateProfile = async (req, res) => {
 
   const user = await User.update(
-    { bio: req.body.bio },
+    {
+      bio: req.body.bio,
+    },
     { where: { id: req.params.id } }).catch(() => res.status(400).json({ Message: "Vous n'êtes pas le propriétaire de ce compte" }));
+
   res.status(201).json(user);
 
 };
@@ -34,12 +37,15 @@ exports.signup = async (req, res) => {
     const user = await User.create({
       ...req.body,
       password: hash,
+      profilePicture: 'http://localhost:3000/images/default/default_profile_picture.jpg',
       isAdmin: false
     });
+
     res.status(201).json({ Message: "Utilisateur créé", user });
 
   } catch (err) {
-    res.json(err);
+    res.status(400).json(err.errors[0].message);
+    console.log(err);
   }
 
 };
@@ -62,6 +68,7 @@ exports.login = async (req, res) => {
 
   } catch (err) {
     res.send(err);
+    console.log(err);
   }
 
 };

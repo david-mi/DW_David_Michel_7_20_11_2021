@@ -10,9 +10,10 @@ const db = {};
 // on définit quelle base de donnée listée dans le fichier config on veut utiliser
 const env = process.env.CURRENT_DB;
 const config = require(__dirname + '/../config/config.js')[env];
+console.log(config);
 
 // on se connecte sur la base de donnée mysql via sequelize
-let sequelize = new Sequelize(config.database, config.username, config.password, config);
+let sequelize = new Sequelize({ ...config });
 
 sequelize.authenticate()
   .then(() => console.log(`Connected on ${config.database}`))

@@ -1,0 +1,20 @@
+.header {
+  display: flex;
+
+  &__nav {
+    margin-left: auto;
+    display: flex;
+    gap: 20px;
+    align-items: center;
+
+    img {
+      height: 70px;
+      border-radius: 50%;
+      border: solid 2px black;
+    }
+  }
+
+  &__logo {
+    max-width: 250px;
+  }
+}
