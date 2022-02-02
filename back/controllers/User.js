@@ -1,9 +1,13 @@
-
-const models = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const fs = require('fs');
 
+// MODELS
+const models = require('../models');
 const User = models.User;
+
+// TOOLS
+const { profileParser } = require('../tools/jsonParser');
 
 exports.showProfile = async (req, res) => {
 
@@ -19,15 +23,39 @@ exports.showProfile = async (req, res) => {
 };
 
 exports.updateProfile = async (req, res) => {
+  const newData = profileParser(req.body.userInfos);
 
-  const user = await User.update(
-    {
-      bio: req.body.bio,
-    },
-    { where: { id: req.params.id } }).catch(() => res.status(400).json({ Message: "Vous n'êtes pas le propriétaire de ce compte" }));
+  try {
 
-  res.status(201).json(user);
+    if (req.files) {
+      const { filename } = req.files.userPicture[0];
 
+      const newPicture = `${req.protocol}://${req.get('host')}/images/user/${filename}`;
+
+      const getUser = await User.findByPk(req.token.USER_ID);
+      const previousPicture = getUser.profilePicture.split('/images/user/')[1];
+      await User.update(
+        { ...newData, profilePicture: newPicture },
+        { where: { id: req.token.USER_ID } });
+
+      if (previousPicture !== 'default_profile_picture.jpg') {
+        fs.unlink(`images/user/${previousPicture}`, (err) => {
+          if (err) throw (err);
+          console.log('Ancienne image supprimée');
+        });
+      }
+
+    }
+    else {
+      await User.update(
+        { ...newData },
+        { where: { id: req.token.USER_ID } });
+    }
+    res.status(201).json('Utilisateur mis à jour');
+  }
+  catch (err) {
+    res.status(500).json(err);
+  }
 };
 
 exports.signup = async (req, res) => {
@@ -37,7 +65,7 @@ exports.signup = async (req, res) => {
     const user = await User.create({
       ...req.body,
       password: hash,
-      profilePicture: 'http://localhost:3000/images/default/default_profile_picture.jpg',
+      profilePicture: 'http://localhost:3000/images/user/default_profile_picture.jpg',
       isAdmin: false
     });
 
