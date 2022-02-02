@@ -23,35 +23,37 @@ exports.showProfile = async (req, res) => {
 };
 
 exports.updateProfile = async (req, res) => {
+
   const newData = profileParser(req.body.userInfos);
 
   try {
 
     if (req.files) {
+      // on récupère l'image stockée par multer et on construit son URL
       const { filename } = req.files.userPicture[0];
-
       const newPicture = `${req.protocol}://${req.get('host')}/images/user/${filename}`;
 
+      // on cherche l'url de l'ancienne image de l'utilisateur puis on la stocke
       const getUser = await User.findByPk(req.token.USER_ID);
       const previousPicture = getUser.profilePicture.split('/images/user/')[1];
+
       await User.update(
         { ...newData, profilePicture: newPicture },
         { where: { id: req.token.USER_ID } });
 
+      // on supprime l'ancienne image du dossier images sauf si c'était la photo par défaut  
       if (previousPicture !== 'default_profile_picture.jpg') {
         fs.unlink(`images/user/${previousPicture}`, (err) => {
           if (err) throw (err);
-          console.log('Ancienne image supprimée');
         });
       }
-
     }
     else {
       await User.update(
         { ...newData },
         { where: { id: req.token.USER_ID } });
     }
-    res.status(201).json('Utilisateur mis à jour');
+    res.status(201).json({ message: 'Profil utilisateur mis à jour' });
   }
   catch (err) {
     res.status(500).json(err);
