@@ -20,6 +20,7 @@ const Nav = () => {
     setIsLogged(false);
   };
 
+  // source du souci ?? 
   useEffect(() => {
 
     if (isLogged) {
@@ -40,7 +41,7 @@ const Nav = () => {
           <NavLink to={'/'}>Accueil</NavLink>
           <button onClick={logOut}>Se déconnecter</button>
           <NavLink to={'/profile'}>
-            {addPicture && <img src={addPicture} />}
+            {addPicture && <img src={addPicture} alt='photo par défault' />}
           </NavLink>
         </nav>
       )

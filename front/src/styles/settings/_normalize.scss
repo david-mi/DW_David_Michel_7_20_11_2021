@@ -350,3 +350,13 @@ template {
 [hidden] {
   display: none;
 }
+
+li {
+  list-style: none;
+}
+
+ul,
+li {
+  padding: 0;
+  margin: 0;
+}

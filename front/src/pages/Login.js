@@ -1,10 +1,9 @@
 // LIBRARIES
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
-import { useContext } from 'react';
 
 // FILES
 import loginSchema from '../YupSchemas/loginSchema';
@@ -26,9 +25,8 @@ const Login = () => {
       console.log(response);
       const payload = response.data;
       localStorage.setItem('payload', JSON.stringify({ ...payload }));
-      setApiError('');
+      setApiError(false);
       setIsLogged(true);
-      navigate('/');
     }
     catch (err) {
       console.log(err.response);
@@ -37,6 +35,12 @@ const Login = () => {
       setApiError({ status, statusText, message });
     }
   };
+
+  useEffect(() => {
+    console.log('[useEffect] Login.js');
+    console.log('isLogged : ' + isLogged);
+    if (isLogged && Apierror === false) navigate('/');
+  }, [isLogged, Apierror]);
 
   return (
     <div className='login__container'>
