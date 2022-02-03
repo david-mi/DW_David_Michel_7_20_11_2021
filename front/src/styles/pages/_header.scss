@@ -1,5 +1,6 @@
 .header {
   display: flex;
+  width: 100%;
 
   &__nav {
     margin-left: auto;
@@ -9,6 +10,7 @@
 
     img {
       height: 70px;
+      aspect-ratio: 1/1;
       border-radius: 50%;
       border: solid 2px black;
     }

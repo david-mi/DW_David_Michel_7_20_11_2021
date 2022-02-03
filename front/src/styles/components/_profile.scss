@@ -1,0 +1,41 @@
+.profile__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-infos__container {
+  border: solid black 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding-block: 40px;
+  width: 100%;
+
+  .profile-picture__container {
+    border-radius: 50%;
+    overflow: hidden;
+    border: solid 5px black;
+
+    .profile__picture {
+      width: 300px;
+      aspect-ratio: 1/1;
+    }
+  }
+
+  li {
+    font-size: 1.3rem;
+  }
+}
+
+button {
+  width: 200px;
+  height: 50px;
+}
+
+textarea {
+  resize: none;
+
+  height: 100px;
+}

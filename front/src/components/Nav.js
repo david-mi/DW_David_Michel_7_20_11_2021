@@ -1,12 +1,16 @@
-import { NavLink } from 'react-router-dom';
+// LIBRARIES
+import { NavLink, useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
-import loginContext from '../Context/loginContext';
 import axios from 'axios';
+
+// CONTEXT
+import loginContext from '../Context/loginContext';
 
 const Nav = () => {
 
   const { isLogged, setIsLogged } = useContext(loginContext);
   const [addPicture, setAddPicture] = useState(false);
+  const navigate = useNavigate();
 
   const getProfilePicture = async () => {
     const { USER_ID } = JSON.parse(localStorage.getItem('payload'));
@@ -18,6 +22,8 @@ const Nav = () => {
   const logOut = () => {
     localStorage.removeItem('payload');
     setIsLogged(false);
+    //!  A SURVEILLER SI IL FAUT PAS ATTENDRE QUE SETISLOGGED SOIT BIEN FALSE POUR FAIRE LA
+    navigate('/login');
   };
 
   // source du souci ?? 

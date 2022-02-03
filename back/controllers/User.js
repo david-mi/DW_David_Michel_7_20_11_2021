@@ -23,12 +23,24 @@ exports.showProfile = async (req, res) => {
 };
 
 exports.updateProfile = async (req, res) => {
-
-  const newData = profileParser(req.body.userInfos);
-
+  // console.log('req.body');
+  // console.log(req.body.userInfos);
+  // console.log('req.files');
+  // console.log(req.files);
+  // const newData = JSON.parse(req.body.userInfos);
+  // console.log(newData);
+  // console.log('-------- AVANT PLANTAGE -----------');
+  console.log('res locals');
+  console.log(res.locals);
+  const { newData } = res.locals;
   try {
 
-    if (req.files) {
+    console.log('----- try----------');
+    if (req.files.userPicture) {
+      console.log('--------------FILES----------');
+
+
+      console.log(req.files.userPicture);
       // on récupère l'image stockée par multer et on construit son URL
       const { filename } = req.files.userPicture[0];
       const newPicture = `${req.protocol}://${req.get('host')}/images/user/${filename}`;
@@ -49,14 +61,15 @@ exports.updateProfile = async (req, res) => {
       }
     }
     else {
+      console.log('----------NO FILES------------');
       await User.update(
         { ...newData },
         { where: { id: req.token.USER_ID } });
     }
-    res.status(201).json({ message: 'Profil utilisateur mis à jour' });
+    res.status(201).json({ message: 'Profil mis à jour' });
   }
   catch (err) {
-    res.status(500).json(err);
+    res.status(500).send(err);
   }
 };
 

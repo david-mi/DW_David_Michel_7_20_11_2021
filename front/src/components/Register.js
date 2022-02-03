@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 import axios from 'axios';
 import { yupResolver } from '@hookform/resolvers/yup';
 
-// FILES
+// SCHEMAS
 import registerSchema from '../YupSchemas/registerSchema';
 
 // PAGES & COMPONENTS
-import Header from './Header';
+import Header from '../pages/Header';
 
 const Register = () => {
 

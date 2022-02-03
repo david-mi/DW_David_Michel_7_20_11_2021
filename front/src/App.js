@@ -3,11 +3,11 @@ import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 
 // PAGES & COMPONENTS
-import Home from './pages/Home';
-import Login from './pages/Login';
+import Home from './components/Home';
+import Login from './components/Login';
 import NotFound from './pages/NotFound';
-import Profile from './pages/Profile';
-import Register from './pages/Register';
+import Profile from './components/Profile/Profile';
+import Register from './components/Register';
 
 // FILES
 import loginContext from './Context/loginContext';

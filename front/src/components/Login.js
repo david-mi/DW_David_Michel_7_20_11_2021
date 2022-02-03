@@ -5,12 +5,14 @@ import { useNavigate } from "react-router-dom";
 import { yupResolver } from '@hookform/resolvers/yup';
 import axios from 'axios';
 
-// FILES
+// SCHEMA
 import loginSchema from '../YupSchemas/loginSchema';
+
+// CONTEXT
 import loginContext from '../Context/loginContext';
 
 // PAGES & COMPONENTS
-import Header from './Header';
+import Header from '../pages/Header';
 
 const Login = () => {
 

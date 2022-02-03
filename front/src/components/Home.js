@@ -1,6 +1,11 @@
-import Header from './Header';
+// LIBRARIES
 import { useContext } from 'react';
+
+// CONTEXT
 import loginContext from '../Context/loginContext';
+
+// PAGES & COMPONENTS
+import Header from '../pages/Header';
 
 const Home = () => {
 
