@@ -9,7 +9,7 @@ import axios from 'axios';
 import loginSchema from '../YupSchemas/loginSchema';
 
 // CONTEXT
-import loginContext from '../Context/loginContext';
+import { loginContext } from '../Context/loginContext';
 
 // PAGES & COMPONENTS
 import Header from '../pages/Header';

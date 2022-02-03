@@ -116,3 +116,12 @@ exports.login = async (req, res) => {
 
 };
 
+exports.deleteOneUser = async (req, res) => {
+
+  await User.destroy({ where: { id: req.params.id } })
+    .catch(err => res.status(500).json(err));
+
+  res.status(201).json({ message: 'Utilisateur supprimé' });
+
+};
+

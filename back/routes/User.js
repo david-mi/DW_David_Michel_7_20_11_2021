@@ -12,5 +12,6 @@ router.get('/users/:id', userCtrl.showProfile);
 router.post('/signup', registerSchema, userCtrl.signup);
 router.post('/login', loginSchema, userCtrl.login);
 router.put('/users/:id', auth, userIdCompare, multer, profileSchema, userCtrl.updateProfile);
+router.delete('/users/:id', auth, userIdCompare, userCtrl.deleteOneUser);
 
 module.exports = router;

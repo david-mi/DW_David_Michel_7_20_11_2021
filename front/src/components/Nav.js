@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 
 // CONTEXT
-import loginContext from '../Context/loginContext';
+import { loginContext } from '../Context/loginContext';
 
 const Nav = () => {
 

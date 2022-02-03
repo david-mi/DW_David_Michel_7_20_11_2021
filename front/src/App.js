@@ -10,7 +10,7 @@ import Profile from './components/Profile/Profile';
 import Register from './components/Register';
 
 // FILES
-import loginContext from './Context/loginContext';
+import { loginContext } from './Context/loginContext';
 
 const App = () => {
 
