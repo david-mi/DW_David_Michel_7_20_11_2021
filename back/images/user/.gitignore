@@ -1,0 +1,7 @@
+
+# tous les fichiers de ce dossier et ses sous dossiers seront ignorés à l'exeception de ce gitignore 
+# ainsi que les 2 photo par défaut
+*
+!.gitignore
+!default_profile_picture.jpg
+!/post/default_post_picture.jgp
