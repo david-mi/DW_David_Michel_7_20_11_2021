@@ -1,6 +1,6 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const fs = require('fs');
+const { unlink } = require('fs/promises');
 
 // MODELS
 const models = require('../models');
@@ -8,6 +8,12 @@ const User = models.User;
 
 // TOOLS
 const { profileParser } = require('../tools/jsonParser');
+const { handleErrorImage, deletePreviousImage } = require('../tools/handleErrorImage');
+
+const getdefaultUserPicture = (request) => {
+  const name = 'default_profile_picture.jpg';
+  return `${request.protocol}://${request.get('host')}/images/user/${name}`;
+};
 
 exports.showProfile = async (req, res) => {
 
@@ -23,53 +29,41 @@ exports.showProfile = async (req, res) => {
 };
 
 exports.updateProfile = async (req, res) => {
-  // console.log('req.body');
-  // console.log(req.body.userInfos);
-  // console.log('req.files');
-  // console.log(req.files);
-  // const newData = JSON.parse(req.body.userInfos);
-  // console.log(newData);
-  // console.log('-------- AVANT PLANTAGE -----------');
-  console.log('res locals');
-  console.log(res.locals);
+
   const { newData } = res.locals;
+
   try {
 
-    console.log('----- try----------');
-    if (req.files.userPicture) {
-      console.log('--------------FILES----------');
-
-
-      console.log(req.files.userPicture);
+    if (req.file) {
       // on récupère l'image stockée par multer et on construit son URL
-      const { filename } = req.files.userPicture[0];
+      const { filename } = req.file;
       const newPicture = `${req.protocol}://${req.get('host')}/images/user/${filename}`;
 
       // on cherche l'url de l'ancienne image de l'utilisateur puis on la stocke
       const getUser = await User.findByPk(req.token.USER_ID);
       const previousPicture = getUser.profilePicture.split('/images/user/')[1];
 
+      // mise à jour de l'utilisateur
       await User.update(
         { ...newData, profilePicture: newPicture },
         { where: { id: req.token.USER_ID } });
 
-      // on supprime l'ancienne image du dossier images sauf si c'était la photo par défaut  
-      if (previousPicture !== 'default_profile_picture.jpg') {
-        fs.unlink(`images/user/${previousPicture}`, (err) => {
-          if (err) throw (err);
-        });
-      }
+      // on supprime l'ancienne image du dossier images sauf si c'était la photo par défaut 
+      await deletePreviousImage(req, previousPicture);
     }
     else {
-      console.log('----------NO FILES------------');
+      // mise à jour de l'utilisateur sans photo
       await User.update(
         { ...newData },
         { where: { id: req.token.USER_ID } });
     }
+
     res.status(201).json({ message: 'Profil mis à jour' });
+
   }
   catch (err) {
-    res.status(500).send(err);
+    if (req.file && err.name !== 'unlink') await handleErrorImage(req, 'users');
+    res.status(500).json(err);
   }
 };
 
@@ -80,7 +74,7 @@ exports.signup = async (req, res) => {
     const user = await User.create({
       ...req.body,
       password: hash,
-      profilePicture: 'http://localhost:3000/images/user/default_profile_picture.jpg',
+      profilePicture: getdefaultUserPicture(req),
       isAdmin: false
     });
 
@@ -118,10 +112,16 @@ exports.login = async (req, res) => {
 
 exports.deleteOneUser = async (req, res) => {
 
-  await User.destroy({ where: { id: req.params.id } })
-    .catch(err => res.status(500).json(err));
+  try {
+    await User.destroy({ where: { id: req.params.id } });
+    res.status(201).json({ message: 'Utilisateur supprimé' });
 
-  res.status(201).json({ message: 'Utilisateur supprimé' });
+  }
+  catch (err) {
+    res.status(500).json(err);
+  }
+
+
 
 };
 

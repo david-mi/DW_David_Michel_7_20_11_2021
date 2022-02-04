@@ -1,16 +1,17 @@
 const yup = require('yup');
 const { profileParser } = require('../../tools/jsonParser');
 
-const namesRegex = /^[a-zA-Z\s'.-]+$/;
+const namesRegex = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð\s'.-]+$/;
+const forbiddenChars = /[$\/<>;]/;
+
+const { handleErrorImage } = require('../../tools/handleErrorImage');
 
 const profileSchema = yup.object().shape({
-
-  // picture: yup
-  //   .mixed(),
 
   username: yup
     .string()
     .required('Champ Requis')
+    .test('forbiddenChars', 'Caractère interdit', value => !forbiddenChars.test(value))
     .trim()
     .min(2, 'Le pseudo doit contenir au minimum 2 caractères')
     .max(15, 'Le pseudo de peut pas dépasser 15 caractères'),
@@ -18,39 +19,43 @@ const profileSchema = yup.object().shape({
   firstname: yup
     .string()
     .required('Champ Requis')
-    .trim()
     .matches(namesRegex, 'Le prénom peut contenir : majuscules, minuscules & espaces')
+    .trim()
     .min(2, 'Le prénom doit contenir au minimum 2 caractères')
-    .max(15, 'Le prénom de peut pas dépasser 15 caractères')
-    .notRequired(),
+    .max(20, 'Le prénom de peut pas dépasser 15 caractères'),
 
   lastname: yup
     .string()
     .required('Champ Requis')
-    .trim()
     .matches(namesRegex, 'Le nom peut contenir : majuscules, minuscules & espaces')
+    .trim()
     .min(2, 'Le nom doit contenir au minimum 2 caractères')
-    .max(15, 'Le nom de peut pas dépasser 15 caractères'),
+    .max(20, 'Le nom de peut pas dépasser 15 caractères'),
 
   bio: yup
     .string()
+    .test('forbiddenChars', 'Caractère interdit', value => !forbiddenChars.test(value))
     .trim()
-    .min(2, 'La bio doit contenir au minimum 2 caractères')
     .max(400, 'Le bio de peut pas dépasser 400 caractères'),
 });
 
+
 const profileValid = async (req, res, next) => {
-  const parsedData = JSON.parse(req.body.userInfos);
+
+  console.log(req.file);
+  const parsedData = profileParser(req.body.userInfos);
 
   try {
-    await profileSchema.validate({
-      ...parsedData
-    });
+    await profileSchema.validate({ ...parsedData });
     res.locals.newData = parsedData;
     next();
   }
   catch (err) {
-    res.status(400).json({ message: err });
+
+    if (req.file) {
+      handleErrorImage(req, 'user');
+    }
+    res.status(400).json({ message: `${err.message} sur le champ ${err.params.path} : ${err.params.value}` });
   }
 };
 
