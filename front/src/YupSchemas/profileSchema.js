@@ -3,7 +3,6 @@ import * as yup from 'yup';
 const namesRegex = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð\s'.-]+$/;
 const forbiddenChars = /[$\/<>;]/;
 
-
 const profileSchema = yup.object().shape({
 
   username: yup

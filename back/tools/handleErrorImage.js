@@ -13,15 +13,10 @@ exports.handleErrorImage = async (request, location) => {
 
 };
 
-exports.deletePreviousImage = async (request, previousPic) => {
+exports.deletePreviousUserImage = async (previousPic) => {
 
-  const getdefaultUserPicture = (request) => {
-    const name = 'default_profile_picture.jpg';
-    return `${request.protocol}://${request.get('host')}/images/user/${name}`;
-  };
+  const defaultPic = 'default_profile_picture.jpg';
 
-  const defaultPic = getdefaultUserPicture(request);
-  console.log('alllllo');
   // on supprime l'ancienne image du dossier images sauf si c'était la photo par défaut  
   if (previousPic !== defaultPic) {
     try {
@@ -31,6 +26,18 @@ exports.deletePreviousImage = async (request, previousPic) => {
       throw ({ name: "unlink", msg: "La photo précédente n'a pu être supprimée" });
     }
   }
+
+};
+
+exports.deletePreviousPostImage = async (previousPic) => {
+  console.log('previous', previousPic);
+  try {
+    await unlink(`images/post/${previousPic}`);
+  }
+  catch {
+    throw ({ name: "unlink", msg: "La photo précédente n'a pu être supprimée" });
+  }
+
 };
 
 

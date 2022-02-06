@@ -42,19 +42,20 @@ const profileSchema = yup.object().shape({
 
 const profileValid = async (req, res, next) => {
 
-  console.log(req.file);
-  const parsedData = profileParser(req.body.userInfos);
+  const userInfos = req.body.userInfos;
 
   try {
+    if (!userInfos) throw ({ message: 'userInfos ne peut être vide' });
+    const parsedData = profileParser(userInfos);
     await profileSchema.validate({ ...parsedData });
     res.locals.newData = parsedData;
     next();
   }
   catch (err) {
 
-    if (req.file) {
-      handleErrorImage(req, 'user');
-    }
+    if (req.file) handleErrorImage(req, 'user');
+    if (!userInfos) return res.status(400).json({ message: err.message });
+
     res.status(400).json({ message: `${err.message} sur le champ ${err.params.path} : ${err.params.value}` });
   }
 };

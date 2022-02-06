@@ -7,3 +7,10 @@ exports.profileParser = (data) => {
     bio: parsed.bio
   };
 };
+
+exports.messageParser = (data) => {
+  const parsed = JSON.parse(data);
+  return {
+    text: parsed.text
+  };
+};

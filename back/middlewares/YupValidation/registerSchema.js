@@ -3,6 +3,7 @@ const yup = require('yup');
 const namesRegex = /^[a-zA-Z\s'.-]+$/;
 
 const registerSchema = yup.object().shape({
+
   email: yup
     .string()
     .trim()

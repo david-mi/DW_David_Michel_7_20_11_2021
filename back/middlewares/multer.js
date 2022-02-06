@@ -4,8 +4,13 @@ const multer = require('multer');
 const storage = multer.diskStorage({
 
   destination: (req, file, cb) => {
+    console.log(file);
+    console.log(req.route.path);
     if (req.route.path === '/users/:id') cb(null, 'images/user');
-    if (req.route.path === "/posts/:id") cb(null, 'images/user');
+    if (req.route.path === '/new' || req.route.path === '/:id') {
+      console.log('bonne route');
+      cb(null, 'images/post');
+    }
   },
 
   filename: (req, file, cb) => {

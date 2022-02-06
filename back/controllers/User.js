@@ -8,7 +8,7 @@ const User = models.User;
 
 // TOOLS
 const { profileParser } = require('../tools/jsonParser');
-const { handleErrorImage, deletePreviousImage } = require('../tools/handleErrorImage');
+const { handleErrorImage, deletePreviousUserImage } = require('../tools/handleErrorImage');
 
 const getdefaultUserPicture = (request) => {
   const name = 'default_profile_picture.jpg';
@@ -40,12 +40,13 @@ exports.showProfile = async (req, res) => {
 };
 
 exports.updateProfile = async (req, res) => {
-
+  console.log('ptdrrrrrrrrrrrrrrrrr');
   const { newData } = res.locals;
 
   try {
 
     if (req.file) {
+
       // on récupère l'image stockée par multer et on construit son URL
       const { filename } = req.file;
       const newPicture = `${req.protocol}://${req.get('host')}/images/user/${filename}`;
@@ -60,7 +61,7 @@ exports.updateProfile = async (req, res) => {
         { where: { id: req.token.USER_ID } });
 
       // on supprime l'ancienne image du dossier images sauf si c'était la photo par défaut 
-      await deletePreviousImage(req, previousPicture);
+      await deletePreviousUserImage(previousPicture);
     }
     else {
       // mise à jour de l'utilisateur sans photo
@@ -121,6 +122,28 @@ exports.login = async (req, res) => {
 
 };
 
+exports.deleteUserImage = async (req, res) => {
+  console.log('bonjour');
+  try {
+    const userId = req.token.USER_ID;
+    const user = await User.findByPk(userId);
+    const previousPicture = user.profilePicture.split('/images/user/')[1];
+    console.log(previousPicture);
+
+    await deletePreviousUserImage(previousPicture);
+    await User.update(
+      { profilePicture: getdefaultUserPicture(req) },
+      { where: { id: userId } }
+    );
+
+
+    res.status(201).json({ message: `L'image ${previousPicture} à bien été supprimée de votre profil` });
+  }
+  catch (err) {
+    res.status(500).json(err);
+  }
+};
+
 exports.deleteOneUser = async (req, res) => {
 
   try {
@@ -131,8 +154,6 @@ exports.deleteOneUser = async (req, res) => {
   catch (err) {
     res.status(500).json(err);
   }
-
-
 
 };
 
