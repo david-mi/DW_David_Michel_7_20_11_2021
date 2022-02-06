@@ -14,7 +14,9 @@ module.exports = {
         references: {
           model: 'Messages',
           key: 'id'
-        }
+        },
+        onDelete: 'cascade'
+
       },
       userId: {
         allowNull: false,
@@ -22,7 +24,9 @@ module.exports = {
         references: {
           model: 'Users',
           key: 'id'
-        }
+        },
+        onDelete: 'cascade'
+
       },
       createdAt: {
         allowNull: false,

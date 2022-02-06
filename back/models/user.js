@@ -8,23 +8,15 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
-      models.User.hasMany(models.Message);
-    }
+    // static associate({ Message }) {
+    //   this.hasMany(Message, {
+    //     foreignKey: 'messageId',
+    //     onDelete: 'cascade',
+    //   });
+    // }
   };
   User.init({
-    email: {
-      type: DataTypes.STRING,
-      allowNull: false,
-      validate: {
-        notNull: {
-          msg: 'Veuillez renseigner votre email'
-        },
-        isEmail: {
-          msg: 'Format du mail non valide'
-        }
-      }
-    },
+    email: { type: DataTypes.STRING, },
     password: {
       type: DataTypes.STRING,
     },

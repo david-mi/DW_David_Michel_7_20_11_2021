@@ -1,20 +1,38 @@
-const models = require('../models');
-const Message = models.Message;
+const { Message, User, Like } = require('../models');
+// const Message = models.Message;
+
+exports.getAllMessages = async (req, res) => {
+
+  try {
+    const messages = await Message.findAll({
+      include: [
+        { model: User, attributes: ['username'] },
+      ],
+    });
+    !messages.length
+      ? res.status(404).json({ message: "Aucun message dans la base de donnée" })
+      : res.status(200).json(messages);
+  } catch (err) {
+    res.send(err);
+  }
+};
 
 exports.getUserMessages = async (req, res) => {
   try {
     const limit = parseInt(req.query.limit);
     const userid = req.query.userid;
+    const username = req.query.username;
     console.log('limit: ' + limit);
     console.log('userId ' + userid);
+    console.log('userName ' + username);
     const messages = await Message.findAll(
       {
-        where: userid ? { UserId: userid } : null,
+        // where: userid ? { UserId: userid } : null,
+        where: userid && { userid },
         limit: limit || null,
-        attributes: ['text', 'createdAt'],
         include: [{
-          model: models.User,
-          attributes: ['username'],
+          model: User,
+          attributes: [["username", "pseudo"]],
         }]
       }
     );
@@ -29,7 +47,14 @@ exports.getUserMessages = async (req, res) => {
 exports.getUserMessagesById = async (req, res) => {
   console.log('pdr');
   try {
-    const message = await Message.findByPk(req.params.id);
+    const message = await Message.findByPk(req.params.id, {
+
+      attributes: ['id', 'text', 'attachment', 'createdAt', 'updatedAt'],
+      include: [
+        { model: User, attributes: ['username', 'id'] },
+        { model: Like, attributes: ['id'], include: [{ model: User, attributes: [['username', 'pseudo']] }] }
+      ],
+    });
     message ? res.status(200).json(message) : res.status(404).json({ Message: "message non trouvé" });
   } catch (err) {
     res.send(err);

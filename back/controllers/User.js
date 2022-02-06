@@ -15,6 +15,17 @@ const getdefaultUserPicture = (request) => {
   return `${request.protocol}://${request.get('host')}/images/user/${name}`;
 };
 
+exports.getAllUsers = async (req, res) => {
+
+  const users = await User.findAll()
+    .catch(err => res.status(500).json(err));
+
+  !users.length
+    ? res.status(404).json({ message: "aucun utilisateur dans la bdd" })
+    : res.status(200).json(users);
+
+};
+
 exports.showProfile = async (req, res) => {
 
   const user = await User.findByPk(

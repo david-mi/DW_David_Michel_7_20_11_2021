@@ -36,6 +36,9 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
+// sequelize.sync({ force: true })
+//   .then(res => console.log("ggd"));
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 

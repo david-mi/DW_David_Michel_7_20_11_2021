@@ -4,82 +4,46 @@ const Like = models.Like;
 const jwt = require('jsonwebtoken');
 const { getMessages } = require('./SuperAdmin');
 
+exports.showAllLikes = async (req, res) => {
+  try {
+    const likes = await Like.findAll(({
+
+    }));
+    res.status(200).json(likes);
+  }
+  catch (err) {
+    res.status(400).json(err);
+  }
+};
+
 exports.likeMessage = async (req, res) => {
-
-
-
+  console.log('mdr');
   try {
 
-    if (!req.headers.authorization) throw ({ name: 'NoToken' });
-    const token = req.headers.authorization.split(' ')[1];
-    req.token = jwt.verify(token, process.env.TOKEN_SECRET);
     const userId = req.token.USER_ID;
-
     const messageId = req.params.id;
+
     const message = await Message.findByPk(messageId);
     if (!message) throw ({ name: 'NoMessage' });
 
-    console.log({
-      userId,
-      message: message.dataValues
-    });
+    const findLike = await Like.findOne({ where: { userId, messageId } });
 
-    const hasLiked = await Like.findOne({
-      where: {
-        userId: userId,
-        messageId: messageId
-      }
-    });
-
-    if (hasLiked) {
-      const removeLike = await message.update({
-        likes: message.like - 1
-      });
-      await hasLiked.destroy();
-      res.status(201).json('Like enlevé');
+    if (findLike) {
+      await findLike.destroy();
+      res.status(201).send({ message: 'Like enlevé' });
     } else {
-      const newLike = await Like.create({
-        messageId, userId
-      });
-      console.log(newLike);
-      const addLike = await message.update({
-        likes: message.likes + 1
-      });
-      res.status(200).json(addLike);
+      await Like.create({ messageId, userId });
+      res.status(200).send({ message: 'Like ajouté' });
     }
-
-
-
-
-
-
-
-
-
 
   } catch (err) {
 
     switch (err.name) {
-      case 'NoToken':
-        return res.status(401).send('Requête non authentifiée');
-      case 'JsonWebTokenError':
-        return res.status(401).send('Requête non authorisée');
       case 'NoMessage':
-        return res.status(404).send('Message non trouvé');
-      case 'AlreadyLiked':
-        return res.status(409).send('Cet utilisateur à déjà liké ce message');
+        return res.status(404).json({ message: 'Message non trouvé' });
     }
-    // if (err.name === 'JsonWebTokenError') 
-    // if (err.name === 'NoMessage') return res.status(404).send('Message non trouvé');
-    // if (err.name === 'AlreadyLiked') return res.status(409).send('Cet utilisateur à déjà liké ce message');
     res.json(err);
-
   }
-
-
 
 };
 
-// exports.dislikeMessage = (req, res) => {
-
-// };

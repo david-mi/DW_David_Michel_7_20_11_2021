@@ -8,7 +8,8 @@ const userIdCompare = require('../middlewares/userIdCompare');
 const userCtrl = require('../controllers/User');
 const multer = require('../middlewares/multer');
 
-router.get('/users/:id', userCtrl.showProfile);
+router.get('/users', auth, userCtrl.getAllUsers);
+router.get('/users/:id', auth, userCtrl.showProfile);
 router.post('/signup', registerSchema, userCtrl.signup);
 router.post('/login', loginSchema, userCtrl.login);
 router.put('/users/:id', auth, userIdCompare, multer, profileSchema, userCtrl.updateProfile);

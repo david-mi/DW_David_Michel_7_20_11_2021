@@ -4,7 +4,8 @@ const auth = require('../middlewares/auth');
 const idMsgCompare = require('../middlewares/idMsgCompare');
 const messageCtrl = require('../controllers/Message');
 
-router.get('/', messageCtrl.getUserMessages);
+router.get('/all', auth, messageCtrl.getAllMessages);
+router.get('/', auth, messageCtrl.getUserMessages);
 router.get('/:id', messageCtrl.getUserMessagesById);
 router.post('/new', auth, messageCtrl.postMessage);
 router.delete('/:id', auth, idMsgCompare, messageCtrl.deleteMessage);

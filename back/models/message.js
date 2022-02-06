@@ -8,19 +8,13 @@ module.exports = (sequelize, DataTypes) => {
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate(models) {
-      models.Message.belongsTo(models.User, {
-        foreignKey: {
-          allowNull: false
-        }
-      });
+    static associate({ User }) {
+      this.belongsTo(User, { onDelete: "cascade" });
     }
   };
   Message.init({
     text: DataTypes.STRING,
     attachment: DataTypes.STRING,
-    likes: DataTypes.INTEGER,
-    dislikes: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'Message',
