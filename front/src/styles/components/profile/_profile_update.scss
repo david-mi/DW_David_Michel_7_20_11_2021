@@ -1,0 +1,51 @@
+.image-profile-edit__container {
+  display: grid;
+  place-items: center;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, auto);
+  gap: 50px 50px;
+  grid-template-areas:
+    "container container"
+    "delimg abort";
+  margin-bottom: 20px;
+
+  .profile-edit__container {
+    grid-area: container;
+    max-width: 300px;
+
+    .profile-edit__image {
+      margin: auto;
+      aspect-ratio: 1/1;
+      object-fit: cover;
+      max-width: 100%;
+      border-radius: 50%;
+      border: solid 5px black;
+    }
+  }
+
+  .abort-btn {
+    grid-area: abort;
+  }
+
+  .delimg-btn {
+    grid-area: delimg;
+  }
+}
+
+.profile-edit__container {
+  width: 100%;
+  margin: auto;
+}
+
+.profile-edit__label,
+.abort-btn,
+.delimg-btn {
+  box-sizing: border-box;
+  display: grid;
+  place-items: center;
+  padding: 1rem;
+  background-color: black;
+  color: white;
+  border: none;
+  width: 200px;
+}

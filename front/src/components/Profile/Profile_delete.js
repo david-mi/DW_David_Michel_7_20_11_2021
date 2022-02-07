@@ -1,7 +1,9 @@
+// LIBRARIES
 import axios from 'axios';
 import { useState, useContext } from 'react';
-import { set } from 'react-hook-form';
 import { useNavigate } from 'react-router-dom';
+
+// CONTEXT
 import { loginContext } from '../../Context/loginContext';
 
 
@@ -10,16 +12,11 @@ const Profile_delete = ({ setIsDeleting }) => {
   const navigate = useNavigate();
   const { isLogged, setIsLogged } = useContext(loginContext);
   const [isDeleted, setIsDeleted] = useState(false);
-  const [counter, setCounter] = useState(5);
 
   const deleteUser = async () => {
     const { USER_ID, token } = JSON.parse(localStorage.getItem('payload'));
-    const deleted = await axios.delete(`http://localhost:3000/api/auth/users/${USER_ID}`, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      }
-    }
-    );
+    const headers = { 'Authorization': `Bearer ${token}` };
+    const deleted = await axios.delete(`http://localhost:3000/api/auth/users/${USER_ID}`, { headers });
     localStorage.clear();
     setIsDeleted(true);
   };

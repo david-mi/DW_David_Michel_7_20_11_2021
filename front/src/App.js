@@ -1,6 +1,7 @@
 // LIBRARIES
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import { isExpired, decodeToken } from "react-jwt";
 
 // PAGES & COMPONENTS
 import Home from './components/Home';
@@ -14,15 +15,27 @@ import { loginContext } from './Context/loginContext';
 
 const App = () => {
 
+
   const [isLogged, setIsLogged] = useState(false);
 
   const loggedCheck = () => {
     const check = localStorage.getItem('payload');
-    console.log("check si authentifié");
-    check ? setIsLogged(true) : setIsLogged(false);
+    if (check) {
+      const { token } = JSON.parse(localStorage.getItem('payload'));
+      const decodedToken = decodeToken(token);
+      const isTokenExpired = isExpired(token);
+      console.log('decodedToken : ' + decodedToken);
+      console.log('isTokenExpired : ' + isTokenExpired);
+      if (!decodedToken || isTokenExpired) {
+        localStorage.clear();
+        setIsLogged(false);
+      }
+      if (decodedToken && !isTokenExpired) setIsLogged(true);
+    }
+    if (!check) setIsLogged(false);
   };
 
-  useEffect(loggedCheck, [isLogged]);
+  useEffect(loggedCheck, [isLogged, isExpired]);
 
   return (
     <loginContext.Provider value={{ isLogged, setIsLogged }}>

@@ -20,8 +20,10 @@ const Profile = () => {
   const [Apierror, setApiError] = useState('');
 
   const getProfileData = async () => {
-    const { USER_ID } = JSON.parse(localStorage.getItem('payload'));
-    const res = await axios.get(`http://localhost:3000/api/auth/users/${USER_ID}`);
+    const { token, USER_ID } = JSON.parse(localStorage.getItem('payload'));
+    const res = await axios.get(`http://localhost:3000/api/auth/users/${USER_ID}`, {
+      headers: { 'Authorization': `Bearer ${token}` }
+    });
     setProfileData(res.data);
   };
 

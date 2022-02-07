@@ -2,8 +2,13 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import profileSchema from '../../YupSchemas/profileSchema';
 import axios from 'axios';
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { editingContext } from '../../Context/loginContext';
+
+
+import Profile_delete_img from './Profile_delete_img';
+
+const apiUsers = 'http://localhost:3000/api/auth/users/';
 
 
 const Profile_update = ({ profileData }) => {
@@ -11,34 +16,60 @@ const Profile_update = ({ profileData }) => {
   const { profilePicture, username, firstname, lastname, bio, isAdmin } = profileData;
   const { isUpdating, setIsUpdating } = useContext(editingContext);
 
+  const [displayImage, setDisplayImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
+  const [isDeletingImg, setIsDeletingImg] = useState(false);
+
   const sendForm = async (data) => {
     const formData = new FormData();
     formData.append('userInfos', JSON.stringify(data));
-    formData.append('userPicture', data.picture[0]);
+    formData.append('image', data.picture[0]);
 
     const { USER_ID, token } = JSON.parse(localStorage.getItem('payload'));
-    const update = await axios.put('http://localhost:3000/api/auth/users/' + USER_ID, formData, {
-      headers: {
-        'Authorization': `Bearer ${token}`,
-        "Content-Type": "multipart/form-data"
-      }
-    });
-    console.log(update);
+    const headers = {
+      'Authorization': `Bearer ${token}`,
+      "Content-Type": "multipart/form-data"
+    };
+    const update = await axios.put(apiUsers + USER_ID, formData, { headers });
+    console.log(update.data.message);
     setIsUpdating(false);
   };
 
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(profileSchema) });
 
-  return (
-    <form
-      className="register-login__form"
-      onSubmit={handleSubmit(sendForm)}>
+  useEffect(() => {
+    displayImage
+      ? setImageUrl(URL.createObjectURL(displayImage))
+      : setImageUrl(null);
+  }, [displayImage]);
 
-      <div className='input-label__container'>
-        <input type='file' {...register('picture')} style={errors.file && { background: "red" }}>
+  const reseter = (event) => {
+    event.preventDefault();
+    setDisplayImage(null);
+  };
+
+
+  return (
+    <form className="register-login__form" onSubmit={handleSubmit(sendForm)}>
+
+      <div className='image-profile-edit__container'>
+        <div className='profile-edit__container'>
+          <img src={imageUrl || profilePicture} className="profile-edit__image"></img>
+        </div>
+        <label htmlFor="image" className='profile-edit__label'>Parcourir vos images</label>
+        {imageUrl
+          ? <button onClick={reseter} className="abort-btn">Annuler</button>
+          : isDeletingImg
+            ? <Profile_delete_img isDeletingImg={isDeletingImg} setIsDeletingImg={setIsDeletingImg} />
+            : <button onClick={() => setIsDeletingImg(true)} className="delimg-btn">Supprimer</button>}
+        <input
+          type="file" id="image" style={{ display: "none" }}
+          onInput={(e) => setDisplayImage(e.target.files[0])}
+          {...register('picture')}>
         </input>
         {errors.file && <small>{errors.file.message}</small>}
       </div>
+
 
       <div className='input-label__container'>
         <label htmlFor="username">Votre pseudo</label>
@@ -65,11 +96,11 @@ const Profile_update = ({ profileData }) => {
       </div>
 
       <div className='input-label__container'>
-        <input type="submit" value="Send" />
+        <input type="submit" value="Valider" />
         {/* {Apierror && <small>Erreur {Apierror.status} {Apierror.statusText}</small>} */}
       </div>
 
-    </form>
+    </form >
   );
 };
 

@@ -13,8 +13,9 @@ const Nav = () => {
   const navigate = useNavigate();
 
   const getProfilePicture = async () => {
-    const { USER_ID } = JSON.parse(localStorage.getItem('payload'));
-    const res = await axios.get(`http://localhost:3000/api/auth/users/${USER_ID}`);
+    const { token, USER_ID } = JSON.parse(localStorage.getItem('payload'));
+    const headers = { 'Authorization': `Bearer ${token}` };
+    const res = await axios.get(`http://localhost:3000/api/auth/users/${USER_ID}`, { headers });
     const { profilePicture } = res.data;
     setAddPicture(profilePicture);
   };
@@ -22,7 +23,7 @@ const Nav = () => {
   const logOut = () => {
     localStorage.removeItem('payload');
     setIsLogged(false);
-    //!  A SURVEILLER SI IL FAUT PAS ATTENDRE QUE SETISLOGGED SOIT BIEN FALSE POUR FAIRE LA
+    //!  A SURVEILLER SI IL FAUT PAS ATTENDRE QUE SETISLOGGED SOIT BIEN FALSE POUR FAIRE LA REDIRECTION
     navigate('/login');
   };
 
@@ -51,7 +52,6 @@ const Nav = () => {
           </NavLink>
         </nav>
       )
-
       : (
         <nav className='header__nav'>
           <NavLink to={'/register'}>Inscription</NavLink>
