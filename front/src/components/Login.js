@@ -19,7 +19,7 @@ const Login = () => {
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(loginSchema) });
   const [Apierror, setApiError] = useState('');
   const navigate = useNavigate();
-  const { isLogged, setIsLogged } = useContext(loginContext);
+  const { isLogged, setIsLogged, token, setToken } = useContext(loginContext);
 
   const sendData = async (data) => {
     try {
@@ -27,7 +27,9 @@ const Login = () => {
       console.log(response);
       const payload = response.data;
       localStorage.setItem('payload', JSON.stringify({ ...payload }));
+      console.log('token ' + token);
       setApiError(false);
+      setToken(payload.token);
       setIsLogged(true);
     }
     catch (err) {

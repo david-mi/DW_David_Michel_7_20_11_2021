@@ -3,18 +3,24 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import profileSchema from '../../YupSchemas/profileSchema';
 import axios from 'axios';
 import { useContext, useState, useEffect } from 'react';
-import { editingContext } from '../../Context/loginContext';
+import { decodeToken } from "react-jwt";
 
 
+// CONTEXT
+import { editingContext, profilPictureUpdate } from '../../Context/loginContext';
+import { loginContext } from '../../Context/loginContext';
+
+// PAGES & COMPONENTS
 import Profile_delete_img from './Profile_delete_img';
 
 const apiUsers = 'http://localhost:3000/api/auth/users/';
-
 
 const Profile_update = ({ profileData }) => {
 
   const { profilePicture, username, firstname, lastname, bio, isAdmin } = profileData;
   const { isUpdating, setIsUpdating } = useContext(editingContext);
+  const { pictureUpdate, setPictureUpdate } = useContext(profilPictureUpdate);
+  const { token } = useContext(loginContext);
 
   const [displayImage, setDisplayImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
@@ -25,7 +31,7 @@ const Profile_update = ({ profileData }) => {
     formData.append('userInfos', JSON.stringify(data));
     formData.append('image', data.picture[0]);
 
-    const { USER_ID, token } = JSON.parse(localStorage.getItem('payload'));
+    const { USER_ID } = decodeToken(token);
     const headers = {
       'Authorization': `Bearer ${token}`,
       "Content-Type": "multipart/form-data"
@@ -33,6 +39,11 @@ const Profile_update = ({ profileData }) => {
     const update = await axios.put(apiUsers + USER_ID, formData, { headers });
     console.log(update.data.message);
     setIsUpdating(false);
+    if (data.picture[0]) {
+      console.log('mise à jour de photo');
+      setPictureUpdate(true);
+    }
+
   };
 
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(profileSchema) });

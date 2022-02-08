@@ -9,6 +9,7 @@ const userCtrl = require('../controllers/User');
 const multer = require('../middlewares/multer');
 
 router.get('/users', auth, userCtrl.getAllUsers);
+router.get('/users/:id/profile', auth, userIdCompare, userCtrl.showProfile);
 router.get('/users/:id', auth, userCtrl.showProfile);
 router.post('/signup', registerSchema, userCtrl.signup);
 router.post('/login', loginSchema, userCtrl.login);
