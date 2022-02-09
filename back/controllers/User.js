@@ -101,6 +101,32 @@ exports.mailUpdate = async (req, res) => {
 
 };
 
+exports.passwordUpdate = async (req, res) => {
+
+  const { previousPw, newPw } = req.body;
+  const token = req.token.USER_ID;
+  const user = await User.findByPk(token);
+
+  try {
+
+    if (previousPw === newPw) throw ({ message: "Votre nouveau mot de passe est identique à l'ancien !" });
+
+    const compare = await bcrypt.compare(previousPw, user.password);
+    if (!compare) throw ({ message: 'Votre ancien mot de passe ne correspond pas !' });
+
+    const hash = await bcrypt.hash(newPw, 10);
+    await User.update(
+      { password: hash },
+      { where: { id: req.token.USER_ID } });
+
+    res.status(201).json({ message: "mot de passe mis à jour !" });
+  }
+  catch (err) {
+    res.status(400).json(err);
+  }
+
+};
+
 exports.signup = async (req, res) => {
 
   try {

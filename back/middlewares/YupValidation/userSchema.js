@@ -41,6 +41,7 @@ const profileSchema = yup.object().shape({
 
 
 const emailSchema = yup.object().shape({
+
   previousEmail: yup
     .string()
     .trim()
@@ -52,25 +53,53 @@ const emailSchema = yup.object().shape({
     .trim()
     .required('Champ Requis')
     .email("Format mail non valide")
+
+});
+
+const passwordSchema = yup.object().shape({
+
+  previousPw: yup
+    .string()
+    .trim()
+    .required('Champ Requis')
+    .min(6, `Veuillez mettre au minimum 6 caractères`)
+    .matches(/[a-z]/, 'Le mot de passe doit contenir au moins 1 minuscule')
+    .matches(/[A-Z]/, 'Le mot de passe doit contenir au moins 1 majuscule')
+    .matches(/[0-9]/, 'Le mot de passe doit contenir au moins 1 chiffre'),
+
+  newPw: yup
+    .string()
+    .trim()
+    .required('Champ Requis')
+    .min(6, `Veuillez mettre au minimum 6 caractères`)
+    .matches(/[a-z]/, 'Le mot de passe doit contenir au moins 1 minuscule')
+    .matches(/[A-Z]/, 'Le mot de passe doit contenir au moins 1 majuscule')
+    .matches(/[0-9]/, 'Le mot de passe doit contenir au moins 1 chiffre'),
+
 });
 
 const userValid = async (req, res, next) => {
-  console.log('oh putain');
   const path = req.route.path;
   const pathEmail = '/users/:id/emailupdate';
   const pathProfile = '/users/:id/profileupdate';
+  const pathPassword = '/users/:id/pwupdate';
 
   try {
-    console.log('putain');
     if (path === pathEmail) {
-      console.log(req.body);
       const { previousEmail, newEmail } = req.body;
       await emailSchema.validate({ previousEmail, newEmail });
       next();
     }
 
+    if (path === pathPassword) {
+      const { previousPw, newPw } = req.body;
+      await passwordSchema.validate({ previousPw, newPw });
+      console.log('mot de passe');
+      console.log(req.body);
+      next();
+    }
+
     if (path === pathProfile) {
-      console.log('mdr');
       const userInfos = req.body.userInfos;
       if (!userInfos) throw ({ message: 'userInfos ne peut être vide' });
       const parsedData = profileParser(userInfos);
@@ -84,13 +113,9 @@ const userValid = async (req, res, next) => {
     if (path === pathProfile) {
       if (req.file) handleErrorImage(req, 'user');
       if (!userInfos) return res.status(400).json({ message: err.message });
-
-      res.status(400).json({ message: `${err.message} sur le champ ${err.params.path} : ${err.params.value}` });
     }
 
-    if (path === pathEmail) {
-      res.status(400).json({ message: `${err.message} sur le champ ${err.params.path} : ${err.params.value}` });
-    }
+    res.status(400).json({ message: `${err.message} sur le champ ${err.params.path} : ${err.params.value}` });
 
   }
 

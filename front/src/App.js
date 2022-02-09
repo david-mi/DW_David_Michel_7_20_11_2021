@@ -15,6 +15,7 @@ import Register from './components/Register';
 import { loginContext } from './Context/loginContext';
 import ProtectedRoutes from './protectedRoutes';
 import Profile_email_update from './components/Profile/Profile_email_update';
+import ProfilePwUpdate from './components/Profile/ProfilePwUpdate';
 
 const App = () => {
 
@@ -57,6 +58,7 @@ const App = () => {
             <Route path="/home" element={<Home />}></Route>
             <Route path="/profile" element={<Profile />}></Route>
             <Route path="/profile/updatemail" element={<Profile_email_update />}></Route>
+            <Route path="/profile/updatepassword" element={< ProfilePwUpdate />}></Route>
           </Route>
           <Route path="*" element={<NotFound />}></Route>
         </Routes>

@@ -16,6 +16,7 @@ router.post('/signup', registerSchema, userCtrl.signup);
 router.post('/login', loginSchema, userCtrl.login);
 
 router.put('/users/:id/emailupdate', auth, userIdCompare, userValid, userCtrl.mailUpdate);
+router.put('/users/:id/pwupdate', auth, userIdCompare, userValid, userCtrl.passwordUpdate);
 router.put('/users/:id/profileupdate', auth, userIdCompare, multer, userValid, userCtrl.updateProfile);
 
 router.delete('/users/:id', auth, userIdCompare, userCtrl.deleteOneUser);

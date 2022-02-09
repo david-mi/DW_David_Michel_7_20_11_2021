@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 import { loginContext } from '../../Context/loginContext';
 
 // SCHEMA
-import { emailSchema } from '../../YupSchemas/userSchema';
+import { passwordSchema } from '../../YupSchemas/userSchema';
 
 // PAGES & COMPONENTS
 import Header from '../../pages/Header';
@@ -18,10 +18,10 @@ import Title from '../../pages/Title';
 
 const apiUsers = 'http://localhost:3000/api/auth/users/';
 
-const Profile_email_update = () => {
+const ProfilePwUpdate = () => {
 
   const { isLogged, setIsLogged, token, setToken } = useContext(loginContext);
-  const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(emailSchema) });
+  const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(passwordSchema) });
   const navigate = useNavigate();
 
   const [serverInfos, setServerInfos] = useState(null);
@@ -32,7 +32,7 @@ const Profile_email_update = () => {
     const headers = { 'Authorization': `Bearer ${token}` };
 
     try {
-      const update = await axios.put(`${apiUsers}${USER_ID}/emailupdate`, data, { headers });
+      const update = await axios.put(`${apiUsers}${USER_ID}/pwupdate`, data, { headers });
       setServerInfos(update.data.message);
       setChangedEmail(true);
       localStorage.clear();
@@ -56,13 +56,13 @@ const Profile_email_update = () => {
   return (
     <>
       <Header />
-      <Title name="Changez votre email" />
-      <div className='email-update__wrapper container'>
+      <Title name="Changez votre mot de passe" />
+      <div className='password-update__wrapper container'>
         {changedEmail && (
-          <div className='confirmation-delete-email confirm__wrapper'>
-            <h2 className='confirmation-delete-email__title'>{serverInfos}</h2>
-            <i>Veuillez vous connecter avec votre nouvel email</i>
-            <button className='confirmation-delete-email__btn' onClick={redirect}>Continuer</button>
+          <div className='confirmation-update-password confirm__wrapper'>
+            <h2 className='confirmation-update-password__title'>{serverInfos}</h2>
+            <i>Veuillez vous connecter avec votre nouveau mot de passe</i>
+            <button className='confirmation-update-password__btn' onClick={redirect}>Continuer</button>
           </div>
         )}
         <form
@@ -70,27 +70,27 @@ const Profile_email_update = () => {
           onSubmit={handleSubmit((e) => sendData(e))}>
 
           <div className='input-label__container'>
-            <label htmlFor="previousEmail"></label>
+            <label htmlFor="previousPw"></label>
             <input
-              placeholder="Votre mail actuel"
-              {...register('previousEmail')}
-              style={errors.previousEmail && { background: "red", color: "white" }}>
+              placeholder="Votre mot de passe actuel"
+              {...register('previousPw')}
+              style={errors.previousPw && { background: "red" }}>
             </input>
-            {errors.previousEmail && <small>{errors.previousEmail.message}</small>}
+            {errors.previousPw && <small>{errors.previousPw.message}</small>}
           </div>
 
           <div className='input-label__container'>
-            <label htmlFor="newEmail"></label>
+            <label htmlFor="newPw"></label>
             <input
-              placeholder="Votre nouvel email"
-              {...register('newEmail')}
-              style={errors.newEmail && { background: "red" }}>
+              placeholder="Votre nouveau mot de passe"
+              {...register('newPw')}
+              style={errors.newPw && { background: "red" }}>
             </input>
-            {errors.newEmail && <small>{errors.newEmail.message}</small>}
+            {errors.newPw && <small>{errors.newPw.message}</small>}
           </div>
 
           <div className='input-label__container'>
-            <input type="submit" value="Envoyer" />
+            <input type="submit" value="Send" />
             {serverInfos && <small>Erreur {serverInfos.status} {serverInfos.statusText} {serverInfos.message}</small>}
           </div>
           <button className='abort-btn' onClick={() => navigate('/profile')}>Annuler</button>
@@ -100,4 +100,4 @@ const Profile_email_update = () => {
   );
 };
 
-export default Profile_email_update;
+export default ProfilePwUpdate;

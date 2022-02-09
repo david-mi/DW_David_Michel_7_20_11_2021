@@ -36,11 +36,12 @@
 }
 
 .btn,
-.nav-btn {
+.nav-btn,
+.abort-btn {
   box-shadow: 0 0 10px black;
-  height: 50px;
+  height: 40px;
   color: black;
-  line-height: 50px;
+  line-height: 40px;
   text-align: center;
   background-color: $clr-secondary;
   border: none;

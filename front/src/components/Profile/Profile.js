@@ -61,7 +61,7 @@ const Profile = () => {
           <button className="btn btn-edit" onClick={() => setIsUpdating(e => !e)}>{isUpdating ? 'Annuler' : 'Modifier le profil'}</button>
           <button className="btn btn-delete" onClick={() => setIsDeleting(true)}>Supprimer mon compte</button>
           <NavLink className="nav-btn link-mail" to={'/profile/updatemail'}>Changer le mail</NavLink>
-          <NavLink className="nav-btn link-pw" to={'/profile/updatemail'}>Changer le mot de passe</NavLink>
+          <NavLink className="nav-btn link-pw" to={'/profile/updatepassword'}>Changer le mot de passe</NavLink>
         </div>
       </profilPictureUpdate.Provider>
     </>

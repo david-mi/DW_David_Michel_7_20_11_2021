@@ -50,4 +50,27 @@ const emailSchema = yup.object().shape({
     .email("Format mail non valide")
 });
 
-export { emailSchema, profileSchema };
+const passwordSchema = yup.object().shape({
+
+  previousPw: yup
+    .string()
+    .trim()
+    .required('Champ Requis')
+    .min(6, `Veuillez mettre au minimum 6 caractères`)
+    .matches(/[a-z]/, 'Le mot de passe doit contenir au moins 1 minuscule')
+    .matches(/[A-Z]/, 'Le mot de passe doit contenir au moins 1 majuscule')
+    .matches(/[0-9]/, 'Le mot de passe doit contenir au moins 1 chiffre'),
+
+  newPw: yup
+    .string()
+    .trim()
+    .required('Champ Requis')
+    .min(6, `Veuillez mettre au minimum 6 caractères`)
+    .matches(/[a-z]/, 'Le mot de passe doit contenir au moins 1 minuscule')
+    .matches(/[A-Z]/, 'Le mot de passe doit contenir au moins 1 majuscule')
+    .matches(/[0-9]/, 'Le mot de passe doit contenir au moins 1 chiffre'),
+
+});
+
+
+export { emailSchema, profileSchema, passwordSchema };

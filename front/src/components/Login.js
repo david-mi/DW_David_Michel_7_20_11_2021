@@ -44,7 +44,7 @@ const Login = () => {
   useEffect(() => {
     console.log('[useEffect] Login.js');
     console.log('isLogged : ' + isLogged);
-    if (isLogged && Apierror === false) navigate('/');
+    if (isLogged && Apierror === false) navigate('/home');
   }, [isLogged, Apierror]);
 
   return (
