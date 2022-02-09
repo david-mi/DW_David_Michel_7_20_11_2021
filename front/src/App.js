@@ -14,6 +14,7 @@ import Register from './components/Register';
 // FILES
 import { loginContext } from './Context/loginContext';
 import ProtectedRoutes from './protectedRoutes';
+import Profile_email_update from './components/Profile/Profile_email_update';
 
 const App = () => {
 
@@ -55,6 +56,7 @@ const App = () => {
           <Route path="/register" element={<Register />}></Route>
           <Route element={<ProtectedRoutes />}>
             <Route path="/profile" element={<Profile />}></Route>
+            <Route path="/profile/updatemail" element={<Profile_email_update />}></Route>
           </Route>
           <Route path="*" element={<NotFound />}></Route>
         </Routes>

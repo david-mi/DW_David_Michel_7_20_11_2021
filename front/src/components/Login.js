@@ -13,6 +13,7 @@ import { loginContext } from '../Context/loginContext';
 
 // PAGES & COMPONENTS
 import Header from '../pages/Header';
+import Title from '../pages/Title';
 
 const Login = () => {
 
@@ -47,39 +48,41 @@ const Login = () => {
   }, [isLogged, Apierror]);
 
   return (
-    <div className='login__container'>
+    <>
       <Header />
-      <h1>Connectez-Vous !</h1>
-      <form
-        className='register-login__form'
-        onSubmit={handleSubmit(data => {
-          console.log(data);
-          sendData(data);
-        })}>
+      <Title name="Connexion" />
+      <div className='login__container container'>
+        <form
+          className='form'
+          onSubmit={handleSubmit(data => {
+            console.log(data);
+            sendData(data);
+          })}>
 
-        <div className='input-label__container'>
-          <label htmlFor="email">Votre mail</label>
-          <input
-            placeholder="email"
-            {...register('email')}
-            style={errors.email && { background: "red" }}>
-          </input>
-          {errors.email && <small>{errors.email.message}</small>}
-        </div>
+          <div className='input-label__container'>
+            <label htmlFor="email">Votre mail</label>
+            <input
+              placeholder="email"
+              {...register('email')}
+              style={errors.email && { background: "red" }}>
+            </input>
+            {errors.email && <small>{errors.email.message}</small>}
+          </div>
 
-        <div className='input-label__container'>
-          <label htmlFor="password">Votre mot de passe</label>
-          <input placeholder="mot de passe" {...register('password')} />
-          {errors.password && <small>{errors.password.message}</small>}
-        </div>
+          <div className='input-label__container'>
+            <label htmlFor="password">Votre mot de passe</label>
+            <input placeholder="mot de passe" {...register('password')} />
+            {errors.password && <small>{errors.password.message}</small>}
+          </div>
 
-        <div className='input-label__container'>
-          <input type="submit" value="Send" />
-          {Apierror && <small>Erreur {Apierror.status} {Apierror.statusText} {Apierror.message}</small>}
-        </div>
+          <div className='input-label__container'>
+            <input type="submit" value="Send" />
+            {Apierror && <small>Erreur {Apierror.status} {Apierror.statusText} {Apierror.message}</small>}
+          </div>
 
-      </form>
-    </div>
+        </form>
+      </div>
+    </>
   );
 };
 

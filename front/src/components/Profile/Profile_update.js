@@ -1,10 +1,9 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import profileSchema from '../../YupSchemas/profileSchema';
+import { profileSchema } from '../../YupSchemas/userSchema';
 import axios from 'axios';
 import { useContext, useState, useEffect } from 'react';
 import { decodeToken } from "react-jwt";
-
 
 // CONTEXT
 import { editingContext, profilPictureUpdate } from '../../Context/loginContext';
@@ -36,12 +35,12 @@ const Profile_update = ({ profileData }) => {
       'Authorization': `Bearer ${token}`,
       "Content-Type": "multipart/form-data"
     };
-    const update = await axios.put(apiUsers + USER_ID, formData, { headers });
+    const update = await axios.put(`${apiUsers}${USER_ID}/profileupdate`, formData, { headers });
     console.log(update.data.message);
     setIsUpdating(false);
     if (data.picture[0]) {
       console.log('mise à jour de photo');
-      setPictureUpdate(true);
+      setPictureUpdate((e) => !e);
     }
 
   };
@@ -61,18 +60,17 @@ const Profile_update = ({ profileData }) => {
 
 
   return (
-    <form className="register-login__form" onSubmit={handleSubmit(sendForm)}>
-
+    <form className="form" onSubmit={handleSubmit(sendForm)}>
       <div className='image-profile-edit__container'>
-        <div className='profile-edit__container'>
-          <img src={imageUrl || profilePicture} className="profile-edit__image"></img>
+        <div className='profile-picture__container'>
+          <img src={imageUrl || profilePicture} className="profile__picture"></img>
         </div>
-        <label htmlFor="image" className='profile-edit__label'>Parcourir vos images</label>
+        <label htmlFor="image" className='btn btn-browse'>Parcourir</label>
         {imageUrl
-          ? <button onClick={reseter} className="abort-btn">Annuler</button>
+          ? <button onClick={reseter} className="btn btn-abort">Annuler</button>
           : isDeletingImg
             ? <Profile_delete_img isDeletingImg={isDeletingImg} setIsDeletingImg={setIsDeletingImg} />
-            : <button onClick={() => setIsDeletingImg(true)} className="delimg-btn">Supprimer</button>}
+            : <button onClick={() => setIsDeletingImg(true)} className="btn btn-delete">Supprimer</button>}
         <input
           type="file" id="image" style={{ display: "none" }}
           onInput={(e) => setDisplayImage(e.target.files[0])}
@@ -102,7 +100,7 @@ const Profile_update = ({ profileData }) => {
 
       <div className='input-label__container'>
         <label htmlFor="bio">Votre bio</label>
-        <textarea placeholder="bio" defaultValue={bio} {...register('bio')} />
+        <textarea placeholder="bio" defaultValue={bio} {...register('bio')} maxLength="400" />
         {errors.bio && <small>{errors.bio.message}</small>}
       </div>
 

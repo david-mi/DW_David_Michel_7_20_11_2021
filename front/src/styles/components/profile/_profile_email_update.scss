@@ -1,0 +1,22 @@
+.confirmation-delete-email {
+  grid-template-columns: 1fr;
+  grid-template-rows: 1fr 1fr auto 1fr 1fr;
+  grid-template-areas:
+    "."
+    "title"
+    "info"
+    "btn"
+    ".";
+
+  &__title {
+    grid-area: title;
+  }
+
+  i {
+    grid-area: info;
+  }
+
+  &__btn {
+    grid-area: btn;
+  }
+}

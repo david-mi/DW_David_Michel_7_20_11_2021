@@ -1,0 +1,24 @@
+@keyframes scale-in {
+  to {
+    transform: scale(1);
+  }
+}
+
+.profile-picture__container {
+  grid-area: img;
+  border-radius: 50%;
+  overflow: hidden;
+  border: solid 10px $clr-main;
+  background-color: $clr-pink;
+  box-shadow: 0 0 20px rgb(100, 100, 100);
+
+  .profile__picture {
+    display: block;
+    border-radius: 50%;
+    animation: scale-in 500ms 200ms both;
+    transform: scale(0);
+    width: 300px;
+    aspect-ratio: 1/1;
+    object-fit: cover;
+  }
+}

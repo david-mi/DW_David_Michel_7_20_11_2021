@@ -40,24 +40,61 @@ const profileSchema = yup.object().shape({
 });
 
 
-const profileValid = async (req, res, next) => {
+const emailSchema = yup.object().shape({
+  previousEmail: yup
+    .string()
+    .trim()
+    .required('Champ Requis')
+    .email("Format mail non valide"),
 
-  const userInfos = req.body.userInfos;
+  newEmail: yup
+    .string()
+    .trim()
+    .required('Champ Requis')
+    .email("Format mail non valide")
+});
+
+const userValid = async (req, res, next) => {
+  console.log('oh putain');
+  const path = req.route.path;
+  const pathEmail = '/users/:id/emailupdate';
+  const pathProfile = '/users/:id/profileupdate';
 
   try {
-    if (!userInfos) throw ({ message: 'userInfos ne peut être vide' });
-    const parsedData = profileParser(userInfos);
-    await profileSchema.validate({ ...parsedData });
-    res.locals.newData = parsedData;
-    next();
+    console.log('putain');
+    if (path === pathEmail) {
+      console.log(req.body);
+      const { previousEmail, newEmail } = req.body;
+      await emailSchema.validate({ previousEmail, newEmail });
+      next();
+    }
+
+    if (path === pathProfile) {
+      console.log('mdr');
+      const userInfos = req.body.userInfos;
+      if (!userInfos) throw ({ message: 'userInfos ne peut être vide' });
+      const parsedData = profileParser(userInfos);
+      await profileSchema.validate({ ...parsedData });
+      res.locals.newData = parsedData;
+      next();
+    }
   }
   catch (err) {
 
-    if (req.file) handleErrorImage(req, 'user');
-    if (!userInfos) return res.status(400).json({ message: err.message });
+    if (path === pathProfile) {
+      if (req.file) handleErrorImage(req, 'user');
+      if (!userInfos) return res.status(400).json({ message: err.message });
 
-    res.status(400).json({ message: `${err.message} sur le champ ${err.params.path} : ${err.params.value}` });
+      res.status(400).json({ message: `${err.message} sur le champ ${err.params.path} : ${err.params.value}` });
+    }
+
+    if (path === pathEmail) {
+      res.status(400).json({ message: `${err.message} sur le champ ${err.params.path} : ${err.params.value}` });
+    }
+
   }
+
 };
 
-module.exports = profileValid;
+
+module.exports = userValid;

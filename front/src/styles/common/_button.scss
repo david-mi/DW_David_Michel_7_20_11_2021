@@ -1,0 +1,58 @@
+.profile-buttons {
+  display: grid;
+  gap: 20px 20px;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 2fr;
+  grid-template-areas:
+    "edit delete"
+    "mail pw";
+  max-width: 700px;
+  width: 100%;
+
+  @media screen and (max-width: $media) {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "edit"
+      "delete"
+      "mail"
+      "pw";
+  }
+
+  .btn-edit {
+    grid-area: edit;
+  }
+
+  .btn-delete {
+    grid-area: delete;
+  }
+
+  .link-mail {
+    grid-area: mail;
+  }
+
+  .link-pw {
+    grid-area: pw;
+  }
+}
+
+.btn,
+.nav-btn {
+  box-shadow: 0 0 10px black;
+  height: 50px;
+  color: black;
+  line-height: 50px;
+  text-align: center;
+  background-color: $clr-secondary;
+  border: none;
+  outline: 2px solid white;
+  font-weight: bold;
+  transition: background-color 600ms, font-size 400ms, border-radius 300ms;
+
+  &:hover {
+    cursor: pointer;
+    background-color: $clr-orange !important;
+    color: white;
+    font-size: 1.1rem;
+    border-radius: 5px;
+  }
+}

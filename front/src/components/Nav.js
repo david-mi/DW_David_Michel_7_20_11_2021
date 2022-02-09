@@ -51,7 +51,7 @@ const Nav = () => {
           <NavLink to={'/'}>Accueil</NavLink>
           <button onClick={logOut}>Se déconnecter</button>
           <NavLink to={'/profile'}>
-            {addPicture && <img src={addPicture} alt='photo par défault' />}
+            {addPicture && <img src={addPicture} alt='photo de profil' />}
           </NavLink>
         </nav>
       )

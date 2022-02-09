@@ -36,4 +36,18 @@ const profileSchema = yup.object().shape({
     .max(400, 'Le bio de peut pas dépasser 400 caractères'),
 });
 
-export default profileSchema;
+const emailSchema = yup.object().shape({
+  previousEmail: yup
+    .string()
+    .trim()
+    .required('Champ Requis')
+    .email("Format mail non valide"),
+
+  newEmail: yup
+    .string()
+    .trim()
+    .required('Champ Requis')
+    .email("Format mail non valide")
+});
+
+export { emailSchema, profileSchema };

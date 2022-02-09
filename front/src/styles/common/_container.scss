@@ -1,0 +1,11 @@
+.container {
+  display: grid;
+  place-items: center;
+  gap: 20px 0px;
+  max-width: 800px;
+  background-color: $clr-secondary;
+  box-shadow: 0 0 10px black;
+  border-radius: 20px;
+  overflow: hidden;
+  padding: clamp(15px, 2vw, 50px);
+}

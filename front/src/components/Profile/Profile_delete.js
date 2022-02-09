@@ -29,7 +29,7 @@ const Profile_delete = ({ setIsDeleting }) => {
   };
 
   return (
-    <div className='delete-user__wrapper'>
+    <div className='confirm__wrapper'>
       {isDeleted
         ? (
           <div className='confirmation-delete'>

@@ -1,9 +1,19 @@
 @import "./settings/normalize";
 @import "./settings/base";
+
 @import "./pages/header";
-@import "./components/register";
+@import "./pages/root";
+
 @import "./components/home";
 @import "./components/profile/profile";
 @import "./components//profile/profile_update";
 @import "./components/profile/profile_delete";
-@import "./components/profile/profile_delete_img";
+@import "./components//profile/profile_email_update";
+
+@import "./common/form";
+@import "./common/confirm_wrapper";
+@import "./common/container";
+@import "./common/main-title";
+@import "./common/button";
+@import "./common/profile_picture";
+@import "./animations/animations";

@@ -10,6 +10,7 @@ import registerSchema from '../YupSchemas/registerSchema';
 
 // PAGES & COMPONENTS
 import Header from '../pages/Header';
+import Title from '../pages/Title';
 
 const Register = () => {
 
@@ -31,54 +32,56 @@ const Register = () => {
   };
 
   return (
-    <div className='register__container'>
+    <>
       <Header />
-      <h1>Inscrivez-Vous !</h1>
-      <form
-        className="register-login__form"
-        onSubmit={handleSubmit((data) => {
-          console.log(data);
-          sendForm(data);
-        })}>
+      <Title name="Inscription" />
+      <div className='register__container container'>
+        <form
+          className="form"
+          onSubmit={handleSubmit((data) => {
+            console.log(data);
+            sendForm(data);
+          })}>
 
-        <div className='input-label__container'>
-          <label htmlFor="email">Votre mail</label>
-          <input placeholder="email" {...register('email')} style={errors.email && { background: "red" }}>
-          </input>
-          {errors.email && <small>{errors.email.message}</small>}
-        </div>
+          <div className='input-label__container'>
+            <label htmlFor="email">Votre mail</label>
+            <input placeholder="email" {...register('email')} style={errors.email && { background: "red" }}>
+            </input>
+            {errors.email && <small>{errors.email.message}</small>}
+          </div>
 
-        <div className='input-label__container'>
-          <label htmlFor="password">Votre mot de passe</label>
-          <input placeholder="mot de passe" {...register('password')} />
-          {errors.password && <small>{errors.password.message}</small>}
-        </div>
+          <div className='input-label__container'>
+            <label htmlFor="password">Votre mot de passe</label>
+            <input placeholder="mot de passe" {...register('password')} />
+            {errors.password && <small>{errors.password.message}</small>}
+          </div>
 
-        <div className='input-label__container'>
-          <label htmlFor="username">Votre pseudo</label>
-          <input placeholder="pseudo" {...register('username')} />
-          {errors.username && <small>{errors.username.message}</small>}
-        </div>
+          <div className='input-label__container'>
+            <label htmlFor="username">Votre pseudo</label>
+            <input placeholder="pseudo" {...register('username')} />
+            {errors.username && <small>{errors.username.message}</small>}
+          </div>
 
-        <div className='input-label__container'>
-          <label htmlFor="firstname">Votre prénom</label>
-          <input placeholder="prénom" {...register('firstname')} />
-          {errors.firstname && <small>{errors.firstname.message}</small>}
-        </div>
+          <div className='input-label__container'>
+            <label htmlFor="firstname">Votre prénom</label>
+            <input placeholder="prénom" {...register('firstname')} />
+            {errors.firstname && <small>{errors.firstname.message}</small>}
+          </div>
 
-        <div className='input-label__container'>
-          <label htmlFor="lastname">Votre nom</label>
-          <input placeholder="nom"{...register('lastname')} />
-          {errors.lastname && <small>{errors.lastname.message}</small>}
-        </div>
+          <div className='input-label__container'>
+            <label htmlFor="lastname">Votre nom</label>
+            <input placeholder="nom"{...register('lastname')} />
+            {errors.lastname && <small>{errors.lastname.message}</small>}
+          </div>
 
-        <div className='input-label__container'>
-          <input type="submit" value="Send" />
-          {Apierror && <small>Erreur {Apierror.status} {Apierror.statusText}</small>}
-        </div>
+          <div className='input-label__container'>
+            <input type="submit" value="Send" />
+            {Apierror && <small>Erreur {Apierror.status} {Apierror.statusText}</small>}
+          </div>
 
-      </form>
-    </div>
+        </form>
+      </div>
+    </>
   );
 };
 

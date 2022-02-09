@@ -31,7 +31,7 @@ module.exports = {
       },
       bio: {
         allowNull: true,
-        type: Sequelize.STRING
+        type: Sequelize.TEXT
       },
       profilePicture: {
         type: Sequelize.STRING

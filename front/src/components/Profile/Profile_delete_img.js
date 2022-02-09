@@ -37,7 +37,7 @@ const Profile_delete_img = ({ setIsDeletingImg }) => {
   });
 
   return (
-    <div className='delete-profile-img__wrapper'>
+    <div className='confirm__wrapper'>
       {isImgDeleted
         ? (
           <div className='confirmation-delete'>

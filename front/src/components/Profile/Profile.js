@@ -2,6 +2,7 @@
 import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import { decodeToken } from "react-jwt";
+import { NavLink, Outlet } from 'react-router-dom';
 
 // CONTEXT
 import { loginContext, editingContext, profilPictureUpdate } from '../../Context/loginContext';
@@ -11,6 +12,7 @@ import Header from '../../pages/Header';
 import Profile_infos from './Profile_infos';
 import Profile_update from './Profile_update';
 import Profile_delete from './Profile_delete';
+import Title from '../../pages/Title';
 
 const Profile = () => {
 
@@ -20,10 +22,8 @@ const Profile = () => {
   const [profileData, setProfileData] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
-  const [Apierror, setApiError] = useState('');
-  console.log('wtf');
+
   const getProfileData = async () => {
-    console.log('enculé');
     const { token, USER_ID } = JSON.parse(localStorage.getItem('payload'));
     // console.log(token);
     // const decode = decodeToken(token);
@@ -40,23 +40,31 @@ const Profile = () => {
   if (!profileData) return null;
 
   return (
-    <div className='profile__container'>
+    <>
       <profilPictureUpdate.Provider value={{ pictureUpdate, setPictureUpdate }}>
         <Header />
-        {isDeleting && <Profile_delete isDeleting={isDeleting} setIsDeleting={setIsDeleting} />}
-        <h1>Profil</h1>
-        {isUpdating
-          ? (
-            <editingContext.Provider value={{ isUpdating, setIsUpdating }}>
-              <Profile_update profileData={profileData}></Profile_update>
-            </editingContext.Provider>
-          )
-          : <Profile_infos profileData={profileData} />
-        }
-        <button onClick={() => setIsUpdating(e => !e)}>{isUpdating ? 'Annuler' : 'Modifier le profil'}</button>
-        <button onClick={() => setIsDeleting(true)}>Supprimer mon compte</button>
+        <Title name="Profil" />
+        <div className='profile__container container slide'>
+          {isDeleting && <Profile_delete isDeleting={isDeleting} setIsDeleting={setIsDeleting} />}
+          {isUpdating
+            ? (
+              <editingContext.Provider value={{ isUpdating, setIsUpdating }}>
+                <Profile_update profileData={profileData}></Profile_update>
+              </editingContext.Provider>
+            )
+            : <Profile_infos profileData={profileData} />
+          }
+
+
+        </div>
+        <div className='profile-buttons'>
+          <button className="btn btn-edit" onClick={() => setIsUpdating(e => !e)}>{isUpdating ? 'Annuler' : 'Modifier le profil'}</button>
+          <button className="btn btn-delete" onClick={() => setIsDeleting(true)}>Supprimer mon compte</button>
+          <NavLink className="nav-btn link-mail" to={'/profile/updatemail'}>Changer le mail</NavLink>
+          <NavLink className="nav-btn link-pw" to={'/profile/updatemail'}>Changer le mot de passe</NavLink>
+        </div>
       </profilPictureUpdate.Provider>
-    </div>
+    </>
   );
 };
 

@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const { unlink } = require('fs/promises');
 
 // MODELS
 const models = require('../models');
@@ -40,7 +39,7 @@ exports.showProfile = async (req, res) => {
 };
 
 exports.updateProfile = async (req, res) => {
-  console.log('ptdrrrrrrrrrrrrrrrrr');
+
   const { newData } = res.locals;
 
   try {
@@ -77,6 +76,29 @@ exports.updateProfile = async (req, res) => {
     if (req.file && err.name !== 'unlink') await handleErrorImage(req, 'users');
     res.status(500).json(err);
   }
+};
+
+exports.mailUpdate = async (req, res) => {
+
+  const { previousEmail, newEmail } = req.body;
+
+  try {
+    const user = await User.findByPk(req.token.USER_ID);
+
+    if (user.email !== previousEmail) throw ('Ce mail ce correspond pas à votre mail actuel');
+    if (user.email === newEmail) throw ("Le nouvel email est identique à l'ancien");
+
+    await User.update(
+      { email: newEmail },
+      { where: { id: req.token.USER_ID } });
+
+    res.status(201).json({ message: `mail mis à jour. Nouvel email : ${newEmail}` });
+  }
+
+  catch (err) {
+    res.status(400).json({ message: err.msg || err });
+  }
+
 };
 
 exports.signup = async (req, res) => {

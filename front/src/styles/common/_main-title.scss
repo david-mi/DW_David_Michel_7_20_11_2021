@@ -1,0 +1,40 @@
+@keyframes outline {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes up {
+  to {
+    transform: translateY(0%);
+  }
+}
+
+.main-title__wrapper {
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  position: relative;
+  background-color: $clr-main;
+  padding-inline: 10px;
+}
+
+.main-title {
+  position: relative;
+  padding: 5px 20px;
+  transform: translateY(100%);
+  animation: up 500ms forwards;
+  color: $clr-secondary;
+
+  &::before {
+    position: absolute;
+    content: "";
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    height: 5px;
+    background-color: $clr-secondary;
+    transform: scaleX(0);
+    animation: outline 500ms 200ms forwards cubic-bezier(0.65, 0.5, 0.15, 1.32);
+  }
+}
