@@ -1,6 +1,6 @@
 .profile-buttons {
   display: grid;
-  gap: 20px 20px;
+  gap: 30px;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 2fr;
   grid-template-areas:
@@ -46,7 +46,7 @@
   border: none;
   outline: 2px solid white;
   font-weight: bold;
-  transition: background-color 600ms, font-size 400ms, border-radius 300ms;
+  transition: background-color 400ms, font-size 400ms, border-radius 300ms;
 
   &:hover {
     cursor: pointer;

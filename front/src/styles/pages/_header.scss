@@ -4,19 +4,71 @@
   background-color: $clr-secondary;
   padding: 10px;
   box-shadow: 0 0 10px black;
+  @media screen and (max-width: $media-header) {
+    flex-direction: column;
+    align-items: center;
+  }
 
   &__nav {
+    padding-block: 20px;
     margin-left: auto;
-    display: flex;
     gap: 20px;
     align-items: center;
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-template-rows: 1fr;
+    grid-template-areas: "feed logout img";
+
+    @media screen and (max-width: $media-header) {
+      margin-left: 0;
+      justify-content: space-evenly;
+      width: 100%;
+    }
+
+    svg {
+      color: $clr-orange;
+      font-size: 3.4rem;
+      transition: all 300ms;
+      transform: scale(0.8);
+      @media screen and (max-width: $media-header) {
+        font-size: 4rem;
+      }
+
+      &:hover {
+        transform: scale(1);
+      }
+    }
+
+    .feed-icon {
+      grid-area: feed;
+      color: $clr-orange;
+    }
+
+    .logout-icon {
+      grid-area: logout;
+      color: black;
+    }
+
+    button {
+      background-color: transparent;
+      border: none;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
 
     img {
+      grid-area: img;
       height: 70px;
       aspect-ratio: 1/1;
       border-radius: 50%;
-      border: solid 2px black;
+      border: solid 2px $clr-main;
       object-fit: cover;
+
+      @media screen and (max-width: $media-header) {
+        height: 90px;
+      }
     }
   }
 

@@ -10,6 +10,10 @@
   width: 100%;
   max-width: 600px;
 
+  @media screen and (max-width: $media-small) {
+    padding-inline: 0;
+  }
+
   .input-label__container {
     position: relative;
     font-weight: bold;
@@ -24,7 +28,7 @@
     textarea {
       box-shadow: 2px 2px rgb(94, 94, 94);
       text-align: center;
-      border-radius: 30px;
+      border-radius: 15px;
       border: none;
       background-color: #ffffff;
 
@@ -66,7 +70,7 @@
 
     textarea {
       resize: none;
-      height: 150px;
+      min-height: 150px;
       padding: 20px;
       overflow: hidden;
     }
