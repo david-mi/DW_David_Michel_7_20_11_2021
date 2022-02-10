@@ -7,8 +7,18 @@ exports.getAllMessages = async (req, res) => {
     const messages = await Message.findAll({
       attributes: ['id', 'text', 'attachment', 'createdAt', 'updatedAt'],
       include: [
-        { model: User, attributes: ['username', 'firstname', 'lastname'] },
-        { model: Like, attributes: ['id'], include: [{ model: User, attributes: [['username', 'pseudo']] }] }
+        {
+          model: User,
+          attributes: ['id', 'username', 'firstname', 'lastname']
+        },
+        {
+          model: Like,
+          attributes: ['id'],
+          include: [{
+            model: User,
+            attributes: ['username', 'firstname', 'lastname']
+          }]
+        }
       ],
     });
     !messages.length

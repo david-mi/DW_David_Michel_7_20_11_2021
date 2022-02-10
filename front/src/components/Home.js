@@ -15,21 +15,21 @@ const apiMessage = 'http://localhost:3000/api/messages';
 
 const Home = () => {
 
-  const { isLogged, setIsLogged, token } = useContext(loginContext);
+  const { isLogged, setIsLogged } = useContext(loginContext);
 
   const [messages, setMessages] = useState(null);
   const [update, setUpdate] = useState(false);
 
   const getMessages = async () => {
+    const { token } = JSON.parse(localStorage.getItem('payload'));
     const headers = { 'Authorization': `Bearer ${token}` };
     const res = await axios.get(apiMessage + '/all', { headers });
     const data = res.data;
     setMessages(data);
+    console.log('mdr');
   };
 
-  useEffect(() => {
-    getMessages();
-  }, []);
+  useEffect(getMessages, []);
 
 
   return (
@@ -38,15 +38,9 @@ const Home = () => {
       <Title name="Accueil" />
       <div className='messages__container container'>
         {messages
-          ? (
-            messages.map((msg, idx) => (
-              <MessagesInfos data={msg} key={idx} />
-            ))
-
-          )
+          ? messages.map((msg, idx) => (<MessagesInfos data={msg} key={idx} />))
           : <p>Aucun message à afficher pour le moment</p>
         }
-
       </div>
     </>
   );

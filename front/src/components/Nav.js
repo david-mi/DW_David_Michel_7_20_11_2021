@@ -15,6 +15,7 @@ const Nav = () => {
   const { isLogged, setIsLogged, token } = useContext(loginContext);
   const { pictureUpdate, setPictureUpdate } = useContext(profilPictureUpdate);
   const [addPicture, setAddPicture] = useState(false);
+  const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
 
   const getProfilePicture = async () => {
@@ -24,6 +25,7 @@ const Nav = () => {
     const { profilePicture } = res.data;
     console.log(profilePicture);
     setAddPicture(profilePicture);
+    setUserId(USER_ID);
   };
 
   const logOut = () => {
@@ -53,7 +55,7 @@ const Nav = () => {
         <nav className='header__nav'>
           <NavLink to={'/home'}><HomeIcon /></NavLink>
           <button onClick={logOut}><LogOutIcon /></button>
-          <NavLink to={'/profile'}>
+          <NavLink to={`/profile/${userId}`}>
             {addPicture && <img src={addPicture} alt='photo de profil' />}
           </NavLink>
         </nav>

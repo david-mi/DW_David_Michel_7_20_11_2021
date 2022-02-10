@@ -20,7 +20,7 @@ const apiUsers = 'http://localhost:3000/api/auth/users/';
 
 const ProfilePwUpdate = () => {
 
-  const { isLogged, setIsLogged, token, setToken } = useContext(loginContext);
+  const { isLogged, setIsLogged, token } = useContext(loginContext);
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(passwordSchema) });
   const navigate = useNavigate();
 

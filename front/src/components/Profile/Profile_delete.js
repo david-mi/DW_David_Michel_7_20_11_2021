@@ -7,7 +7,6 @@ import { decodeToken } from "react-jwt";
 // CONTEXT
 import { loginContext } from '../../Context/loginContext';
 
-
 const Profile_delete = ({ setIsDeleting }) => {
 
   const navigate = useNavigate();
@@ -17,7 +16,7 @@ const Profile_delete = ({ setIsDeleting }) => {
   const deleteUser = async () => {
     const { USER_ID } = decodeToken(token);
     const headers = { 'Authorization': `Bearer ${token}` };
-    const deleted = await axios.delete(`http://localhost:3000/api/auth/users/${USER_ID}`, { headers });
+    await axios.delete(`http://localhost:3000/api/auth/users/${USER_ID}`, { headers });
     localStorage.clear();
     setIsDeleted(true);
   };

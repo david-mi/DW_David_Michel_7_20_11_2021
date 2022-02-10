@@ -1,3 +1,4 @@
+// LIBRARIES
 import { useContext, useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
@@ -20,7 +21,7 @@ const apiUsers = 'http://localhost:3000/api/auth/users/';
 
 const Profile_email_update = () => {
 
-  const { isLogged, setIsLogged, token, setToken } = useContext(loginContext);
+  const { isLogged, setIsLogged, token } = useContext(loginContext);
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(emailSchema) });
   const navigate = useNavigate();
 
@@ -44,8 +45,8 @@ const Profile_email_update = () => {
         const { message } = err.response.data;
         setServerInfos({ status, statusText, message });
       }
-
     }
+
   };
 
   const redirect = () => {
@@ -93,7 +94,9 @@ const Profile_email_update = () => {
             <input type="submit" value="Envoyer" />
             {serverInfos && <small>Erreur {serverInfos.status} {serverInfos.statusText} {serverInfos.message}</small>}
           </div>
+
           <button className='abort-btn' onClick={() => navigate('/profile')}>Annuler</button>
+
         </form>
       </div>
     </>

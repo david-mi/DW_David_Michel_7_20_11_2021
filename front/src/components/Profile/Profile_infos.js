@@ -3,7 +3,6 @@ const Profile_infos = ({ profileData }) => {
   const { profilePicture, username, firstname, lastname, bio, isAdmin } = profileData;
 
   return (
-
     <ul className='profile-infos__container'>
       <div className='profile-picture__container'>
         <img src={profilePicture} className="profile__picture" alt="photo de profil" />
@@ -29,7 +28,6 @@ const Profile_infos = ({ profileData }) => {
         <span className='value'>{isAdmin ? 'Administateur' : 'utilisateur'}</span>
       </li>
     </ul>
-
   );
 
 };

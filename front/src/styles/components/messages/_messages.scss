@@ -3,28 +3,41 @@
   flex-direction: column;
   gap: 30px;
   background-color: transparent !important;
-  // width: 100%;
+  box-shadow: none !important;
+  padding: clamp(5px, 2vw, 50px) !important;
 }
 
 .msg__card {
+  position: relative;
   box-shadow: 0 0 5px black;
   border-radius: 10px;
   // background-color: rgba(255, 255, 255, 0.486);
   background-color: #d9e2f2;
   width: 100%;
   display: grid;
-  align-items: center;
+  place-items: center;
   gap: 30px;
   padding: 20px;
   font-size: 1.1rem;
   font-weight: bold;
-  grid-template-columns: repeat(4, auto);
+  grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(4, auto);
   grid-template-areas:
     "names names date date"
     "img img img img"
     "text text text text"
-    "comment . . like";
+    "comment edit delete like";
+
+  @media screen and(max-width: $media) {
+    grid-template-rows: repeat(5, auto);
+    grid-template-areas:
+      "names names names names"
+      "date date date date"
+      "img img img img"
+      "text text text text"
+      "comment edit delete like";
+    gap: 10px;
+  }
 
   .names {
     grid-area: names;
@@ -32,12 +45,20 @@
     color: white;
     width: fit-content;
     padding: 5px;
+    justify-self: self-start;
+    transition: 300ms;
+
+    &:hover {
+      cursor: pointer;
+      background-color: $clr-orange;
+    }
   }
 
   .date-container {
     grid-area: date;
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
     font-size: 0.9rem;
     justify-self: self-end;
   }
@@ -46,10 +67,10 @@
     grid-area: img;
     border: solid 10px $clr-main;
     background-color: $clr-pink;
-    box-shadow: 0 0 20px rgb(100, 100, 100);
+    // box-shadow: 0 0 20px rgb(100, 100, 100);
     max-width: 400px;
     justify-self: center;
-    background-color: red;
+    margin-top: 20px;
 
     .msg__img {
       display: block;
@@ -63,16 +84,69 @@
   .text {
     grid-area: text;
     justify-self: center;
+    padding-block: 50px;
+
+    @media screen and(max-width: $media) {
+      padding-block: 30px;
+    }
+  }
+
+  svg {
+    font-size: 1.6rem;
+    transition: 300ms;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &:not(.like-icon) {
+      &:hover {
+        color: $clr-orange;
+      }
+    }
+  }
+
+  .like-container,
+  .comment-container {
+    display: flex;
+    align-items: center;
+    column-gap: 10px;
   }
 
   .like-container {
     grid-area: like;
-    display: flex;
-    justify-self: self-end;
+
+    .likeNb {
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .liked-list {
+      position: absolute;
+      bottom: 60px;
+      right: 0px;
+      font-size: 0.9rem;
+      font-weight: normal;
+      color: white;
+      background-color: $clr-main;
+      padding: 10px;
+
+      li {
+        white-space: nowrap;
+      }
+    }
   }
 
   .comment-container {
     grid-area: comment;
-    display: flex;
+  }
+
+  .del-svg {
+    grid-area: delete;
+  }
+
+  .edit-svg {
+    grid-area: edit;
   }
 }

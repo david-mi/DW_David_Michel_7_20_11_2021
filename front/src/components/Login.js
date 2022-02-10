@@ -25,13 +25,12 @@ const Login = () => {
   const sendData = async (data) => {
     try {
       const response = await axios.post('http://localhost:3000/api/auth/login', data);
-      console.log(response);
       const payload = response.data;
       localStorage.setItem('payload', JSON.stringify({ ...payload }));
-      console.log('token ' + token);
       setApiError(false);
       setToken(payload.token);
       setIsLogged(true);
+      console.log('token ' + token);
     }
     catch (err) {
       console.log(err.response);

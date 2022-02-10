@@ -10,7 +10,9 @@ import { loginContext } from '../../Context/loginContext';
 // API PATH
 const apiUsers = 'http://localhost:3000/api/auth/users/';
 
-const Profile_delete_img = ({ setIsDeletingImg }) => {
+const Profile_delete_img = (props) => {
+
+  const { setIsDeletingImg } = props.data;
 
   const { pictureUpdate, setPictureUpdate } = useContext(profilPictureUpdate);
   const { token } = useContext(loginContext);
@@ -27,14 +29,7 @@ const Profile_delete_img = ({ setIsDeletingImg }) => {
     setPictureUpdate(true);
   };
 
-  useEffect(() => {
-    return () => {
-      setPictureUpdate(false);
-      console.log('[delete_img] UNMOUNT');
-    };
-
-
-  });
+  useEffect(() => () => setPictureUpdate(false));
 
   return (
     <div className='confirm__wrapper'>

@@ -16,10 +16,12 @@ const apiUsers = 'http://localhost:3000/api/auth/users/';
 
 const Profile_update = ({ profileData }) => {
 
-  const { profilePicture, username, firstname, lastname, bio, isAdmin } = profileData;
+  const { profilePicture, username, firstname, lastname, bio } = profileData;
+
   const { isUpdating, setIsUpdating } = useContext(editingContext);
   const { pictureUpdate, setPictureUpdate } = useContext(profilPictureUpdate);
   const { token } = useContext(loginContext);
+  const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(profileSchema) });
 
   const [displayImage, setDisplayImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
@@ -35,17 +37,13 @@ const Profile_update = ({ profileData }) => {
       'Authorization': `Bearer ${token}`,
       "Content-Type": "multipart/form-data"
     };
-    const update = await axios.put(`${apiUsers}${USER_ID}/profileupdate`, formData, { headers });
-    console.log(update.data.message);
+    await axios.put(`${apiUsers}${USER_ID}/profileupdate`, formData, { headers });
     setIsUpdating(false);
     if (data.picture[0]) {
       console.log('mise à jour de photo');
       setPictureUpdate((e) => !e);
     }
-
   };
-
-  const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(profileSchema) });
 
   useEffect(() => {
     displayImage
@@ -58,7 +56,6 @@ const Profile_update = ({ profileData }) => {
     setDisplayImage(null);
   };
 
-
   return (
     <form className="form" onSubmit={handleSubmit(sendForm)}>
       <div className='image-profile-edit__container'>
@@ -69,7 +66,7 @@ const Profile_update = ({ profileData }) => {
         {imageUrl
           ? <button onClick={reseter} className="btn btn-abort">Annuler</button>
           : isDeletingImg
-            ? <Profile_delete_img isDeletingImg={isDeletingImg} setIsDeletingImg={setIsDeletingImg} />
+            ? <Profile_delete_img data={{ setIsDeletingImg }} />
             : <button onClick={() => setIsDeletingImg(true)} className="btn btn-delete">Supprimer</button>}
         <input
           type="file" id="image" style={{ display: "none" }}
@@ -78,7 +75,6 @@ const Profile_update = ({ profileData }) => {
         </input>
         {errors.file && <small>{errors.file.message}</small>}
       </div>
-
 
       <div className='input-label__container'>
         <label htmlFor="username">Votre pseudo</label>

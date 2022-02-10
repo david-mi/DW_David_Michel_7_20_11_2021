@@ -1,6 +1,6 @@
 const apiUsers = 'http://localhost:3000/api/auth/users/';
 
-const GetHeaders = (token, option) => {
+const getHeaders = (token, option) => {
 
   if (option === 'multipart') {
     return ({
@@ -12,6 +12,4 @@ const GetHeaders = (token, option) => {
   return { 'Authorization': `Bearer ${token}` };
 };
 
-
-
-export { apiUsers, GetHeaders };
+export { apiUsers, getHeaders };

@@ -31,6 +31,7 @@
       border-radius: 15px;
       border: none;
       background-color: #ffffff;
+      font-weight: bold;
 
       &:focus {
         outline: 2px solid $clr-main;
@@ -40,7 +41,6 @@
 
     input {
       height: 40px;
-      font-weight: bold;
 
       &::placeholder {
         font-weight: bold;

@@ -10,6 +10,8 @@
   width: 100%;
 
   @media screen and (max-width: $media) {
+    padding-inline: 20px;
+    margin-bottom: 30px;
     grid-template-columns: 1fr;
     grid-template-areas:
       "edit"
