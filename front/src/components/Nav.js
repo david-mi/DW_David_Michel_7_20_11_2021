@@ -8,7 +8,7 @@ import { decodeToken } from "react-jwt";
 import { loginContext, profilPictureUpdate } from '../Context/loginContext';
 
 // ICONS 
-import { LogOutIcon, FeedIcon } from '../icons/icons';
+import { LogOutIcon, HomeIcon } from '../icons/icons';
 
 const Nav = () => {
 
@@ -51,7 +51,7 @@ const Nav = () => {
     isLogged
       ? (
         <nav className='header__nav'>
-          <NavLink to={'/home'}><FeedIcon /></NavLink>
+          <NavLink to={'/home'}><HomeIcon /></NavLink>
           <button onClick={logOut}><LogOutIcon /></button>
           <NavLink to={'/profile'}>
             {addPicture && <img src={addPicture} alt='photo de profil' />}

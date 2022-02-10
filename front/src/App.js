@@ -60,7 +60,7 @@ const App = () => {
             <Route path="/profile/updatemail" element={<Profile_email_update />}></Route>
             <Route path="/profile/updatepassword" element={< ProfilePwUpdate />}></Route>
           </Route>
-          <Route path="*" element={<NotFound />}></Route>
+          <Route path="*" element={<Home />}></Route>
         </Routes>
       </BrowserRouter>
     </loginContext.Provider>

@@ -4,13 +4,13 @@
 @import "./pages/header";
 @import "./pages/root";
 
-@import "./components/home";
 @import "./components/register";
 @import "./components/login";
 @import "./components/profile/profile";
 @import "./components//profile/profile_update";
 @import "./components/profile/profile_delete";
 @import "./components//profile/profile_email_update";
+@import "./components/messages/messages";
 
 @import "./common/form";
 @import "./common/confirm_wrapper";
