@@ -1,0 +1,27 @@
+@keyframes height {
+  to {
+    height: 100%;
+  }
+}
+
+.post-picture__container {
+  grid-area: img;
+  border: solid 10px $clr-main;
+  background-color: $clr-pink;
+  justify-self: center;
+  margin-top: 20px;
+  height: 0px;
+  overflow: hidden;
+  animation: height 500ms 200ms forwards;
+
+  .post__picture {
+    display: block;
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+
+    @media screen and (max-width: $media-small) {
+      max-height: 200px;
+    }
+  }
+}

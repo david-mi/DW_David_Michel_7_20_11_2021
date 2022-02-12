@@ -4,12 +4,13 @@ import axios from 'axios';
 import { decodeToken } from "react-jwt";
 
 // CONTEXT
-import { loginContext } from '../Context/loginContext';
+import { loginContext, refreshData } from '../Context/loginContext';
 
 // PAGES & COMPONENTS
 import Header from '../pages/Header';
 import Title from '../pages/Title';
 import MessagesInfos from './Messages/MessagesInfos';
+import MessagePost from './Messages/MessagePost';
 
 const apiMessage = 'http://localhost:3000/api/messages';
 
@@ -18,7 +19,7 @@ const Home = () => {
   const { isLogged, setIsLogged } = useContext(loginContext);
 
   const [messages, setMessages] = useState(null);
-  const [update, setUpdate] = useState(false);
+  const [refreshToogle, setRefreshToogle] = useState(false);
 
   const getMessages = async () => {
     const { token } = JSON.parse(localStorage.getItem('payload'));
@@ -29,19 +30,24 @@ const Home = () => {
     console.log('mdr');
   };
 
-  useEffect(getMessages, []);
+  useEffect(getMessages, [refreshToogle]);
 
 
   return (
     <>
       <Header />
       <Title name="Accueil" />
-      <div className='messages__container container'>
-        {messages
-          ? messages.map((msg, idx) => (<MessagesInfos data={msg} key={idx} />))
-          : <p>Aucun message à afficher pour le moment</p>
-        }
-      </div>
+      <refreshData.Provider value={{ refreshToogle, setRefreshToogle }}>
+        <MessagePost />
+        <div className='messages__container container'>
+          {messages
+            ? messages
+              .sort((prev, next) => next.id - prev.id)
+              .map((msg, idx) => <MessagesInfos data={msg} key={idx} />)
+            : <p>Aucun message à afficher pour le moment</p>
+          }
+        </div>
+      </refreshData.Provider>
     </>
   );
 };

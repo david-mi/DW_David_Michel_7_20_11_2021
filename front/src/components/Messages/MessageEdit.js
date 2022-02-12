@@ -1,0 +1,100 @@
+// LIBRARIES
+import { useState, useEffect, useContext } from 'react';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import axios from 'axios';
+
+// SCHEMAS
+import messageSchema from '../../YupSchemas/messageSchema';
+
+// CONTEXT
+import { refreshData } from '../../Context/loginContext';
+
+// COMPONENTS
+import MessageDeleteImage from './MessageDeleteImage';
+
+const apiMessage = 'http://localhost:3000/api/messages';
+
+const MessageEdit = (props) => {
+
+  const { setIsEditing, text, attachment, messageId } = props.data;
+
+  const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(messageSchema) });
+  const { refreshToogle, setRefreshToogle } = useContext(refreshData);
+
+
+  const [displayImage, setDisplayImage] = useState(null);
+  const [imageUrl, setImageUrl] = useState(null);
+  const [isDeletingImg, setIsDeletingImg] = useState(false);
+
+
+  useEffect(() => {
+    displayImage
+      ? setImageUrl(URL.createObjectURL(displayImage))
+      : setImageUrl(null);
+  }, [displayImage]);
+
+
+  const sendForm = async (data) => {
+    const formData = new FormData();
+    formData.append('postInfos', JSON.stringify(data));
+    formData.append('image', data.pictureEdit[0]);
+
+    const { token } = JSON.parse(localStorage.getItem('payload'));
+
+    const headers = {
+      'Authorization': `Bearer ${token}`,
+      "Content-Type": "multipart/form-data"
+    };
+    await axios.put(`${apiMessage}/${messageId}`, formData, { headers });
+
+    setRefreshToogle((e) => !e);
+    setIsEditing(false);
+  };
+
+  const reseter = (event) => {
+    event.preventDefault();
+    setDisplayImage(null);
+  };
+
+  return (
+    <form className="form" onSubmit={handleSubmit(sendForm)}>
+
+      <p>image/gif <i>(optionnel)</i></p>
+
+      {(imageUrl || attachment) && (
+        <>
+          <div className='image-post-edit__container'>
+            <div className='post-picture__container'>
+              <img src={imageUrl || attachment} className="post__picture"></img>
+            </div>
+          </div>
+          {imageUrl
+            ? <button onClick={reseter} className="btn btn-abort">Annuler</button>
+            : isDeletingImg
+              ? <MessageDeleteImage data={{ setIsDeletingImg, messageId }} />
+              : <button onClick={() => setIsDeletingImg(true)} className="btn btn-delete">Supprimer</button>}
+        </>
+      )}
+
+      <label htmlFor="pictureEdit" className='btn btn-browse'>Parcourir</label>
+      <input
+        type="file" id="pictureEdit" style={{ display: "none" }}
+        onInput={(e) => setDisplayImage(e.target.files[0])}
+        {...register('pictureEdit')}>
+      </input>
+
+      <div className='input-label__container'>
+        <label htmlFor="text">Votre message</label>
+        <textarea placeholder="Message : entre 10 et 500 caractères" id='text' defaultValue={text} {...register('text')} />
+        {errors.text && <small>{errors.text.message}</small>}
+      </div>
+
+      <input type="submit" className='send-msg__btn btn'></input>
+      <button className='btn' onClick={() => setIsEditing(false)}>Annuler</button>
+
+    </form>
+  );
+};
+
+export default MessageEdit;

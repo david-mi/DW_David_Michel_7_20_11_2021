@@ -1,0 +1,15 @@
+.editing__card {
+  max-width: 800px;
+  width: 100%;
+  background-color: $clr-secondary-light;
+
+  @media screen and (max-width: $media-small) {
+    padding-inline: 5px;
+  }
+
+  .btn {
+    width: 200px;
+    background-color: $clr-main;
+    color: white;
+  }
+}

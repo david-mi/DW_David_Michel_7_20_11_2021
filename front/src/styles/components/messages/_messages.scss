@@ -12,11 +12,11 @@
   box-shadow: 0 0 5px black;
   border-radius: 10px;
   // background-color: rgba(255, 255, 255, 0.486);
-  background-color: #d9e2f2;
+  background-color: $clr-secondary-light;
   width: 100%;
   display: grid;
   place-items: center;
-  gap: 30px;
+  // gap: 30px;
   padding: 20px;
   font-size: 1.1rem;
   font-weight: bold;
@@ -39,6 +39,11 @@
     gap: 10px;
   }
 
+  @media screen and (max-width: $media-small) {
+    padding: 10px;
+    gap: 0;
+  }
+
   .names {
     grid-area: names;
     background-color: $clr-main;
@@ -47,6 +52,7 @@
     padding: 5px;
     justify-self: self-start;
     transition: 300ms;
+    margin-bottom: 30px;
 
     &:hover {
       cursor: pointer;
@@ -61,6 +67,11 @@
     align-items: flex-end;
     font-size: 0.9rem;
     justify-self: self-end;
+    margin-bottom: 30px;
+
+    @media screen and (max-width: $media-small) {
+      margin: 0px;
+    }
   }
 
   .msg__img-container {
@@ -68,15 +79,15 @@
     border: solid 10px $clr-main;
     background-color: $clr-pink;
     // box-shadow: 0 0 20px rgb(100, 100, 100);
-    max-width: 400px;
     justify-self: center;
-    margin-top: 20px;
+    margin: 20px 0px 30px 0px;
 
     .msg__img {
       display: block;
       animation: scale-in 500ms 200ms both;
       transform: scale(0);
-      width: 100%;
+      max-width: 100%;
+      max-height: 600px;
       object-fit: cover;
     }
   }
@@ -84,7 +95,12 @@
   .text {
     grid-area: text;
     justify-self: center;
-    padding-block: 50px;
+    padding: 50px 10px;
+    word-break: break-word;
+    margin-bottom: 30px;
+    background-color: $clr-secondary;
+    width: 100%;
+    text-align: center;
 
     @media screen and(max-width: $media) {
       padding-block: 30px;
@@ -142,11 +158,11 @@
     grid-area: comment;
   }
 
-  .del-svg {
+  .del-icon__wrapper {
     grid-area: delete;
   }
 
-  .edit-svg {
+  .edit-icon__wrapper {
     grid-area: edit;
   }
 }

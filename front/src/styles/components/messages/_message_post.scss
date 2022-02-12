@@ -1,0 +1,80 @@
+.message-post__container {
+  max-width: 800px;
+  width: 100%;
+  padding: 20px;
+  color: $clr-main !important;
+
+  @media screen and (max-width: $media-small) {
+    padding: clamp(5px, 2vw, 50px) !important;
+  }
+}
+
+.message-post__card {
+  background-color: $clr-secondary-light;
+  box-shadow: 0 0 5px black;
+  padding: 20px;
+
+  .post-card__form > * {
+    margin-bottom: 30px;
+
+    @media screen and (max-width: $media-small) {
+      margin-bottom: 20px;
+    }
+  }
+
+  .post-card__form {
+    display: grid;
+    place-items: center;
+    gap: 0 20px;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(5, auto);
+    grid-template-areas:
+      "imginfo imginfo"
+      "img img"
+      "abcontainer abcontainer"
+      "inputlabel inputlabel"
+      "srcontainer srcontainer";
+
+    p {
+      margin-bottom: 10px;
+      grid-area: imginfo;
+      font-weight: bold;
+    }
+
+    .browse-abort__container,
+    .submit-reset__container {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      gap: 20px;
+
+      & > * {
+        max-width: 50%;
+      }
+    }
+
+    .browse-abort__container {
+      grid-area: abcontainer;
+    }
+
+    .submit-reset__container {
+      grid-area: srcontainer;
+      margin-bottom: 0;
+    }
+    .image-post-edit__container {
+      grid-area: img;
+    }
+
+    .input-label__container {
+      grid-area: inputlabel;
+      // width: 100%;
+      max-width: 500px;
+    }
+
+    .btn {
+      background-color: $clr-main;
+      color: white;
+      flex: 0 1 200px;
+    }
+  }
+}

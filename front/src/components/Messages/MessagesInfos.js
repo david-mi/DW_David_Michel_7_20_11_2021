@@ -11,14 +11,19 @@ import MessagesImage from './MessagesImage';
 import MessagesComment from './MessagesComment';
 import MessageName from './MessageName';
 import MessageDate from './MessageDate';
+import MessageDelete from './MessageDelete';
+import MessageEdit from './MessageEdit';
 
 const MessagesInfos = (props) => {
 
   const [showLikeUsers, setShowLikeUsers] = useState(false);
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const { User, Likes, text, attachment, createdAt, updatedAt } = props.data;
   const { username, firstname, lastname, } = User;
   const messageUserId = User.id;
+  const messageId = props.data.id;
 
   const ownMessage = () => {
 
@@ -27,8 +32,8 @@ const MessagesInfos = (props) => {
     if (messageUserId == USER_ID) {
       return (
         <>
-          <DeleteIcon />
-          <EditIcon />
+          <div className='del-icon__wrapper' onClick={() => setIsDeleting(true)}><DeleteIcon /></div>
+          <div className='edit-icon__wrapper' onClick={() => setIsEditing(true)}><EditIcon /></div>
         </>
       );
     }
@@ -36,14 +41,22 @@ const MessagesInfos = (props) => {
   };
 
   return (
-    <div className='msg__card'>
-      <MessageName data={{ username, firstname, lastname, messageUserId }} />
-      <MessageDate data={{ handleDate, createdAt, updatedAt }} />
-      {attachment && <MessagesImage attachment={attachment} />}
-      <p className='text'>{text}</p>
-      <MessagesLikes data={{ showLikeUsers, setShowLikeUsers, Likes }} />
-      <MessagesComment />
-      {ownMessage()}
+    <div className={isEditing ? 'editing__card' : 'msg__card'}>
+      {isDeleting && <MessageDelete data={{ setIsDeleting, messageId }} />}
+      {isEditing
+        ? <MessageEdit data={{ setIsEditing, text, attachment, messageId }} />
+        : (
+          <>
+            <MessageName data={{ username, firstname, lastname, messageUserId }} />
+            <MessageDate data={{ handleDate, createdAt, updatedAt }} />
+            {attachment && <MessagesImage attachment={attachment} />}
+            <p className='text'>{text}</p>
+            <MessagesLikes data={{ showLikeUsers, setShowLikeUsers, Likes }} />
+            <MessagesComment />
+            {ownMessage()}
+          </>
+        )
+      }
     </div>
   );
 

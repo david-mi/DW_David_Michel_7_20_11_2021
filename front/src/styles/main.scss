@@ -11,6 +11,8 @@
 @import "./components/profile/profile_delete";
 @import "./components//profile/profile_email_update";
 @import "./components/messages/messages";
+@import "./components/messages/message_post";
+@import "./components/messages/message_edit";
 
 @import "./common/form";
 @import "./common/confirm_wrapper";
@@ -19,5 +21,6 @@
 @import "./common/button";
 @import "./common/profile_picture";
 @import "./common/confirmation";
-
+@import "./common/post__picture";
 @import "./animations/animations";
+@import "./common/input-label";

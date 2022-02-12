@@ -12,8 +12,8 @@ const postSchema = yup.object().shape({
     .required('Champ Requis')
     .test('forbiddenChars', 'Caractère interdit', value => !forbiddenChars.test(value))
     .trim()
-    .min(2, 'Le post doit contenir au minimum 2 caractères')
-    .max(250, 'Le post de peut pas dépasser 15 caractères'),
+    .min(10, 'Le post doit contenir au minimum 10 caractères')
+    .max(500, 'Le post de peut pas dépasser 500 caractères'),
 
 });
 
