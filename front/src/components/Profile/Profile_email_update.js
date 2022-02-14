@@ -1,5 +1,5 @@
 // LIBRARIES
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
@@ -15,6 +15,7 @@ import { emailSchema } from '../../YupSchemas/userSchema';
 // PAGES & COMPONENTS
 import Header from '../../pages/Header';
 import Title from '../../pages/Title';
+import Logo from '../../icons-logos/Logo';
 
 
 const apiUsers = 'http://localhost:3000/api/auth/users/';
@@ -27,13 +28,13 @@ const Profile_email_update = () => {
 
   const [serverInfos, setServerInfos] = useState(null);
   const [changedEmail, setChangedEmail] = useState(false);
+  const [userId, setUserId] = useState(null);
 
   const sendData = async (data) => {
-    const { USER_ID } = decodeToken(token);
     const headers = { 'Authorization': `Bearer ${token}` };
 
     try {
-      const update = await axios.put(`${apiUsers}${USER_ID}/emailupdate`, data, { headers });
+      const update = await axios.put(`${apiUsers}${userId}/emailupdate`, data, { headers });
       setServerInfos(update.data.message);
       setChangedEmail(true);
       localStorage.clear();
@@ -49,6 +50,12 @@ const Profile_email_update = () => {
 
   };
 
+  useEffect(() => {
+    const { USER_ID } = decodeToken(token);
+    setUserId(USER_ID);
+    console.log('setUserId');
+  }, []);
+
   const redirect = () => {
     setIsLogged(false);
     navigate('/login');
@@ -60,10 +67,13 @@ const Profile_email_update = () => {
       <Title name="Changez votre email" />
       <div className='email-update__wrapper container'>
         {changedEmail && (
-          <div className='confirmation-delete-email confirm__wrapper'>
-            <h2 className='confirmation-delete-email__title'>{serverInfos}</h2>
-            <i>Veuillez vous connecter avec votre nouvel email</i>
-            <button className='confirmation-delete-email__btn' onClick={redirect}>Continuer</button>
+          <div className='confirm__wrapper'>
+            <Logo />
+            <div className='confirm__container'>
+              <h2>{serverInfos}</h2>
+              <i>Veuillez vous connecter avec votre nouvel email</i>
+              <button className='btn' onClick={redirect}>Continuer</button>
+            </div>
           </div>
         )}
         <form
@@ -95,7 +105,7 @@ const Profile_email_update = () => {
             {serverInfos && <small>Erreur {serverInfos.status} {serverInfos.statusText} {serverInfos.message}</small>}
           </div>
 
-          <button className='abort-btn' onClick={() => navigate('/profile')}>Annuler</button>
+          <button className='abort-btn' onClick={() => navigate(`/profile/${userId}`)}>Annuler</button>
 
         </form>
       </div>

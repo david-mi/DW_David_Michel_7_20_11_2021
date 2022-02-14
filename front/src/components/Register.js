@@ -8,15 +8,18 @@ import { yupResolver } from '@hookform/resolvers/yup';
 // SCHEMAS
 import registerSchema from '../YupSchemas/registerSchema';
 
-// PAGES & COMPONENTS
+// PAGES & COMPONENTS & LOGOS
 import Header from '../pages/Header';
 import Title from '../pages/Title';
+import { ShowInput, HideInput } from '../icons-logos/icons';
 
 const Register = () => {
 
-  const [Apierror, setApiError] = useState('');
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(registerSchema) });
   const navigate = useNavigate();
+
+  const [Apierror, setApiError] = useState('');
+  const [isHidden, setIsHidden] = useState(true);
 
   const sendForm = async (formdata) => {
 
@@ -30,6 +33,9 @@ const Register = () => {
     }
 
   };
+
+  const passwordToggle = () => setIsHidden(e => !e);
+
 
   return (
     <>
@@ -52,7 +58,8 @@ const Register = () => {
 
           <div className='input-label__container'>
             <label htmlFor="password">Votre mot de passe</label>
-            <input placeholder="mot de passe" {...register('password')} />
+            <input placeholder="mot de passe" type={isHidden ? 'password' : 'text'} {...register('password')} />
+            <div className='password-toggle' onClick={passwordToggle}>{isHidden ? <HideInput /> : <ShowInput />}</div>
             {errors.password && <small>{errors.password.message}</small>}
           </div>
 

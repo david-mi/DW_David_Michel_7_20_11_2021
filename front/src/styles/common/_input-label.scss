@@ -52,6 +52,22 @@
     }
   }
 
+  .password-toggle {
+    display: grid;
+    place-items: center;
+    color: $clr-main;
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
+    height: 20px;
+    aspect-ratio: 1/1;
+    font-size: 1.4rem;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+
   textarea {
     resize: none;
     min-height: 150px;

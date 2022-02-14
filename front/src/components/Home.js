@@ -39,7 +39,7 @@ const Home = () => {
       <Title name="Accueil" />
       <refreshData.Provider value={{ refreshToogle, setRefreshToogle }}>
         <MessagePost />
-        <div className='messages__container container'>
+        <div className='messages__container container slide'>
           {messages
             ? messages
               .sort((prev, next) => next.id - prev.id)

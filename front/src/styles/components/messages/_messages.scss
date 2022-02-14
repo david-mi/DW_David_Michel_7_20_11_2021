@@ -1,3 +1,14 @@
+@keyframes slider {
+  to {
+    transform: translateX(0);
+  }
+}
+
+.slide {
+  transform: translateX(100vw);
+  animation: slider 500ms 100ms forwards;
+}
+
 .messages__container {
   display: flex;
   flex-direction: column;

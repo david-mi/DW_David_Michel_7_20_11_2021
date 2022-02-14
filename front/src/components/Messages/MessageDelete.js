@@ -24,11 +24,11 @@ const MessageDelete = (props) => {
   return (
     <div className='confirm__wrapper'>
       < Logo />
-      <div className='delete-message'>
-        <h2 className='delete-message__title'>Vous êtes sûr de vouloir supprimer ce message ?</h2>
-        <i className='delete-message__info'>cette action est irréversible</i>
-        <button className='delete-message__confirm-btn btn' onClick={deleteMessage}>Oui</button>
-        <button className='delete-message__abort-btn btn' onClick={() => setIsDeleting(false)}>Annuler</button>
+      <div className='confirm__container'>
+        <h2>Vous êtes sûr de vouloir supprimer ce message ?</h2>
+        <i>cette action est irréversible</i>
+        <button className='btn' onClick={deleteMessage}>Oui</button>
+        <button className='btn' onClick={() => setIsDeleting(false)}>Annuler</button>
       </div>
     </div >
   );

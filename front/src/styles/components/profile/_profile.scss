@@ -1,14 +1,3 @@
-@keyframes slider {
-  to {
-    transform: translateX(0%);
-  }
-}
-
-.slide {
-  transform: translateX(100vw);
-  animation: slider 500ms 100ms forwards;
-}
-
 .profile__container {
   max-width: 800px;
   width: 800px;

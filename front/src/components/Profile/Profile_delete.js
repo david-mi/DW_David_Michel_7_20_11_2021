@@ -7,6 +7,9 @@ import { decodeToken } from "react-jwt";
 // CONTEXT
 import { loginContext } from '../../Context/loginContext';
 
+// ICONS
+import Logo from '../../icons-logos/Logo';
+
 const Profile_delete = ({ setIsDeleting }) => {
 
   const navigate = useNavigate();
@@ -29,19 +32,20 @@ const Profile_delete = ({ setIsDeleting }) => {
 
   return (
     <div className='confirm__wrapper'>
+      <Logo />
       {isDeleted
         ? (
-          <div className='confirmation-delete'>
-            <h2 className='confirmation-delete__title'>Compte supprimé</h2>
-            <button className='confirmation-delete__abort-btn' onClick={redirect}>Continuer</button>
+          <div className='confirm__container'>
+            <h2>Compte supprimé</h2>
+            <button className='btn' onClick={redirect}>Continuer</button>
           </div>
         )
         : (
-          <div className='delete-user'>
-            <h2 className='delete-user__title'>Vous êtes sûr de vouloir supprimer votre compte ?</h2>
-            <i className='delete-user__info'>cette action est irréversible</i>
-            <button className='delete-user__confirm-btn' onClick={deleteUser}>Oui</button>
-            <button className='delete-user__abort-btn' onClick={() => setIsDeleting(false)}>Annuler</button>
+          <div className='confirm__container'>
+            <h2>Vous êtes sûr de vouloir supprimer votre compte ?</h2>
+            <i>cette action est irréversible</i>
+            <button className='btn' onClick={deleteUser}>Oui</button>
+            <button className='btn' onClick={() => setIsDeleting(false)}>Annuler</button>
           </div>
         )
       }

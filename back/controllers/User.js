@@ -92,7 +92,7 @@ exports.mailUpdate = async (req, res) => {
       { email: newEmail },
       { where: { id: req.token.USER_ID } });
 
-    res.status(201).json({ message: `mail mis à jour. Nouvel email : ${newEmail}` });
+    res.status(201).json({ message: `Mail mis à jour. Nouvel email : ${newEmail}` });
   }
 
   catch (err) {
@@ -119,7 +119,7 @@ exports.passwordUpdate = async (req, res) => {
       { password: hash },
       { where: { id: req.token.USER_ID } });
 
-    res.status(201).json({ message: "mot de passe mis à jour !" });
+    res.status(201).json({ message: "Mot de passe mis à jour !" });
   }
   catch (err) {
     res.status(400).json(err);

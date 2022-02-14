@@ -4,6 +4,7 @@ import { useContext, useEffect } from 'react';
 
 // CONTEXT
 import { refreshData, loginContext } from '../../Context/loginContext';
+import Logo from '../../icons-logos/Logo';
 
 // API PATH
 const apiMessage = 'http://localhost:3000/api/messages/';
@@ -27,10 +28,11 @@ const MessageDeleteImage = (props) => {
 
   return (
     <div className='confirm__wrapper'>
-      <div className='delete-message-img'>
-        <h2 className='delete-message-img__title'>Votre image de profil va être supprimée</h2>
-        <button className='delete-message-img__confirm-btn' onClick={(e) => deleteImage(e)}>Confirmer</button>
-        <button className='delete-message-img__abort-btn' onClick={() => setIsDeletingImg(false)}>Annuler</button>
+      <Logo />
+      <div className='confirm__container'>
+        <h2 className='delete-message-img__title'>La photo / gif de votre message sera supprimé(e)</h2>
+        <button className='confirm-btn btn' onClick={(e) => deleteImage(e)}>Confirmer</button>
+        <button className='abort-btn btn' onClick={() => setIsDeletingImg(false)}>Annuler</button>
       </div>
     </div >
   );

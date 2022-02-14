@@ -11,16 +11,19 @@ import loginSchema from '../YupSchemas/loginSchema';
 // CONTEXT
 import { loginContext } from '../Context/loginContext';
 
-// PAGES & COMPONENTS
+// PAGES & COMPONENTS & ICONS
 import Header from '../pages/Header';
 import Title from '../pages/Title';
+import { ShowInput, HideInput } from '../icons-logos/icons';
 
 const Login = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(loginSchema) });
-  const [Apierror, setApiError] = useState('');
   const navigate = useNavigate();
   const { isLogged, setIsLogged, token, setToken } = useContext(loginContext);
+
+  const [Apierror, setApiError] = useState('');
+  const [isHidden, setIsHidden] = useState(true);
 
   const sendData = async (data) => {
     try {
@@ -46,6 +49,9 @@ const Login = () => {
     if (isLogged && Apierror === false) navigate('/home');
   }, [isLogged, Apierror]);
 
+  const passwordToggle = () => setIsHidden(e => !e);
+
+
   return (
     <>
       <Header />
@@ -70,7 +76,8 @@ const Login = () => {
 
           <div className='input-label__container'>
             <label htmlFor="password">Votre mot de passe</label>
-            <input placeholder="mot de passe" {...register('password')} />
+            <input placeholder="mot de passe" type={isHidden ? 'password' : 'text'} {...register('password')} />
+            <div className='password-toggle' onClick={passwordToggle}>{isHidden ? <HideInput /> : <ShowInput />}</div>
             {errors.password && <small>{errors.password.message}</small>}
           </div>
 
