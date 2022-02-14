@@ -8,7 +8,7 @@ import { decodeToken } from "react-jwt";
 import { loginContext, profilPictureUpdate } from '../Context/loginContext';
 
 // ICONS 
-import { LogOutIcon, HomeIcon } from '../icons/icons';
+import { LogOutIcon, HomeIcon } from '../icons-logos/icons';
 
 const Nav = () => {
 

@@ -40,4 +40,16 @@ exports.deletePreviousPostImage = async (previousPic) => {
 
 };
 
+exports.deletePreviousCommentImage = async (previousPic) => {
+  console.log('previous', previousPic);
+  try {
+    await unlink(`images/comment/${previousPic}`);
+  }
+  catch {
+    throw ({ name: "unlink", msg: "La photo précédente n'a pu être supprimée" });
+  }
+
+};
+
+
 

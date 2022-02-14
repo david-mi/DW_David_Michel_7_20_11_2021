@@ -194,8 +194,16 @@ exports.deleteUserImage = async (req, res) => {
 
 exports.deleteOneUser = async (req, res) => {
 
+  const userId = req.params.id;
+
   try {
-    await User.destroy({ where: { id: req.params.id } });
+
+    const getUser = await User.findByPk(userId);
+    const userPicture = getUser.profilePicture.split('/images/user/')[1];
+
+    await User.destroy({ where: { id: userId } });
+    await deletePreviousUserImage(userPicture);
+
     res.status(201).json({ message: 'Utilisateur supprimé' });
 
   }

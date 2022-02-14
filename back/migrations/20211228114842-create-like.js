@@ -26,8 +26,13 @@ module.exports = {
           key: 'id'
         },
         onDelete: 'cascade'
-
       },
+
+      isLiked: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN,
+      },
+
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

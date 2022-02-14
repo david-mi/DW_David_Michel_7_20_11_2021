@@ -28,6 +28,9 @@ module.exports = (sequelize, DataTypes) => {
         model: 'User',
         key: 'id'
       }
+    },
+    isLiked: {
+      type: DataTypes.BOOLEAN
     }
   }, {
     sequelize,

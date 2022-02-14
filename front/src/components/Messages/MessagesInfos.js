@@ -1,6 +1,6 @@
 // LIBRARIES
 import { useState } from 'react';
-import { DeleteIcon, EditIcon } from '../../icons/icons';
+import { DeleteIcon, EditIcon } from '../../icons-logos/icons';
 
 // FUNCTIONS 
 import { handleDate } from '../../functions/messageFunctions';
@@ -8,6 +8,7 @@ import { handleDate } from '../../functions/messageFunctions';
 // PAGES COMPONENTS & ICONS
 import MessagesLikes from './MessagesLikes';
 import MessagesImage from './MessagesImage';
+import MessageDislike from './MessageDislike';
 import MessagesComment from './MessagesComment';
 import MessageName from './MessageName';
 import MessageDate from './MessageDate';
@@ -17,13 +18,16 @@ import MessageEdit from './MessageEdit';
 const MessagesInfos = (props) => {
 
   const [showLikeUsers, setShowLikeUsers] = useState(false);
+  const [showDislikeUsers, setShowDislikeUsers] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
 
   const { User, Likes, text, attachment, createdAt, updatedAt } = props.data;
-  const { username, firstname, lastname, } = User;
+
   const messageUserId = User.id;
   const messageId = props.data.id;
+  const likeList = Likes.filter(elem => elem.isLiked);
+  const dislikeList = Likes.filter(elem => !elem.isLiked);
 
   const ownMessage = () => {
 
@@ -47,11 +51,12 @@ const MessagesInfos = (props) => {
         ? <MessageEdit data={{ setIsEditing, text, attachment, messageId }} />
         : (
           <>
-            <MessageName data={{ username, firstname, lastname, messageUserId }} />
+            <MessageName data={{ ...User, messageUserId }} />
             <MessageDate data={{ handleDate, createdAt, updatedAt }} />
             {attachment && <MessagesImage attachment={attachment} />}
             <p className='text'>{text}</p>
-            <MessagesLikes data={{ showLikeUsers, setShowLikeUsers, Likes }} />
+            <MessagesLikes data={{ showLikeUsers, setShowLikeUsers, likeList, messageId }} />
+            <MessageDislike data={{ showDislikeUsers, setShowDislikeUsers, dislikeList, messageId }} />
             <MessagesComment />
             {ownMessage()}
           </>

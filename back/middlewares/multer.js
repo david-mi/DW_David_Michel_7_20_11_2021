@@ -11,6 +11,10 @@ const storage = multer.diskStorage({
       console.log('bonne route');
       cb(null, 'images/post');
     }
+    if (req.route.path == '/:id/comment/new' ||
+      req.route.path == '/:messageid/comment/:commentid') {
+      cb(null, 'images/comment');
+    }
   },
 
   filename: (req, file, cb) => {

@@ -1,4 +1,4 @@
-const { Message, User, Like } = require('../models');
+const { Message, User, Like, Comment } = require('../models');
 const { handleErrorImage, deletePreviousPostImage } = require('../tools/handleErrorImage');
 
 exports.getAllMessages = async (req, res) => {
@@ -9,14 +9,22 @@ exports.getAllMessages = async (req, res) => {
       include: [
         {
           model: User,
-          attributes: ['id', 'username', 'firstname', 'lastname']
+          attributes: ['id', 'username', 'firstname', 'lastname', 'profilePicture']
         },
         {
           model: Like,
-          attributes: ['id'],
+          attributes: ['id', 'isLiked'],
           include: [{
             model: User,
-            attributes: ['username', 'firstname', 'lastname']
+            attributes: [['id', 'userLiked'], 'username', 'firstname', 'lastname']
+          }]
+        },
+        {
+          model: Comment,
+          attributes: [['id', 'commentId'], 'text', 'attachment', 'createdAt', 'updatedAt'],
+          include: [{
+            model: User,
+            attributes: ['id', 'username', 'firstname', 'lastname', 'profilePicture']
           }]
         }
       ],
@@ -190,9 +198,26 @@ exports.deleteMessageImage = async (req, res) => {
 
 };
 
-exports.deleteMessage = (req, res) => {
-  Message.destroy({ where: { id: req.params.id } })
-    .then(deleted => res.status(201).json({ message: "Message supprimé" }))
-    .catch(err => res.status(400).json(err));
+exports.deleteMessage = async (req, res) => {
 
+  const messageId = req.params.id;
+
+  try {
+    const getMessage = await Message.findByPk(messageId);
+
+    let previousPicture = '';
+
+    if (getMessage.attachment) {
+      console.log('previous');
+      console.log(getMessage.attachment);
+      previousPicture = getMessage.attachment.split('/images/post/')[1];
+      console.log(previousPicture);
+    };
+    await Message.destroy({ where: { id: messageId } });
+    if (getMessage.attachment) await deletePreviousPostImage(previousPicture);
+    res.status(201).json({ message: "Message supprimé" });
+  }
+  catch (err) {
+    res.status(400).json(err);
+  }
 };

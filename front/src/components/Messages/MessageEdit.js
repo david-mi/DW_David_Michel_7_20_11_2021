@@ -26,6 +26,7 @@ const MessageEdit = (props) => {
   const [displayImage, setDisplayImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [isDeletingImg, setIsDeletingImg] = useState(false);
+  const [caractersNb, setCaractersNb] = useState(text.length);
 
 
   useEffect(() => {
@@ -81,17 +82,26 @@ const MessageEdit = (props) => {
       <input
         type="file" id="pictureEdit" style={{ display: "none" }}
         onInput={(e) => setDisplayImage(e.target.files[0])}
+        onClick={(e) => e.target.value = null}
         {...register('pictureEdit')}>
       </input>
 
       <div className='input-label__container'>
-        <label htmlFor="text">Votre message</label>
-        <textarea placeholder="Message : entre 10 et 500 caractères" id='text' defaultValue={text} {...register('text')} />
+        <label htmlFor="text">Votre message {caractersNb}/500</label>
+        <textarea
+          placeholder="Message : entre 10 et 500 caractères"
+          id='text' defaultValue={text}
+          {...register('text')}
+          maxLength="500"
+          onInput={(e) => setCaractersNb(e.target.value.length)}
+        />
         {errors.text && <small>{errors.text.message}</small>}
       </div>
 
-      <input type="submit" className='send-msg__btn btn'></input>
-      <button className='btn' onClick={() => setIsEditing(false)}>Annuler</button>
+      <div className="submit-abort__container">
+        <input type="submit" className='send-msg__btn btn'></input>
+        <button className='btn' onClick={() => setIsEditing(false)}>Annuler</button>
+      </div>
 
     </form>
   );

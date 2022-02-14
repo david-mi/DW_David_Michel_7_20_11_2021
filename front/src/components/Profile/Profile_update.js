@@ -17,6 +17,7 @@ const apiUsers = 'http://localhost:3000/api/auth/users/';
 const Profile_update = ({ profileData }) => {
 
   const { profilePicture, username, firstname, lastname, bio } = profileData;
+  console.log(profilePicture);
 
   const { isUpdating, setIsUpdating } = useContext(editingContext);
   const { pictureUpdate, setPictureUpdate } = useContext(profilPictureUpdate);
@@ -26,6 +27,7 @@ const Profile_update = ({ profileData }) => {
   const [displayImage, setDisplayImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [isDeletingImg, setIsDeletingImg] = useState(false);
+  const [caractersNb, setCaractersNb] = useState(0);
 
   const sendForm = async (data) => {
     const formData = new FormData();
@@ -45,6 +47,8 @@ const Profile_update = ({ profileData }) => {
     }
   };
 
+  useEffect(() => bio ? setCaractersNb(bio.length) : setCaractersNb(0), []);
+
   useEffect(() => {
     displayImage
       ? setImageUrl(URL.createObjectURL(displayImage))
@@ -56,21 +60,29 @@ const Profile_update = ({ profileData }) => {
     setDisplayImage(null);
   };
 
+  const hasDefaultPic = () => profilePicture.split('/images/user/')[1] === 'default_profile_picture.jpg';
+
+
+
+  hasDefaultPic();
   return (
     <form className="form" onSubmit={handleSubmit(sendForm)}>
       <div className='image-profile-edit__container'>
         <div className='profile-picture__container'>
           <img src={imageUrl || profilePicture} className="profile__picture"></img>
         </div>
-        <label htmlFor="image" className='btn btn-browse'>Parcourir</label>
-        {imageUrl
-          ? <button onClick={reseter} className="btn btn-abort">Annuler</button>
-          : isDeletingImg
-            ? <Profile_delete_img data={{ setIsDeletingImg }} />
-            : <button onClick={() => setIsDeletingImg(true)} className="btn btn-delete">Supprimer</button>}
+        <div className='profil-edit-buttons__container'>
+          <label htmlFor="image" className='btn btn-browse'>Parcourir</label>
+          {imageUrl
+            ? <button onClick={reseter} className="btn btn-abort">Annuler</button>
+            : isDeletingImg
+              ? <Profile_delete_img data={{ setIsDeletingImg }} />
+              : hasDefaultPic() || <button onClick={() => setIsDeletingImg(true)} className="btn btn-delete">Supprimer</button>}
+        </div>
         <input
           type="file" id="image" style={{ display: "none" }}
           onInput={(e) => setDisplayImage(e.target.files[0])}
+          onClick={(e) => e.target.value = null}
           {...register('picture')}>
         </input>
         {errors.file && <small>{errors.file.message}</small>}
@@ -95,8 +107,13 @@ const Profile_update = ({ profileData }) => {
       </div>
 
       <div className='input-label__container'>
-        <label htmlFor="bio">Votre bio</label>
-        <textarea placeholder="bio" defaultValue={bio} {...register('bio')} maxLength="400" />
+        <label htmlFor="bio">Votre bio {caractersNb}/400</label>
+        <textarea
+          placeholder="Bio : entre 10 et 400 caractères"
+          defaultValue={bio}
+          {...register('bio')}
+          maxLength="400"
+          onInput={(e) => setCaractersNb(e.target.value.length)} />
         {errors.bio && <small>{errors.bio.message}</small>}
       </div>
 

@@ -23,9 +23,9 @@ const MessagePost = () => {
 
   const { refreshToogle, setRefreshToogle } = useContext(refreshData);
 
-
   const [displayImage, setDisplayImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
+  const [caractersNb, setCaractersNb] = useState(0);
 
   useEffect(() => {
     displayImage
@@ -92,11 +92,13 @@ const MessagePost = () => {
             {...register('picture')}>
           </input>
 
-
-
           <div className='input-label__container'>
-            <label htmlFor="text">Votre message</label>
-            <textarea placeholder="Message : entre 10 et 500 caractères" id='text'{...register('text')} />
+            <label htmlFor="text">Votre message {caractersNb}/500</label>
+            <textarea
+              placeholder="Message : entre 10 et 500 caractères"
+              id='text'{...register('text')}
+              maxLength="500"
+              onInput={(e) => setCaractersNb(e.target.value.length)} />
             {errors.text && <small>{errors.text.message}</small>}
           </div>
 

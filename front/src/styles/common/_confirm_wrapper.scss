@@ -1,8 +1,56 @@
+@keyframes logoanim {
+  0% {
+    transform: rotate(0turn) scale(0.8);
+  }
+  50% {
+    transform: rotate(180deg) scale(1);
+    fill: black;
+  }
+  100% {
+    transform: rotate(1turn) scale(0.8);
+  }
+}
+
 .confirm__wrapper {
+  padding-inline: 10px;
   position: fixed;
   inset: 0;
   display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-areas:
+    "svg"
+    "msg"
+    ".";
   place-items: center;
   background-color: rgba(255, 255, 255, 0.9);
   z-index: 50;
+  text-align: center;
+
+  svg {
+    grid-area: svg;
+    animation: logoanim 2s linear infinite;
+    width: 80px;
+  }
+
+  .logo-goupomania {
+    background-color: orange;
+    fill: $clr-orange;
+  }
+
+  .delete-message {
+    grid-area: msg;
+    height: 50%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    gap: 40px;
+
+    .btn {
+      max-width: 200px;
+      width: 100%;
+      color: white;
+      background-color: $clr-main;
+    }
+  }
 }

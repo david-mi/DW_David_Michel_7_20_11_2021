@@ -5,6 +5,8 @@ import { useContext } from 'react';
 // CONTEXT
 import { loginContext, refreshData } from '../../Context/loginContext';
 
+import Logo from '../../icons-logos/Logo';
+
 const MessageDelete = (props) => {
 
   const { setIsDeleting, messageId } = props.data;
@@ -21,11 +23,12 @@ const MessageDelete = (props) => {
 
   return (
     <div className='confirm__wrapper'>
+      < Logo />
       <div className='delete-message'>
         <h2 className='delete-message__title'>Vous êtes sûr de vouloir supprimer ce message ?</h2>
         <i className='delete-message__info'>cette action est irréversible</i>
-        <button className='delete-message__confirm-btn' onClick={deleteMessage}>Oui</button>
-        <button className='delete-message__abort-btn' onClick={() => setIsDeleting(false)}>Annuler</button>
+        <button className='delete-message__confirm-btn btn' onClick={deleteMessage}>Oui</button>
+        <button className='delete-message__abort-btn btn' onClick={() => setIsDeleting(false)}>Annuler</button>
       </div>
     </div >
   );

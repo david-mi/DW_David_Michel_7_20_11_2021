@@ -17,7 +17,8 @@
     border-radius: 50%;
     animation: scale-in 500ms 200ms both;
     transform: scale(0);
-    width: 300px;
+    max-width: 300px;
+    width: 100%;
     aspect-ratio: 1/1;
     object-fit: cover;
   }

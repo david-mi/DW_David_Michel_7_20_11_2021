@@ -1,5 +1,5 @@
 // LIBRARIES
-import { Route, Routes, BrowserRouter } from 'react-router-dom';
+import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { isExpired, decodeToken } from "react-jwt";
 
@@ -60,7 +60,8 @@ const App = () => {
             <Route path="/profile/updatemail" element={<Profile_email_update />}></Route>
             <Route path="/profile/updatepassword" element={< ProfilePwUpdate />}></Route>
           </Route>
-          <Route path="*" element={<Home />}></Route>
+          <Route path="/" element={<Navigate replace to="/home" />}></Route>
+          <Route path='*' element={<NotFound />}></Route>
         </Routes>
       </BrowserRouter>
     </loginContext.Provider>

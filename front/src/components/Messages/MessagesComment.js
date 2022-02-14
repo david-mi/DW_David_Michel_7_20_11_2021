@@ -1,5 +1,5 @@
 // ICONS
-import { MessageIcon } from '../../icons/icons';
+import { MessageIcon } from '../../icons-logos/icons';
 
 const MessagesComment = () => {
 

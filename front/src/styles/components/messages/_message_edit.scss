@@ -12,4 +12,11 @@
     background-color: $clr-main;
     color: white;
   }
+
+  .submit-abort__container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 20px;
+  }
 }
