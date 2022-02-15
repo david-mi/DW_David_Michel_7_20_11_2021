@@ -27,6 +27,7 @@ exports.likeMessage = async (req, res) => {
 
     if (findLike) {
 
+
       if (!findLike.isLiked) {
         await findLike.update({
           isLiked: true
@@ -46,6 +47,7 @@ exports.likeMessage = async (req, res) => {
     switch (err.name) {
       case 'NoMessage':
         return res.status(404).json({ message: 'Message non trouvé' });
+        break;
     }
     res.json(err);
   }

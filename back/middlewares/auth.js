@@ -15,7 +15,8 @@ module.exports = ((req, res, next) => {
     }
 
   } catch (err) {
-    res.status(401).json({ erreur: 'Requête non authentifiée' });
+    if (err.name === 'JsonWebTokenError') return res.status(401).json({ message: 'Requête non authentifiée, ' + err.message });
+    res.status(401).json(err.message);
   }
 
 });

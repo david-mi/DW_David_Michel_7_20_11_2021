@@ -8,7 +8,7 @@ import axios from 'axios';
 import messageSchema from '../../YupSchemas/messageSchema';
 
 // CONTEXT
-import { refreshData } from '../../Context/loginContext';
+import { refreshData, loginContext } from '../../Context/loginContext';
 
 // COMPONENTS
 import MessageDeleteImage from './MessageDeleteImage';
@@ -21,6 +21,7 @@ const MessageEdit = (props) => {
 
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(messageSchema) });
   const { refreshToogle, setRefreshToogle } = useContext(refreshData);
+  const { token } = useContext(loginContext);
 
 
   const [displayImage, setDisplayImage] = useState(null);

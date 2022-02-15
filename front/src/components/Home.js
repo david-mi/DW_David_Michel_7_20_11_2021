@@ -4,7 +4,7 @@ import axios from 'axios';
 import { decodeToken } from "react-jwt";
 
 // CONTEXT
-import { loginContext, refreshData } from '../Context/loginContext';
+import { refreshData, loginContext } from '../Context/loginContext';
 
 // PAGES & COMPONENTS
 import Header from '../pages/Header';
@@ -16,18 +16,18 @@ const apiMessage = 'http://localhost:3000/api/messages';
 
 const Home = () => {
 
-  const { isLogged, setIsLogged } = useContext(loginContext);
-
   const [messages, setMessages] = useState(null);
   const [refreshToogle, setRefreshToogle] = useState(false);
 
   const getMessages = async () => {
+    console.log('refresh Toggle debut');
     const { token } = JSON.parse(localStorage.getItem('payload'));
     const headers = { 'Authorization': `Bearer ${token}` };
     const res = await axios.get(apiMessage + '/all', { headers });
     const data = res.data;
+    console.log(data);
     setMessages(data);
-    console.log('mdr');
+    console.log('refresh Toggle fin');
   };
 
   useEffect(getMessages, [refreshToogle]);

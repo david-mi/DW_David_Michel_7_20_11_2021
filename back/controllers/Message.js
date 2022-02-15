@@ -30,7 +30,7 @@ exports.getAllMessages = async (req, res) => {
       ],
     });
     !messages.length
-      ? res.status(404).json({ message: "Aucun message dans la base de donnée" })
+      ? res.status(200).json(null)
       : res.status(200).json(messages);
   } catch (err) {
     res.send(err);
