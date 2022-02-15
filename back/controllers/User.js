@@ -156,12 +156,9 @@ exports.login = async (req, res) => {
     const compare = await bcrypt.compare(req.body.password, user.password);
     if (!compare) return res.status(401).json({ message: 'Mauvais mot de passe !' });
 
-    const payload = [{ USER_ID: user.id }, process.env.TOKEN_SECRET, { expiresIn: '24h' }];
+    const payload = [{ USER_ID: user.id, isAdmin: user.isAdmin }, process.env.TOKEN_SECRET, { expiresIn: '24h' }];
 
-    res.status(200).json({
-      USER_ID: user.id,
-      token: jwt.sign(...payload)
-    });
+    res.status(200).json({ token: jwt.sign(...payload) });
 
   } catch (err) {
     res.send(err);

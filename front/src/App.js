@@ -21,6 +21,8 @@ const App = () => {
 
   const [isLogged, setIsLogged] = useState(false);
   const [token, setToken] = useState(null);
+  const [isAdmin, setIsAdmin] = useState(null);
+  const [USER_ID, setUSER_ID] = useState(null);
 
   const loggedCheck = () => {
 
@@ -36,8 +38,11 @@ const App = () => {
         setIsLogged(false);
       }
       if (decodedToken && !isTokenExpired) {
+        const { USER_ID, isAdmin } = decodedToken;
         setIsLogged(true);
         setToken(payload.token);
+        setIsAdmin(isAdmin);
+        setUSER_ID(USER_ID);
       }
     }
     if (!check) setIsLogged(false);
@@ -49,7 +54,7 @@ const App = () => {
   }, [isLogged]);
 
   return (
-    <loginContext.Provider value={{ isLogged, setIsLogged, token, setToken }}>
+    <loginContext.Provider value={{ isLogged, setIsLogged, token, setToken, USER_ID, isAdmin }}>
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />}></Route>

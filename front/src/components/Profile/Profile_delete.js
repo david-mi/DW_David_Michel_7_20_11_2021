@@ -2,7 +2,6 @@
 import axios from 'axios';
 import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { decodeToken } from "react-jwt";
 
 // CONTEXT
 import { loginContext } from '../../Context/loginContext';
@@ -13,11 +12,10 @@ import Logo from '../../icons-logos/Logo';
 const Profile_delete = ({ setIsDeleting }) => {
 
   const navigate = useNavigate();
-  const { isLogged, setIsLogged, token, setToken } = useContext(loginContext);
+  const { setIsLogged, token, setToken, USER_ID } = useContext(loginContext);
   const [isDeleted, setIsDeleted] = useState(false);
 
   const deleteUser = async () => {
-    const { USER_ID } = decodeToken(token);
     const headers = { 'Authorization': `Bearer ${token}` };
     await axios.delete(`http://localhost:3000/api/auth/users/${USER_ID}`, { headers });
     localStorage.clear();

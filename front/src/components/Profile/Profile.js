@@ -1,7 +1,6 @@
 // LIBRARIES
 import { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
-import { decodeToken } from "react-jwt";
 import { NavLink, useParams } from 'react-router-dom';
 
 // CONTEXT
@@ -18,7 +17,7 @@ const Profile = () => {
 
   const { id } = useParams();
 
-  const { isLogged, setIsLogged, token } = useContext(loginContext);
+  const { isLogged, setIsLogged, token, USER_ID, isAdmin } = useContext(loginContext);
   const [pictureUpdate, setPictureUpdate] = useState(profilPictureUpdate);
   const [profileData, setProfileData] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -26,9 +25,8 @@ const Profile = () => {
   const [isOwner, setIsOwner] = useState(false);
 
   const getProfileData = async () => {
+    console.log('userid ' + USER_ID, ' isAdmin ' + isAdmin);
     // const { token, USER_ID } = JSON.parse(localStorage.getItem('payload'));
-    console.log(token);
-    const { USER_ID } = decodeToken(token);
     if (id == USER_ID) setIsOwner(true);
     const res = await axios.get(`http://localhost:3000/api/auth/users/${id}`, {
       headers: { 'Authorization': `Bearer ${token}` }

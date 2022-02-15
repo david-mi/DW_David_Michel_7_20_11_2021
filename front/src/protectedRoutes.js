@@ -9,7 +9,7 @@ import Login from './components/Login';
 
 const ProtectedRoutes = () => {
 
-  const { isLogged, setIsLogged } = useContext(loginContext);
+  const { isLogged } = useContext(loginContext);
   console.log('protecTed routes');
 
   return isLogged ? <Outlet /> : <Login />;

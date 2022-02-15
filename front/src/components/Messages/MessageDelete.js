@@ -5,6 +5,7 @@ import { useContext } from 'react';
 // CONTEXT
 import { loginContext, refreshData } from '../../Context/loginContext';
 
+// LOGOS
 import Logo from '../../icons-logos/Logo';
 
 const MessageDelete = (props) => {
@@ -12,7 +13,7 @@ const MessageDelete = (props) => {
   const { setIsDeleting, messageId } = props.data;
 
   const { token } = useContext(loginContext);
-  const { refreshToogle, setRefreshToogle } = useContext(refreshData);
+  const { setRefreshToogle } = useContext(refreshData);
 
   const deleteMessage = async () => {
     const headers = { 'Authorization': `Bearer ${token}` };

@@ -2,7 +2,6 @@
 import { NavLink, useNavigate } from 'react-router-dom';
 import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
-import { decodeToken } from "react-jwt";
 
 // CONTEXT
 import { loginContext, profilPictureUpdate } from '../Context/loginContext';
@@ -12,14 +11,13 @@ import { LogOutIcon, HomeIcon } from '../icons-logos/icons';
 
 const Nav = () => {
 
-  const { isLogged, setIsLogged, token } = useContext(loginContext);
+  const { isLogged, setIsLogged, token, USER_ID } = useContext(loginContext);
   const { pictureUpdate, setPictureUpdate } = useContext(profilPictureUpdate);
   const [addPicture, setAddPicture] = useState(false);
   const [userId, setUserId] = useState(null);
   const navigate = useNavigate();
 
   const getProfilePicture = async () => {
-    const { USER_ID } = decodeToken(token);
     const headers = { 'Authorization': `Bearer ${token}` };
     const res = await axios.get(`http://localhost:3000/api/auth/users/${USER_ID}`, { headers });
     const { profilePicture } = res.data;
@@ -46,7 +44,6 @@ const Nav = () => {
       console.log('[useEffect] Nav.js DISMOUNT');
     };
   }, [isLogged, pictureUpdate]);
-
 
   return (
 

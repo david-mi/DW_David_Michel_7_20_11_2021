@@ -1,7 +1,6 @@
 // LIBRARIES
 import axios from 'axios';
 import { useState, useContext, useEffect } from 'react';
-import { decodeToken } from "react-jwt";
 
 // CONTEXT
 import { profilPictureUpdate } from '../../Context/loginContext';
@@ -15,14 +14,13 @@ const Profile_delete_img = (props) => {
 
   const { setIsDeletingImg } = props.data;
 
-  const { pictureUpdate, setPictureUpdate } = useContext(profilPictureUpdate);
-  const { token } = useContext(loginContext);
+  const { setPictureUpdate } = useContext(profilPictureUpdate);
+  const { token, USER_ID } = useContext(loginContext);
 
   const [isImgDeleted, setIsImgDeleted] = useState(false);
 
   const deleteImage = async (event) => {
     event.preventDefault();
-    const { USER_ID } = decodeToken(token);
     const headers = { 'Authorization': `Bearer ${token}` };
     await axios.delete(`${apiUsers}${USER_ID}/delimg`, { headers });
 

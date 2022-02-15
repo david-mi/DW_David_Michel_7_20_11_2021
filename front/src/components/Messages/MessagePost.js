@@ -8,7 +8,7 @@ import axios from 'axios';
 import messageSchema from '../../YupSchemas/messageSchema';
 
 // CONTEXT
-import { refreshData } from '../../Context/loginContext';
+import { refreshData, loginContext } from '../../Context/loginContext';
 
 const apiMessage = 'http://localhost:3000/api/messages';
 
@@ -21,7 +21,8 @@ const MessagePost = () => {
     formState: { errors, isSubmitSuccessful }
   } = useForm({ resolver: yupResolver(messageSchema) });
 
-  const { refreshToogle, setRefreshToogle } = useContext(refreshData);
+  const { setRefreshToogle } = useContext(refreshData);
+  const { token } = useContext(loginContext);
 
   const [displayImage, setDisplayImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
@@ -33,15 +34,10 @@ const MessagePost = () => {
       : setImageUrl(null);
   }, [displayImage]);
 
-
-
-
   const sendForm = async (data) => {
     const formData = new FormData();
     formData.append('postInfos', JSON.stringify(data));
     formData.append('image', data.picture[0]);
-
-    const { token } = JSON.parse(localStorage.getItem('payload'));
 
     const headers = {
       'Authorization': `Bearer ${token}`,

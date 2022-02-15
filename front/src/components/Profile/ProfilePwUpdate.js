@@ -2,7 +2,6 @@ import { useContext, useState, useEffect } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { decodeToken } from "react-jwt";
 import { useNavigate } from 'react-router-dom';
 
 // CONTEXT
@@ -21,7 +20,7 @@ const apiUsers = 'http://localhost:3000/api/auth/users/';
 
 const ProfilePwUpdate = () => {
 
-  const { isLogged, setIsLogged, token } = useContext(loginContext);
+  const { isLogged, setIsLogged, token, USER_ID } = useContext(loginContext);
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(passwordSchema) });
   const navigate = useNavigate();
 
@@ -29,13 +28,12 @@ const ProfilePwUpdate = () => {
   const [changedPw, setChangedPw] = useState(false);
   const [isPrevPwHidden, setIsPrevPwHidden] = useState(true);
   const [isNewPwHidden, setIsNewPwHidden] = useState(true);
-  const [userId, setUserId] = useState(null);
 
   const sendData = async (data) => {
     const headers = { 'Authorization': `Bearer ${token}` };
 
     try {
-      const update = await axios.put(`${apiUsers}${userId}/pwupdate`, data, { headers });
+      const update = await axios.put(`${apiUsers}${USER_ID}/pwupdate`, data, { headers });
       setServerInfos(update.data.message);
       setChangedPw(true);
       localStorage.clear();
@@ -49,12 +47,6 @@ const ProfilePwUpdate = () => {
       }
     }
   };
-
-  useEffect(() => {
-    const { USER_ID } = decodeToken(token);
-    setUserId(USER_ID);
-    console.log('setUserId');
-  }, []);
 
   const redirect = () => {
     setIsLogged(false);
@@ -111,7 +103,7 @@ const ProfilePwUpdate = () => {
             <input type="submit" value="Send" />
             {serverInfos && <small>Erreur {serverInfos.status} {serverInfos.statusText} {serverInfos.message}</small>}
           </div>
-          <button className='abort-btn' onClick={() => navigate(`/profile/${userId}`)}>Annuler</button>
+          <button className='abort-btn' onClick={() => navigate(`/profile/${USER_ID}`)}>Annuler</button>
         </form>
       </div>
     </>

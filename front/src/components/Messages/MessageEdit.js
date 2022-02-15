@@ -20,9 +20,8 @@ const MessageEdit = (props) => {
   const { setIsEditing, text, attachment, messageId } = props.data;
 
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(messageSchema) });
-  const { refreshToogle, setRefreshToogle } = useContext(refreshData);
+  const { setRefreshToogle } = useContext(refreshData);
   const { token } = useContext(loginContext);
-
 
   const [displayImage, setDisplayImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
@@ -41,8 +40,6 @@ const MessageEdit = (props) => {
     const formData = new FormData();
     formData.append('postInfos', JSON.stringify(data));
     formData.append('image', data.pictureEdit[0]);
-
-    const { token } = JSON.parse(localStorage.getItem('payload'));
 
     const headers = {
       'Authorization': `Bearer ${token}`,

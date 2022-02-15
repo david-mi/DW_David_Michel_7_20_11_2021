@@ -1,9 +1,9 @@
+// LIBRARIES
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { profileSchema } from '../../YupSchemas/userSchema';
 import axios from 'axios';
 import { useContext, useState, useEffect } from 'react';
-import { decodeToken } from "react-jwt";
 
 // CONTEXT
 import { editingContext, profilPictureUpdate } from '../../Context/loginContext';
@@ -19,9 +19,9 @@ const Profile_update = ({ profileData }) => {
   const { profilePicture, username, firstname, lastname, bio } = profileData;
   console.log(profilePicture);
 
-  const { isUpdating, setIsUpdating } = useContext(editingContext);
-  const { pictureUpdate, setPictureUpdate } = useContext(profilPictureUpdate);
-  const { token } = useContext(loginContext);
+  const { setIsUpdating } = useContext(editingContext);
+  const { setPictureUpdate } = useContext(profilPictureUpdate);
+  const { token, USER_ID } = useContext(loginContext);
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(profileSchema) });
 
   const [displayImage, setDisplayImage] = useState(null);
@@ -34,7 +34,6 @@ const Profile_update = ({ profileData }) => {
     formData.append('userInfos', JSON.stringify(data));
     formData.append('image', data.picture[0]);
 
-    const { USER_ID } = decodeToken(token);
     const headers = {
       'Authorization': `Bearer ${token}`,
       "Content-Type": "multipart/form-data"

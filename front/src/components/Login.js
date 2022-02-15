@@ -20,7 +20,7 @@ const Login = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(loginSchema) });
   const navigate = useNavigate();
-  const { isLogged, setIsLogged, token, setToken } = useContext(loginContext);
+  const { isLogged, setIsLogged, setToken } = useContext(loginContext);
 
   const [Apierror, setApiError] = useState('');
   const [isHidden, setIsHidden] = useState(true);
@@ -29,14 +29,13 @@ const Login = () => {
     try {
       const response = await axios.post('http://localhost:3000/api/auth/login', data);
       const payload = response.data;
-      localStorage.setItem('payload', JSON.stringify({ ...payload }));
+      localStorage.setItem('payload', JSON.stringify(payload));
       setApiError(false);
       setToken(payload.token);
       setIsLogged(true);
-      console.log('token ' + token);
     }
     catch (err) {
-      console.log(err.response);
+      console.log(err);
       const { status, statusText } = err.response;
       const { message } = err.response.data;
       setApiError({ status, statusText, message });

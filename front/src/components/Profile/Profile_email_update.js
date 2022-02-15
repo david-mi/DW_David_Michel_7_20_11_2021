@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { decodeToken } from "react-jwt";
 import { useNavigate } from 'react-router-dom';
 
 // CONTEXT
@@ -22,19 +21,18 @@ const apiUsers = 'http://localhost:3000/api/auth/users/';
 
 const Profile_email_update = () => {
 
-  const { isLogged, setIsLogged, token } = useContext(loginContext);
+  const { isLogged, setIsLogged, token, USER_ID } = useContext(loginContext);
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(emailSchema) });
   const navigate = useNavigate();
 
   const [serverInfos, setServerInfos] = useState(null);
   const [changedEmail, setChangedEmail] = useState(false);
-  const [userId, setUserId] = useState(null);
 
   const sendData = async (data) => {
     const headers = { 'Authorization': `Bearer ${token}` };
 
     try {
-      const update = await axios.put(`${apiUsers}${userId}/emailupdate`, data, { headers });
+      const update = await axios.put(`${apiUsers}${USER_ID}/emailupdate`, data, { headers });
       setServerInfos(update.data.message);
       setChangedEmail(true);
       localStorage.clear();
@@ -49,12 +47,6 @@ const Profile_email_update = () => {
     }
 
   };
-
-  useEffect(() => {
-    const { USER_ID } = decodeToken(token);
-    setUserId(USER_ID);
-    console.log('setUserId');
-  }, []);
 
   const redirect = () => {
     setIsLogged(false);
@@ -105,7 +97,7 @@ const Profile_email_update = () => {
             {serverInfos && <small>Erreur {serverInfos.status} {serverInfos.statusText} {serverInfos.message}</small>}
           </div>
 
-          <button className='abort-btn' onClick={() => navigate(`/profile/${userId}`)}>Annuler</button>
+          <button className='abort-btn' onClick={() => navigate(`/profile/${USER_ID}`)}>Annuler</button>
 
         </form>
       </div>

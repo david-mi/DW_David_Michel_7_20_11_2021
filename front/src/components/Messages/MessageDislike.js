@@ -1,18 +1,21 @@
+// LIBRARIES
 import { useContext } from 'react';
 import axios from 'axios';
 
-import { refreshData } from '../../Context/loginContext';
+// CONTEXT
+import { refreshData, loginContext } from '../../Context/loginContext';
 
+// ICONS
 import { DislikeIcon } from '../../icons-logos/icons';
 
 const apiMessage = 'http://localhost:3000/api/messages';
 
 function MessageDislike(props) {
 
-  const { USER_ID, token } = JSON.parse(localStorage.getItem('payload'));
   const { showDislikeUsers, setShowDislikeUsers, dislikeList, messageId } = props.data;
 
-  const { refreshToogle, setRefreshToogle } = useContext(refreshData);
+  const { token, USER_ID } = useContext(loginContext);
+  const { setRefreshToogle } = useContext(refreshData);
 
   const hasDisliked = () => {
     if (!dislikeList.length) return false;

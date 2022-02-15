@@ -1,6 +1,6 @@
 // LIBRARIES
 import axios from 'axios';
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 
 // CONTEXT
 import { refreshData, loginContext } from '../../Context/loginContext';
@@ -11,12 +11,9 @@ const apiMessage = 'http://localhost:3000/api/messages/';
 
 const MessageDeleteImage = (props) => {
 
-
   const { setIsDeletingImg, messageId } = props.data;
-  const { refreshToogle, setRefreshToogle } = useContext(refreshData);
-
+  const { setRefreshToogle } = useContext(refreshData);
   const { token } = useContext(loginContext);
-
 
   const deleteImage = async (event) => {
     event.preventDefault();

@@ -1,9 +1,12 @@
 // LIBRARIES
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { DeleteIcon, EditIcon } from '../../icons-logos/icons';
 
 // FUNCTIONS 
 import { handleDate } from '../../functions/messageFunctions';
+
+// CONTEX
+import { loginContext } from '../../Context/loginContext';
 
 // PAGES COMPONENTS & ICONS
 import MessagesLikes from './MessagesLikes';
@@ -16,6 +19,8 @@ import MessageDelete from './MessageDelete';
 import MessageEdit from './MessageEdit';
 
 const MessagesInfos = (props) => {
+
+  const { USER_ID } = useContext(loginContext);
 
   const [showLikeUsers, setShowLikeUsers] = useState(false);
   const [showDislikeUsers, setShowDislikeUsers] = useState(false);
@@ -30,8 +35,6 @@ const MessagesInfos = (props) => {
   const dislikeList = Likes.filter(elem => !elem.isLiked);
 
   const ownMessage = () => {
-
-    const { USER_ID } = JSON.parse(localStorage.getItem('payload'));
 
     if (messageUserId == USER_ID) {
       return (

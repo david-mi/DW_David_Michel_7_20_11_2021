@@ -1,18 +1,22 @@
+// LIBRARIES
 import axios from 'axios';
 import { useContext } from 'react';
 
-import { LikeIcon } from '../../icons-logos/icons';
+// CONTEXT
+import { loginContext, refreshData } from '../../Context/loginContext';
 
-import { refreshData } from '../../Context/loginContext';
+// ICONS
+import { LikeIcon } from '../../icons-logos/icons';
 
 const apiMessage = 'http://localhost:3000/api/messages';
 
 function MessagesLikes(props) {
 
-  const { USER_ID, token } = JSON.parse(localStorage.getItem('payload'));
   const { showLikeUsers, setShowLikeUsers, likeList, messageId } = props.data;
 
-  const { refreshToogle, setRefreshToogle } = useContext(refreshData);
+  const { token, USER_ID } = useContext(loginContext);
+
+  const { setRefreshToogle } = useContext(refreshData);
 
   const hasLiked = () => {
     if (!likeList.length) return false;

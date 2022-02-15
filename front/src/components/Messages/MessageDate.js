@@ -11,7 +11,6 @@ const MessageDate = (props) => {
       {(updatedAt !== createdAt) && (
         <i className='updateDate'>Modifié le {handleDate(updatedAt)}</i>
       )}
-
     </div>
   );
 

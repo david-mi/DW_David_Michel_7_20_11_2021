@@ -1,7 +1,6 @@
 // LIBRARIES
 import { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
-import { decodeToken } from "react-jwt";
 
 // CONTEXT
 import { refreshData, loginContext } from '../Context/loginContext';
@@ -16,12 +15,13 @@ const apiMessage = 'http://localhost:3000/api/messages';
 
 const Home = () => {
 
+  const { token } = useContext(loginContext);
+
   const [messages, setMessages] = useState(null);
   const [refreshToogle, setRefreshToogle] = useState(false);
 
   const getMessages = async () => {
     console.log('refresh Toggle debut');
-    const { token } = JSON.parse(localStorage.getItem('payload'));
     const headers = { 'Authorization': `Bearer ${token}` };
     const res = await axios.get(apiMessage + '/all', { headers });
     const data = res.data;
