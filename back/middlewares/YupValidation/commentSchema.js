@@ -13,7 +13,7 @@ const postSchema = yup.object().shape({
     .test('forbiddenChars', 'Caractère interdit', value => !forbiddenChars.test(value))
     .trim()
     .min(3, 'Le commentaire doit contenir au minimum 3 caractères')
-    .max(500, 'Le commentaire de peut pas dépasser 500 caractères'),
+    .max(500, 'Le commentaire ne peut pas dépasser 500 caractères'),
 
 });
 

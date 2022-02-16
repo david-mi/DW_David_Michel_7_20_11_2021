@@ -18,7 +18,7 @@ const commentRoutes = require('./routes/Comment');
 app.use('/api/auth', userRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/messages', likesRoutes);
-app.use('/api/messages', commentRoutes);
+app.use('/api', commentRoutes);
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 //! SUPERADMIN POUR FACILITER LES TESTS

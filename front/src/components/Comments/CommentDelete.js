@@ -8,16 +8,18 @@ import { loginContext, refreshData } from '../../Context/loginContext';
 // LOGOS
 import Logo from '../../icons-logos/Logo';
 
+const apiComment = 'http://localhost:3000/api/comments';
+
 const CommentDelete = (props) => {
 
-  const { setIsDeleting, commentId, messageId } = props.data;
+  const { setIsDeleting, commentId } = props.data;
 
   const { token } = useContext(loginContext);
   const { setRefreshToogle } = useContext(refreshData);
 
   const deleteComment = async () => {
     const headers = { 'Authorization': `Bearer ${token}` };
-    await axios.delete(`http://localhost:3000/api/messages/${messageId}/comment/${commentId}`, { headers });
+    await axios.delete(`${apiComment}/${commentId}`, { headers });
     setIsDeleting(false);
     setRefreshToogle((e) => !e);
   };

@@ -25,6 +25,10 @@ exports.postComment = async (req, res) => {
 
   try {
 
+    const message = await Message.findByPk(messageId);
+    if (!message) throw ({ message: "Ce message n'existe pas" });
+
+
     if (req.file) {
       console.log('avec image');
       // on récupère l'image stockée par multer et on construit son URL
@@ -71,7 +75,7 @@ exports.postComment = async (req, res) => {
 
 exports.editComment = async (req, res) => {
   const { newData } = res.locals;
-  const commentId = req.params.commentid;
+  const commentId = req.params.id;
 
   console.log('commentId ' + commentId);
 
@@ -118,9 +122,33 @@ exports.editComment = async (req, res) => {
   }
 };
 
+
+exports.deleteCommentImage = async (req, res) => {
+
+  console.log('delCommentImage');
+
+  try {
+    const idComment = req.params.id;
+    const comment = await Comment.findByPk(idComment);
+    const previousPicture = comment.attachment.split('/images/comment/')[1];
+
+    await deletePreviousCommentImage(previousPicture);
+
+    await Comment.update(
+      { attachment: null },
+      { where: { id: idComment } }
+    );
+    res.status(201).json({ message: `L'image ${previousPicture} à bien été supprimée du commentaire` });
+  }
+  catch (err) {
+    res.status(500).json(err);
+  }
+
+};
+
 exports.deleteComment = async (req, res) => {
 
-  const commentId = req.params.commentid;
+  const commentId = req.params.id;
 
   console.log('commentid ' + commentId);
 

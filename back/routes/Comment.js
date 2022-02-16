@@ -4,13 +4,15 @@ const commentCtrl = require('../controllers/Comment');
 const auth = require('../middlewares/auth');
 const multer = require('../middlewares/multer');
 const commentSchema = require('../middlewares/YupValidation/commentSchema');
+const idCommentCompare = require('../middlewares/idCommentCompare');
 
-router.get('/:messageid/comment/', auth, commentCtrl.getCommentByMessageId);
+router.get('/messages/:messageid/comments', auth, commentCtrl.getCommentByMessageId);
 
-router.put('/:messageid/comment/:commentid', auth, multer, commentSchema, commentCtrl.editComment);
+router.put('/comments/:id', auth, idCommentCompare, multer, commentSchema, commentCtrl.editComment);
 
-router.post('/:id/comment/new', auth, multer, commentSchema, commentCtrl.postComment);
+router.post('/messages/:id/comments/new', auth, multer, commentSchema, commentCtrl.postComment);
 
-router.delete('/:messageid/comment/:commentid', auth, commentCtrl.deleteComment);
+router.delete('/comments/:id', auth, idCommentCompare, commentCtrl.deleteComment);
+router.delete('/comments/:id/delimg', auth, idCommentCompare, commentCtrl.deleteCommentImage);
 
 module.exports = router;

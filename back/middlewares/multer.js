@@ -11,8 +11,8 @@ const storage = multer.diskStorage({
       console.log('bonne route');
       cb(null, 'images/post');
     }
-    if (req.route.path == '/:id/comment/new' ||
-      req.route.path == '/:messageid/comment/:commentid') {
+    if (req.route.path == '/messages/:id/comment/new' ||
+      req.route.path == '/comments/:id') {
       cb(null, 'images/comment');
     }
   },
@@ -33,7 +33,7 @@ const upload = multer({
     if (!regExt.test(ext)) cb(new Error("Type de fichier non accepté"));
   },
 
-  limits: { fileSize: 2097152 },
+  limits: { fileSize: 3145728 },
 
   storage
 
