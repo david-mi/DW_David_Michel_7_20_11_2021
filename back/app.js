@@ -12,12 +12,10 @@ app.use(express.urlencoded({
 
 const userRoutes = require('./routes/User');
 const messageRoutes = require('./routes/Message');
-const likesRoutes = require('./routes/Likes');
 const commentRoutes = require('./routes/Comment');
 
 app.use('/api/auth', userRoutes);
 app.use('/api/messages', messageRoutes);
-app.use('/api/messages', likesRoutes);
 app.use('/api', commentRoutes);
 app.use('/images', express.static(path.join(__dirname, 'images')));
 

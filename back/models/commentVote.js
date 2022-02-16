@@ -1,24 +1,24 @@
 'use strict';
-const { Model } = require('sequelize');
-
+const {
+  Model
+} = require('sequelize');
 module.exports = (sequelize, DataTypes) => {
-  class Like extends Model {
+  class CommentVote extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
      * The `models/index` file will call this method automatically.
      */
-    static associate({ Message, User }) {
-
-      Message.hasMany(this, { foreignKey: "messageId", onDelete: 'cascade' });
+    static associate({ Comment, User }) {
+      Comment.hasMany(this, { foreignKey: "commentId", onDelete: 'cascade' });
       this.belongsTo(User, { foreignKey: "userId", onDelete: 'cascade' });
     }
   };
-  Like.init({
-    messageId: {
+  CommentVote.init({
+    commentId: {
       type: DataTypes.INTEGER,
       references: {
-        model: 'Message',
+        model: 'Comment',
         key: 'id'
       }
     },
@@ -34,7 +34,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'Like',
+    modelName: 'CommentVote',
   });
-  return Like;
+  return CommentVote;
 };

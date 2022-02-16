@@ -68,7 +68,7 @@ const CommentEdit = (props) => {
           {imageUrl
             ? <a onClick={reseter} className="btn btn-abort">Annuler</a>
             : isDeletingImg
-              ? <CommentDeleteImage data={{ setIsDeletingImg, messageId }} />
+              ? <CommentDeleteImage data={{ setIsDeletingImg, commentId }} />
               : <a onClick={() => setIsDeletingImg(true)} className="btn btn-delete">Supprimer</a>}
         </>
       )}

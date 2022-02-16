@@ -21,7 +21,7 @@ function MessageDislike(props) {
 
   const hasDisliked = () => {
     if (!dislikeList.length) return false;
-    return dislikeList.find(({ User }) => User.userLiked == USER_ID);
+    return dislikeList.find(({ User }) => User.userMessageVoted == USER_ID);
   };
 
   const sendDislike = async () => {

@@ -1,12 +1,10 @@
-// MODELS
-const models = require('../models');
-const Message = models.Message;
-const Like = models.Like;
 
-exports.showAllLikes = async (req, res) => {
+const { Message, MessageVote } = require('../models');
+
+exports.showAllVotes = async (req, res) => {
   try {
-    const likes = await Like.findAll(({}));
-    res.status(200).json(likes);
+    const votes = await MessageVote.findAll(({}));
+    res.status(200).json(votes);
   }
   catch (err) {
     res.status(400).json(err);
@@ -23,22 +21,22 @@ exports.likeMessage = async (req, res) => {
     const message = await Message.findByPk(messageId);
     if (!message) throw ({ name: 'NoMessage' });
 
-    const findLike = await Like.findOne({ where: { userId, messageId } });
+    const findVote = await MessageVote.findOne({ where: { userId, messageId } });
 
-    if (findLike) {
+    if (findVote) {
 
 
-      if (!findLike.isLiked) {
-        await findLike.update({
+      if (!findVote.isLiked) {
+        await findVote.update({
           isLiked: true
         });
         return res.status(201).json({ message: 'Vote changé : like ajouté' });
       }
 
-      await findLike.destroy();
+      await findVote.destroy();
       res.status(201).send({ message: 'Like enlevé' });
     } else {
-      await Like.create({ messageId, userId, isLiked: true });
+      await MessageVote.create({ messageId, userId, isLiked: true });
       res.status(200).send({ message: 'Like ajouté' });
     }
 
@@ -65,21 +63,21 @@ exports.dislikeMessage = async (req, res) => {
     const message = await Message.findByPk(messageId);
     if (!message) throw ({ name: 'NoMessage' });
 
-    const findLike = await Like.findOne({ where: { userId, messageId } });
+    const findVote = await MessageVote.findOne({ where: { userId, messageId } });
 
-    if (findLike) {
+    if (findVote) {
 
-      if (findLike.isLiked) {
-        await findLike.update({
+      if (findVote.isLiked) {
+        await findVote.update({
           isLiked: false
         });
         return res.status(201).json({ message: 'Vote changé : dislike ajouté' });
       }
 
-      await findLike.destroy();
+      await findVote.destroy();
       res.status(201).send({ message: 'Dislike enlevé' });
     } else {
-      await Like.create({ messageId, userId, isLiked: false });
+      await MessageVote.create({ messageId, userId, isLiked: false });
       res.status(200).send({ message: 'Dislike ajouté' });
     }
 

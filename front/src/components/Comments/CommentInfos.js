@@ -12,11 +12,16 @@ import { DeleteIcon } from '../../icons-logos/icons';
 import { EditIcon } from '../../icons-logos/icons';
 import CommentDelete from './CommentDelete';
 import CommentEdit from './CommentEdit';
+import CommentLike from './CommentLike';
+import CommentDislike from './CommentDislike';
 
 const CommentInfos = ({ comment }) => {
 
-  const { commentId, messageId, User, text, attachment, createdAt, updatedAt } = comment;
+  const { commentId, messageId, User, CommentVotes, text, attachment, createdAt, updatedAt } = comment;
   const commentUserId = User.id;
+
+  const commentLikeList = CommentVotes.filter(elem => elem.isLiked);
+  const commentDislikeList = CommentVotes.filter(elem => !elem.isLiked);
 
   const { USER_ID } = useContext(loginContext);
 
@@ -47,6 +52,8 @@ const CommentInfos = ({ comment }) => {
             <CommentDate data={{ createdAt, updatedAt }} />
             {attachment && <CommentImage attachment={attachment} />}
             <p className='text'>{text}</p>
+            <CommentLike data={{ commentLikeList, commentId }} />
+            <CommentDislike data={{ commentDislikeList, commentId }} />
             {ownComment()}
           </>
         )

@@ -21,17 +21,13 @@ const Home = () => {
   const [refreshToogle, setRefreshToogle] = useState(false);
 
   const getMessages = async () => {
-    console.log('refresh Toggle debut');
     const headers = { 'Authorization': `Bearer ${token}` };
     const res = await axios.get(apiMessage + '/all', { headers });
     const data = res.data;
-    console.log(data);
     setMessages(data);
-    console.log('refresh Toggle fin');
   };
 
   useEffect(getMessages, [refreshToogle]);
-
 
   return (
     <>

@@ -8,26 +8,26 @@ import { loginContext, refreshData } from '../../Context/loginContext';
 // ICONS
 import { LikeIcon } from '../../icons-logos/icons';
 
-const apiMessage = 'http://localhost:3000/api/messages';
+const apiComment = 'http://localhost:3000/api/comments';
 
-function MessagesLikes(props) {
+function CommentLike(props) {
 
-  const { likeList, messageId } = props.data;
+  const { commentLikeList, commentId } = props.data;
 
   const { token, USER_ID } = useContext(loginContext);
   const { setRefreshToogle } = useContext(refreshData);
 
-  const [showLikeUsers, setShowLikeUsers] = useState(false);
+  const [showLikeCommentUsers, setshowLikeCommentUsers] = useState(false);
 
   const hasLiked = () => {
-    if (!likeList.length) return false;
-    return likeList.find(({ User }) => User.userMessageVoted == USER_ID);
+    if (!commentLikeList.length) return false;
+    return commentLikeList.find(({ User }) => User.userCommentVoted == USER_ID);
   };
 
   const sendLike = async () => {
     const headers = { 'Authorization': `Bearer ${token}` };
 
-    const like = await axios.post(`${apiMessage}/${messageId}/like`, null, { headers });
+    const like = await axios.post(`${apiComment}/${commentId}/like`, null, { headers });
     console.log(like.data.message);
     setRefreshToogle((e) => !e);
   };
@@ -36,14 +36,14 @@ function MessagesLikes(props) {
     <div className='like-container'>
       <span className="like-btn" onClick={sendLike}><LikeIcon hasLiked={hasLiked} /></span>
       <span className='likeNb'
-        onMouseOver={() => setShowLikeUsers(true)}
-        onMouseLeave={() => setShowLikeUsers(false)}>
-        {likeList.length}
+        onMouseOver={() => setshowLikeCommentUsers(true)}
+        onMouseLeave={() => setshowLikeCommentUsers(false)}>
+        {commentLikeList.length}
       </span>
-      {showLikeUsers && likeList.length
+      {showLikeCommentUsers && commentLikeList.length
         ? (
           <ul className='liked-list'>
-            {likeList.map(({ User }, idx) => (
+            {commentLikeList.map(({ User }, idx) => (
               <li key={idx}>
                 {User.firstname} {User.lastname} ({User.username})
               </li>
@@ -56,4 +56,4 @@ function MessagesLikes(props) {
   );
 }
 
-export default MessagesLikes;
+export default CommentLike;

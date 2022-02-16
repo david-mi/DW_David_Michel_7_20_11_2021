@@ -25,14 +25,12 @@ const MessagesInfos = (props) => {
   const [isShowingComments, setIsShowingComments] = useState(false);
   const [isClosingComments, setIsClosingComments] = useState(false);
 
-  const { User, Likes, Comments, text, attachment, createdAt, updatedAt } = props.data;
-
-  console.log(props.data);
+  const { User, MessageVotes, Comments, text, attachment, createdAt, updatedAt } = props.data;
 
   const messageUserId = User.id;
   const messageId = props.data.id;
-  const likeList = Likes.filter(elem => elem.isLiked);
-  const dislikeList = Likes.filter(elem => !elem.isLiked);
+  const likeList = MessageVotes.filter(elem => elem.isLiked);
+  const dislikeList = MessageVotes.filter(elem => !elem.isLiked);
 
   const ownMessage = () => {
 

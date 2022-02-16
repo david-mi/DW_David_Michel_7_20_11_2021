@@ -71,16 +71,16 @@
     "names names date date"
     "img img img img "
     "text text text text "
-    ". edit delete  .";
+    "edit delete dislike like";
 
   @media screen and(max-width: $media-medium) {
     grid-template-rows: repeat(5, auto);
     grid-template-areas:
-      "names names names names names"
-      "date date date date date"
-      "img img img img img"
-      "text text text text text"
-      "comment edit delete dislike like";
+      "names names names names "
+      "date date date date "
+      "img img img img "
+      "text text text text "
+      "edit delete dislike like";
     gap: 10px;
   }
 

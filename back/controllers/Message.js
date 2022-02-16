@@ -1,4 +1,4 @@
-const { Message, User, Like, Comment } = require('../models');
+const { Message, User, MessageVote, Comment, CommentVote } = require('../models');
 const { handleErrorImage, deletePreviousPostImage } = require('../tools/handleErrorImage');
 
 exports.getAllMessages = async (req, res) => {
@@ -12,11 +12,11 @@ exports.getAllMessages = async (req, res) => {
           attributes: ['id', 'username', 'firstname', 'lastname', 'profilePicture']
         },
         {
-          model: Like,
+          model: MessageVote,
           attributes: ['id', 'isLiked'],
           include: [{
             model: User,
-            attributes: [['id', 'userLiked'], 'username', 'firstname', 'lastname']
+            attributes: [['id', 'userMessageVoted'], 'username', 'firstname', 'lastname']
           }]
         },
         {
@@ -24,9 +24,16 @@ exports.getAllMessages = async (req, res) => {
           attributes: [['id', 'commentId'], 'messageId', 'text', 'attachment', 'createdAt', 'updatedAt'],
           include: [{
             model: User,
-            attributes: ['id', 'username', 'firstname', 'lastname', 'profilePicture']
-          }]
-        }
+            attributes: ['id', 'username', 'firstname', 'lastname', 'profilePicture'],
+          }, {
+            model: CommentVote,
+            attributes: ['id', 'isLiked'],
+            include: [{
+              model: User,
+              attributes: [['id', 'userCommentVoted'], 'username', 'firstname', 'lastname']
+            }]
+          }],
+        },
       ],
     });
     !messages.length
@@ -72,7 +79,7 @@ exports.getUserMessagesById = async (req, res) => {
       attributes: ['id', 'text', 'attachment', 'createdAt', 'updatedAt'],
       include: [
         { model: User, attributes: ['username', 'id'] },
-        { model: Like, attributes: ['id'], include: [{ model: User, attributes: [['username', 'pseudo']] }] }
+        { model: MessageVote, attributes: ['id'], include: [{ model: User, attributes: [['username', 'pseudo']] }] }
       ],
     });
     message ? res.status(200).json(message) : res.status(404).json({ Message: "message non trouvé" });
