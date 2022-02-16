@@ -46,19 +46,20 @@ const Profile_update = ({ profileData }) => {
     }
   };
 
+  // va initialiser la longueur de la bio, 0 si null
   useEffect(() => bio ? setCaractersNb(bio.length) : setCaractersNb(0), []);
 
+  // gestion de la prévisualisation de l'image 
   useEffect(() => {
     displayImage
       ? setImageUrl(URL.createObjectURL(displayImage))
       : setImageUrl(null);
   }, [displayImage]);
 
-  const reseter = (event) => {
-    event.preventDefault();
-    setDisplayImage(null);
-  };
 
+  const reseter = () => setDisplayImage(null);
+
+  // on check si l'utilisateur à la photo de profil par défaut fourni par le backend
   const hasDefaultPic = () => profilePicture.split('/images/user/')[1] === 'default_profile_picture.jpg';
 
 
@@ -73,10 +74,10 @@ const Profile_update = ({ profileData }) => {
         <div className='profil-edit-buttons__container'>
           <label htmlFor="image" className='btn btn-browse'>Parcourir</label>
           {imageUrl
-            ? <button onClick={reseter} className="btn btn-abort">Annuler</button>
+            ? <a onClick={reseter} className="btn btn-abort">Annuler</a>
             : isDeletingImg
               ? <Profile_delete_img data={{ setIsDeletingImg }} />
-              : hasDefaultPic() || <button onClick={() => setIsDeletingImg(true)} className="btn btn-delete">Supprimer</button>}
+              : hasDefaultPic() || <a onClick={() => setIsDeletingImg(true)} className="btn btn-delete">Supprimer</a>}
         </div>
         <input
           type="file" id="image" style={{ display: "none" }}

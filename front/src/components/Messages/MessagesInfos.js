@@ -2,9 +2,6 @@
 import { useState, useContext } from 'react';
 import { DeleteIcon, EditIcon } from '../../icons-logos/icons';
 
-// FUNCTIONS 
-import { handleDate } from '../../functions/messageFunctions';
-
 // CONTEX
 import { loginContext } from '../../Context/loginContext';
 
@@ -17,17 +14,20 @@ import MessageName from './MessageName';
 import MessageDate from './MessageDate';
 import MessageDelete from './MessageDelete';
 import MessageEdit from './MessageEdit';
+import CommentInfos from '../Comments/CommentInfos';
 
 const MessagesInfos = (props) => {
 
   const { USER_ID } = useContext(loginContext);
 
-  const [showLikeUsers, setShowLikeUsers] = useState(false);
-  const [showDislikeUsers, setShowDislikeUsers] = useState(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [isShowingComments, setIsShowingComments] = useState(false);
+  const [isClosingComments, setIsClosingComments] = useState(false);
 
-  const { User, Likes, text, attachment, createdAt, updatedAt } = props.data;
+  const { User, Likes, Comments, text, attachment, createdAt, updatedAt } = props.data;
+
+  console.log(props.data);
 
   const messageUserId = User.id;
   const messageId = props.data.id;
@@ -47,25 +47,50 @@ const MessagesInfos = (props) => {
     return null;
   };
 
+  const commentsToggle = () => setIsShowingComments(e => !e);
+
+  const handleClosing = () => {
+    if (isShowingComments) {
+
+      setIsClosingComments(true);
+
+      setTimeout(() => {
+        setIsShowingComments(false);
+        setIsClosingComments(false);
+      }, 1000);
+    }
+  };
+
   return (
-    <div className={isEditing ? 'editing__card' : 'msg__card'}>
-      {isDeleting && <MessageDelete data={{ setIsDeleting, messageId }} />}
-      {isEditing
-        ? <MessageEdit data={{ setIsEditing, text, attachment, messageId }} />
-        : (
-          <>
-            <MessageName data={{ ...User, messageUserId }} />
-            <MessageDate data={{ handleDate, createdAt, updatedAt }} />
-            {attachment && <MessagesImage attachment={attachment} />}
-            <p className='text'>{text}</p>
-            <MessagesLikes data={{ showLikeUsers, setShowLikeUsers, likeList, messageId }} />
-            <MessageDislike data={{ showDislikeUsers, setShowDislikeUsers, dislikeList, messageId }} />
-            <MessagesComment />
-            {ownMessage()}
-          </>
-        )
-      }
-    </div>
+    <>
+      <div className={isEditing ? 'editing__card' : 'msg__card'} id="msg-card">
+        {isDeleting && <MessageDelete data={{ setIsDeleting, messageId }} />}
+        {isEditing
+          ? <MessageEdit data={{ setIsEditing, text, attachment, messageId }} />
+          : (
+            <>
+              <MessageName data={{ ...User, messageUserId }} />
+              <MessageDate data={{ createdAt, updatedAt }} />
+              {attachment && <MessagesImage attachment={attachment} />}
+              <p className='text'>{text}</p>
+              <MessagesLikes data={{ likeList, messageId }} />
+              <MessageDislike data={{ dislikeList, messageId }} />
+              <MessagesComment data={{ Comments, setIsShowingComments }} />
+              {ownMessage()}
+            </>
+          )
+        }
+      </div>
+      {isShowingComments && (
+        <div className='comments__wrapper'>
+          <div className={`comments-container ${isClosingComments ? 'closing' : 'opening'}`}>
+            {Comments.map((comment, idx) => <CommentInfos comment={comment} key={idx} />)}
+            <a className='btn' href="#msg-card" id="hide-comments" onClick={handleClosing}>Cacher</a>
+          </div>
+        </div>
+      )}
+
+    </>
   );
 
 };

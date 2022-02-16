@@ -1,16 +1,17 @@
+// LIBRARIES
 import { useContext } from 'react';
-
 import { Outlet } from 'react-router-dom';
 
+// CONTEXT
 import { loginContext } from './Context/loginContext';
 
+// COMPONENT
 import Login from './components/Login';
 
 
 const ProtectedRoutes = () => {
 
   const { isLogged } = useContext(loginContext);
-  console.log('protecTed routes');
 
   return isLogged ? <Outlet /> : <Login />;
 };

@@ -57,7 +57,7 @@ const App = () => {
     <loginContext.Provider value={{ isLogged, setIsLogged, token, setToken, USER_ID, isAdmin }}>
       <BrowserRouter>
         <Routes>
-          <Route path="/login" element={<Login />}></Route>
+          <Route exact path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route element={<ProtectedRoutes />}>
             <Route path="/home" element={<Home />}></Route>

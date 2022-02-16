@@ -1,6 +1,6 @@
 // LIBRARIES
 import axios from 'axios';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 
 // CONTEXT
 import { loginContext, refreshData } from '../../Context/loginContext';
@@ -12,11 +12,12 @@ const apiMessage = 'http://localhost:3000/api/messages';
 
 function MessagesLikes(props) {
 
-  const { showLikeUsers, setShowLikeUsers, likeList, messageId } = props.data;
+  const { likeList, messageId } = props.data;
 
   const { token, USER_ID } = useContext(loginContext);
-
   const { setRefreshToogle } = useContext(refreshData);
+
+  const [showLikeUsers, setShowLikeUsers] = useState(false);
 
   const hasLiked = () => {
     if (!likeList.length) return false;

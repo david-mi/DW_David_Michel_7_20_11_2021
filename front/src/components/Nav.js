@@ -59,8 +59,8 @@ const Nav = () => {
       )
       : (
         <nav className='header__nav'>
-          <NavLink to={'/register'}>Inscription</NavLink>
-          <NavLink to={'/login'}>Login</NavLink>
+          <NavLink to={'/register'} className='register-link'>Inscription</NavLink>
+          <NavLink to={'/login'} className='login-link'>Login</NavLink>
         </nav>
       )
   );

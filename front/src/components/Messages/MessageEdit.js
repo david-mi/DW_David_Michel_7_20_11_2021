@@ -51,10 +51,7 @@ const MessageEdit = (props) => {
     setIsEditing(false);
   };
 
-  const reseter = (event) => {
-    event.preventDefault();
-    setDisplayImage(null);
-  };
+  const reseter = () => setDisplayImage(null);
 
   return (
     <form className="form" onSubmit={handleSubmit(sendForm)}>
@@ -69,10 +66,10 @@ const MessageEdit = (props) => {
             </div>
           </div>
           {imageUrl
-            ? <button onClick={reseter} className="btn btn-abort">Annuler</button>
+            ? <a onClick={reseter} className="btn btn-abort">Annuler</a>
             : isDeletingImg
               ? <MessageDeleteImage data={{ setIsDeletingImg, messageId }} />
-              : <button onClick={() => setIsDeletingImg(true)} className="btn btn-delete">Supprimer</button>}
+              : <a onClick={() => setIsDeletingImg(true)} className="btn btn-delete">Supprimer</a>}
         </>
       )}
 

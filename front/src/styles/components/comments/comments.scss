@@ -1,10 +1,47 @@
-.messages__container {
+@keyframes opening {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes closing {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-100%);
+  }
+}
+
+.opening {
+  animation: opening 1s both;
+}
+
+.closing {
+  animation: closing 1s both;
+}
+
+.comments__wrapper {
+  width: 100%;
+  margin-top: -20px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+}
+
+.comments-container {
+  transform-origin: top center;
   display: flex;
   flex-direction: column;
-  gap: 30px;
-  background-color: transparent !important;
-  box-shadow: none !important;
-  padding: clamp(5px, 2vw, 50px) !important;
+  align-items: center;
+  gap: 10px;
+  background-color: darken($clr-main, 5%);
+  width: 90%;
+  padding: clamp(5px, 2vw, 50px);
+  // margin-top: -20px;
 
   .nomsg {
     font-size: 2rem;
@@ -15,26 +52,26 @@
   }
 }
 
-.msg__card {
+.comment__card {
   position: relative;
-  box-shadow: 0 0 5px black;
-  border-radius: 10px;
+  // box-shadow: 0 0 5px black;
+  // border-radius: 10px;
   // background-color: rgba(255, 255, 255, 0.486);
   background-color: $clr-secondary-light;
-  width: 100%;
+  width: 80%;
   display: grid;
   place-items: center;
   // gap: 30px;
   padding: 20px;
   font-size: 1.1rem;
   font-weight: bold;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-template-rows: repeat(5, auto);
   grid-template-areas:
-    "names names date date date"
-    "img img img img img"
-    "text text text text text"
-    "comment edit delete dislike like";
+    "names names date date"
+    "img img img img "
+    "text text text text "
+    ". edit delete  .";
 
   @media screen and(max-width: $media-medium) {
     grid-template-rows: repeat(5, auto);
@@ -119,7 +156,7 @@
       animation: scale-in 500ms 200ms both;
       transform: scale(0);
       max-width: 100%;
-      max-height: 600px;
+      max-height: 200px;
       object-fit: cover;
     }
   }
@@ -127,7 +164,7 @@
   .text {
     grid-area: text;
     justify-self: center;
-    padding: 50px 10px;
+    padding: 10px 10px;
     word-break: break-word;
     margin-bottom: 30px;
     background-color: $clr-secondary;
@@ -234,14 +271,6 @@
 
   .edit-icon__wrapper {
     grid-area: edit;
-  }
-}
-
-.comment__card {
-  width: 80%;
-
-  .msg__img {
-    max-height: 300px;
   }
 }
 

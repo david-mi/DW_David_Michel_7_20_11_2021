@@ -44,7 +44,7 @@ const Home = () => {
             ? messages
               .sort((prev, next) => next.id - prev.id)
               .map((msg, idx) => <MessagesInfos data={msg} key={idx} />)
-            : <p>Aucun message à afficher pour le moment</p>
+            : <p className='nomsg'>Aucun message à afficher pour le moment</p>
           }
         </div>
       </refreshData.Provider>

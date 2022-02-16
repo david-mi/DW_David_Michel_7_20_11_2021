@@ -25,8 +25,39 @@
       width: 100%;
     }
 
+    .register-link,
+    .login-link {
+      position: relative;
+      font-weight: bold;
+      text-decoration: none;
+      color: $clr-main;
+      font-size: 1.2rem;
+      transition: 300ms cubic-bezier(0.16, 0.5, 0.49, 0.94);
+
+      &:hover {
+        color: $clr-orange;
+      }
+
+      &:hover::after {
+        transform: scaleX(1);
+        background-color: $clr-orange;
+      }
+
+      &::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background-color: $clr-main;
+        transform: scaleX(0);
+        transition: 300ms cubic-bezier(0.16, 0.5, 0.49, 0.94);
+      }
+    }
+
     svg {
-      color: $clr-orange;
+      color: $clr-main;
       font-size: 3.4rem;
       transition: all 300ms;
       transform: scale(0.8);
@@ -36,17 +67,16 @@
 
       &:hover {
         transform: scale(1);
+        color: $clr-orange;
       }
     }
 
     .feed-icon {
       grid-area: feed;
-      color: $clr-orange;
     }
 
     .logout-icon {
       grid-area: logout;
-      color: black;
     }
 
     button {

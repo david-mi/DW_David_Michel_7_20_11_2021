@@ -21,7 +21,7 @@ exports.getAllMessages = async (req, res) => {
         },
         {
           model: Comment,
-          attributes: [['id', 'commentId'], 'text', 'attachment', 'createdAt', 'updatedAt'],
+          attributes: [['id', 'commentId'], 'messageId', 'text', 'attachment', 'createdAt', 'updatedAt'],
           include: [{
             model: User,
             attributes: ['id', 'username', 'firstname', 'lastname', 'profilePicture']

@@ -48,13 +48,12 @@ const MessagePost = () => {
     setRefreshToogle((e) => !e);
     console.log('isSubmitSuccess ' + isSubmitSuccessful);
     reset();
+    setCaractersNb(0);
     setDisplayImage(null);
   };
 
-  const imgReseter = (event) => {
-    event.preventDefault();
-    setDisplayImage(null);
-  };
+  const imgReseter = () => setDisplayImage(null);
+
 
   const resetForm = () => {
     setDisplayImage(null);
@@ -100,7 +99,7 @@ const MessagePost = () => {
 
           <div className='submit-reset__container'>
             <input type="submit" className='send-msg__btn btn'></input>
-            <button className='reset-btn btn' onClick={resetForm}>Reset</button>
+            <a className='reset-btn btn' onClick={resetForm}>Reset</a>
           </div>
         </form>
 
