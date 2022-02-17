@@ -1,10 +1,21 @@
-// @keyframes slider {
-//   to {
-//     transform: translateX(0);
-//   }
-// }
+@keyframes slider {
+  from {
+    transform: translateX(100vw);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
 
-// .slide {
-//   transform: translateX(100vw);
-//   animation: slider 500ms 100ms forwards;
-// }
+.slide {
+  animation: slider 500ms 100ms backwards;
+}
+
+@keyframes opacity {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}

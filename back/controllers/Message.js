@@ -36,6 +36,7 @@ exports.getAllMessages = async (req, res) => {
         },
       ],
     });
+
     !messages.length
       ? res.status(200).json(null)
       : res.status(200).json(messages);

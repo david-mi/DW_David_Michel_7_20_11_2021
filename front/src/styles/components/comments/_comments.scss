@@ -17,7 +17,8 @@
 }
 
 .opening {
-  animation: opening 1s both;
+  animation: opening 1s;
+  // transform: none;
 }
 
 .closing {
@@ -37,9 +38,10 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 10px;
   background-color: darken($clr-main, 5%);
-  width: 90%;
+  width: 100%;
   padding: clamp(5px, 2vw, 50px);
   // margin-top: -20px;
 
@@ -50,249 +52,279 @@
     color: $clr-main;
     border-radius: 10px;
   }
-}
 
-.comment__card {
-  position: relative;
-  // box-shadow: 0 0 5px black;
-  // border-radius: 10px;
-  // background-color: rgba(255, 255, 255, 0.486);
-  background-color: $clr-secondary-light;
-  width: 80%;
-  display: grid;
-  place-items: center;
-  // gap: 30px;
-  padding: 20px;
-  font-size: 1.1rem;
-  font-weight: bold;
-  grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(5, auto);
-  grid-template-areas:
-    "names names date date"
-    "img img img img "
-    "text text text text "
-    "edit delete dislike like";
+  .up-icon {
+    display: grid;
+    place-items: center;
+    color: $clr-secondary-light;
+    font-size: 3rem;
+    margin-top: 10px;
+    transition: 400ms;
 
-  @media screen and(max-width: $media-medium) {
+    &:hover {
+      cursor: pointer;
+      color: $clr-orange;
+    }
+  }
+
+  .comment__card {
+    position: relative;
+    // box-shadow: 0 0 5px black;
+    // border-radius: 10px;
+    // background-color: rgba(255, 255, 255, 0.486);
+    background-color: $clr-secondary-light;
+    width: 80%;
+    display: grid;
+    place-items: center;
+    // gap: 30px;
+    padding: 20px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(5, auto);
     grid-template-areas:
-      "names names names names "
-      "date date date date "
+      "names names date date"
       "img img img img "
       "text text text text "
       "edit delete dislike like";
-    gap: 10px;
-  }
 
-  @media screen and (max-width: $media-small) {
-    padding: 10px;
-    gap: 0;
-  }
-
-  .names {
-    position: relative;
-    grid-area: names;
-    display: flex;
-    align-items: center;
-    align-self: self-start;
-    background-color: $clr-main;
-    color: white;
-    width: fit-content;
-    padding: 5px;
-    justify-self: self-start;
-    transition: 300ms;
-    // margin-bottom: 30px;
-    min-height: 25px;
-
-    @media screen and (max-width: $media-medium) {
-      justify-self: center;
+    @media screen and(max-width: $media-medium) {
+      grid-template-rows: repeat(5, auto);
+      grid-template-areas:
+        "names names names names "
+        "date date date date "
+        "img img img img "
+        "text text text text "
+        "edit delete dislike like";
+      gap: 10px;
+      width: 100%;
     }
 
-    &:hover {
-      cursor: pointer;
-      background-color: $clr-orange;
-    }
-  }
-
-  .profile-pic {
-    height: 35px;
-    aspect-ratio: 1/1;
-    border-radius: 50%;
-    border: 2px solid $clr-main;
-    position: absolute;
-    right: -40px;
-  }
-
-  .date-container {
-    grid-area: date;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    font-size: 0.9rem;
-    justify-self: self-end;
-    margin-bottom: 30px;
-    color: $clr-main;
-
-    @media screen and (max-width: $media-medium) {
-      padding: 15px;
-      font-size: 0.8rem;
-      margin: 0;
-    }
-  }
-
-  .msg__img-container {
-    grid-area: img;
-    border: solid 10px $clr-main;
-    // box-shadow: 0 0 20px rgb(100, 100, 100);
-    justify-self: center;
-    margin: 20px 0px 30px 0px;
-
-    @media screen and (max-width: $media-medium) {
-      margin: 0 0 30px 0;
+    @media screen and (max-width: $media-small) {
+      padding: 10px;
+      gap: 0;
     }
 
-    .msg__img {
-      display: block;
-      animation: scale-in 500ms 200ms both;
-      transform: scale(0);
-      max-width: 100%;
-      max-height: 200px;
-      object-fit: cover;
-    }
-  }
+    .names {
+      position: relative;
+      grid-area: names;
+      display: flex;
+      align-items: center;
+      align-self: self-start;
+      background-color: $clr-main;
+      color: white;
+      width: fit-content;
+      padding: 5px;
+      justify-self: self-start;
+      transition: 300ms;
+      // margin-bottom: 30px;
+      min-height: 25px;
 
-  .text {
-    grid-area: text;
-    justify-self: center;
-    padding: 10px 10px;
-    word-break: break-word;
-    margin-bottom: 30px;
-    background-color: $clr-secondary;
-    width: 100%;
-    text-align: center;
+      @media screen and (max-width: $media-medium) {
+        justify-self: center;
+      }
 
-    @media screen and(max-width: $media) {
-      padding-block: 30px;
-    }
-  }
-
-  svg {
-    font-size: 1.6rem;
-    transition: 300ms;
-    color: $clr-main;
-
-    &:hover {
-      cursor: pointer;
-    }
-
-    &:not(.like-icon) {
       &:hover {
-        color: $clr-orange;
+        cursor: pointer;
+        background-color: $clr-orange;
       }
     }
+
+    .profile-pic {
+      height: 35px;
+      aspect-ratio: 1/1;
+      border-radius: 50%;
+      border: 2px solid $clr-main;
+      position: absolute;
+      right: -40px;
+      object-fit: cover;
+    }
+
+    .date-container {
+      grid-area: date;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      font-size: 0.9rem;
+      justify-self: self-end;
+      margin-bottom: 30px;
+      color: $clr-main;
+      padding-left: 40px;
+
+      @media screen and (max-width: $media-medium) {
+        padding: 15px;
+        font-size: 0.8rem;
+        margin: 0;
+      }
+    }
+
+    .msg__img-container {
+      grid-area: img;
+      border: solid 5px $clr-main;
+      // box-shadow: 0 0 20px rgb(100, 100, 100);
+      justify-self: center;
+      margin: 20px 0px 30px 0px;
+
+      @media screen and (max-width: $media-medium) {
+        margin: 0 0 30px 0;
+      }
+
+      .msg__img {
+        display: block;
+        animation: scale-in 500ms 200ms both;
+        transform: scale(0);
+        max-width: 100%;
+        max-height: 200px;
+        object-fit: cover;
+      }
+    }
+
+    .text {
+      grid-area: text;
+      justify-self: center;
+      padding: 10px 10px;
+      word-break: break-word;
+      margin-bottom: 30px;
+      background-color: $clr-secondary;
+      width: 100%;
+      text-align: center;
+
+      @media screen and(max-width: $media) {
+        padding-block: 30px;
+      }
+    }
+
+    svg {
+      font-size: 1.3rem;
+      transition: 300ms;
+      color: $clr-main;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &:not(.like-icon) {
+        &:hover {
+          color: $clr-orange;
+        }
+      }
+    }
+
+    .like-icon {
+      fill: $clr-main;
+
+      &:hover {
+        fill: #f44336;
+      }
+    }
+
+    .dislike-icon {
+      position: relative;
+      font-size: 1.2rem;
+      bottom: -3px;
+    }
+
+    .like-container,
+    .comment-container,
+    .dislike-container {
+      display: flex;
+      align-items: center;
+      column-gap: 10px;
+    }
+
+    .dislike-container {
+      grid-area: dislike;
+    }
+
+    .like-container {
+      grid-area: like;
+    }
+
+    .disliked-list,
+    .liked-list,
+    .comment-list {
+      position: absolute;
+      bottom: 60px;
+      right: 150px;
+      font-size: 0.9rem;
+      font-weight: normal;
+      color: white;
+      background-color: $clr-main;
+      padding: 10px;
+      animation: opacity 400ms both;
+      opacity: 0;
+
+      li {
+        white-space: nowrap;
+      }
+    }
+
+    .dislikeNb,
+    .likeNb,
+    .commentNb {
+      font-size: 0.8rem;
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &:hover + .liked-list {
+        opacity: 1;
+      }
+    }
+
+    .disliked-list {
+      right: 150px;
+    }
+
+    .liked-list {
+      right: 0px;
+    }
+
+    .comment-list {
+      right: auto;
+      left: 0;
+    }
+
+    .comment-container {
+      grid-area: comment;
+    }
+
+    .del-icon__wrapper {
+      grid-area: delete;
+    }
+
+    .edit-icon__wrapper {
+      grid-area: edit;
+    }
   }
 
-  .like-icon {
+  @keyframes like {
+    to {
+      transform: scale(1.4);
+    }
+  }
+
+  .disliked {
+    color: red !important;
+  }
+
+  .liked {
+    transform: scale(1);
+    fill: #f44336 !important;
+    animation: like 500ms reverse;
+  }
+
+  .neutral {
+    transform: scale(1);
     fill: $clr-main;
-
-    &:hover {
-      fill: #f44336;
-    }
-  }
-
-  .dislike-icon {
-    position: relative;
-    font-size: 1.5rem;
-    bottom: -3px;
-  }
-
-  .like-container,
-  .comment-container,
-  .dislike-container {
-    display: flex;
-    align-items: center;
-    column-gap: 10px;
-  }
-
-  .dislike-container {
-    grid-area: dislike;
-  }
-
-  .like-container {
-    grid-area: like;
-  }
-
-  .dislikeNb,
-  .likeNb,
-  .commentNb {
-    font-size: 0.9rem;
-
-    &:hover {
-      cursor: pointer;
-    }
-  }
-
-  .disliked-list,
-  .liked-list,
-  .comment-list {
-    position: absolute;
-    bottom: 60px;
-    right: 150px;
-    font-size: 0.9rem;
-    font-weight: normal;
-    color: white;
-    background-color: $clr-main;
-    padding: 10px;
-    li {
-      white-space: nowrap;
-    }
-  }
-
-  .disliked-list {
-    right: 150px;
-  }
-
-  .liked-list {
-    right: 0px;
-  }
-
-  .comment-list {
-    right: auto;
-    left: 0;
-  }
-
-  .comment-container {
-    grid-area: comment;
-  }
-
-  .del-icon__wrapper {
-    grid-area: delete;
-  }
-
-  .edit-icon__wrapper {
-    grid-area: edit;
+    color: $clr-main;
+    animation: like 500ms reverse;
   }
 }
 
-@keyframes like {
-  to {
-    transform: scale(1.4);
+.message-post__container {
+  @media screen and (max-width: $media) {
+    padding: 0;
   }
-}
-
-.disliked {
-  color: red !important;
-}
-
-.liked {
-  transform: scale(1);
-  fill: #f44336 !important;
-  animation: like 500ms reverse;
-}
-
-.neutral {
-  transform: scale(1);
-  fill: $clr-main;
-  color: $clr-main;
-  animation: like 500ms reverse;
 }

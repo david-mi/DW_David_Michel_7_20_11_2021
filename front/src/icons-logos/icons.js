@@ -57,4 +57,11 @@ const HideInput = () => {
   );
 };
 
-export { LogOutIcon, MessageIcon, LikeIcon, DislikeIcon, HomeIcon, DeleteIcon, EditIcon, ShowInput, HideInput };
+
+const UpArrow = () => {
+  return (
+    <svg width="1em" height="1em" viewBox="0 0 24 24"><path fill="currentColor" d="M12 22A10 10 0 0 1 2 12A10 10 0 0 1 12 2a10 10 0 0 1 10 10a10 10 0 0 1-10 10m5-8l-5-5l-5 5h10Z"></path></svg>
+  );
+};
+
+export { LogOutIcon, MessageIcon, LikeIcon, DislikeIcon, HomeIcon, DeleteIcon, EditIcon, ShowInput, HideInput, UpArrow };

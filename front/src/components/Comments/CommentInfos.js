@@ -4,9 +4,9 @@ import { useState, useContext } from 'react';
 // CONTEXT
 import { loginContext } from '../../Context/loginContext';
 
-// COMPONENTS
+// COMPONENTS & ICONS
 import CommentName from './CommentName';
-import CommentDate from '../Messages/MessageDate';
+import CommentDate from './CommentDate';
 import CommentImage from './CommentImage';
 import { DeleteIcon } from '../../icons-logos/icons';
 import { EditIcon } from '../../icons-logos/icons';

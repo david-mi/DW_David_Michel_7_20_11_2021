@@ -1,6 +1,6 @@
 // LIBRARIES
 import { useState, useContext } from 'react';
-import { DeleteIcon, EditIcon } from '../../icons-logos/icons';
+import { DeleteIcon, EditIcon, UpArrow } from '../../icons-logos/icons';
 
 // CONTEX
 import { loginContext } from '../../Context/loginContext';
@@ -15,6 +15,7 @@ import MessageDate from './MessageDate';
 import MessageDelete from './MessageDelete';
 import MessageEdit from './MessageEdit';
 import CommentInfos from '../Comments/CommentInfos';
+import CommentPost from '../Comments/CommentPost';
 
 const MessagesInfos = (props) => {
 
@@ -61,8 +62,9 @@ const MessagesInfos = (props) => {
 
   return (
     <>
+      {isDeleting && <MessageDelete data={{ setIsDeleting, messageId }} />}
       <div className={isEditing ? 'editing__card' : 'msg__card'} id="msg-card">
-        {isDeleting && <MessageDelete data={{ setIsDeleting, messageId }} />}
+
         {isEditing
           ? <MessageEdit data={{ setIsEditing, text, attachment, messageId }} />
           : (
@@ -82,8 +84,11 @@ const MessagesInfos = (props) => {
       {isShowingComments && (
         <div className='comments__wrapper'>
           <div className={`comments-container ${isClosingComments ? 'closing' : 'opening'}`}>
-            {Comments.map((comment, idx) => <CommentInfos comment={comment} key={idx} />)}
-            <a className='btn' href="#msg-card" id="hide-comments" onClick={handleClosing}>Cacher</a>
+            {Comments
+              .sort((prev, next) => prev.commentId - next.commentId)
+              .map((comment, idx) => <CommentInfos comment={comment} key={idx} />)}
+            <CommentPost messageId={messageId} />
+            <a className='up-icon' href="#msg-card" id="hide-comments" onClick={handleClosing}><UpArrow /></a>
           </div>
         </div>
       )}

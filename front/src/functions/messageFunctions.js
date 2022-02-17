@@ -16,4 +16,22 @@ const handleDate = (date) => {
 
 };
 
-export { handleDate };
+const handleCommentDate = (date) => {
+
+  const formatDate = new Date(date);
+
+  const options = {
+    // weekday: 'long',
+    // year: 'numeric',
+    month: 'numeric',
+    day: "numeric",
+    hour: 'numeric',
+    minute: 'numeric',
+
+  };
+
+  return formatDate.toLocaleString('fr-FR', options);
+
+};
+
+export { handleDate, handleCommentDate };
