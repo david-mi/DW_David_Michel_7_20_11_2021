@@ -1,7 +1,7 @@
 // LIBRARIES
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { DeleteIcon, EditIcon, UpArrow } from '../../icons-logos/icons';
-import { Link, animateScroll as scroll } from 'react-scroll';
+import { animateScroll as scroll } from 'react-scroll';
 
 // CONTEX
 import { loginContext } from '../../Context/loginContext';
@@ -17,7 +17,6 @@ import MessageDelete from './MessageDelete';
 import MessageEdit from './MessageEdit';
 import CommentInfos from '../Comments/CommentInfos';
 import CommentPost from '../Comments/CommentPost';
-import smooth from 'react-scroll/modules/mixins/smooth';
 
 const MessagesInfos = (props) => {
 
