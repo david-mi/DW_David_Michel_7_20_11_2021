@@ -39,10 +39,10 @@ const App = () => {
       }
       if (decodedToken && !isTokenExpired) {
         const { USER_ID, isAdmin } = decodedToken;
-        setIsLogged(true);
         setToken(payload.token);
         setIsAdmin(isAdmin);
         setUSER_ID(USER_ID);
+        setIsLogged(true);
       }
     }
     if (!check) setIsLogged(false);

@@ -17,12 +17,12 @@
 }
 
 .opening {
-  animation: opening 1s;
+  animation: opening 800ms linear;
   // transform: none;
 }
 
 .closing {
-  animation: closing 1s both;
+  animation: closing 800ms both linear;
 }
 
 .comments__wrapper {

@@ -1,6 +1,7 @@
 // LIBRARIES
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { DeleteIcon, EditIcon, UpArrow } from '../../icons-logos/icons';
+import { Link, animateScroll as scroll } from 'react-scroll';
 
 // CONTEX
 import { loginContext } from '../../Context/loginContext';
@@ -16,6 +17,7 @@ import MessageDelete from './MessageDelete';
 import MessageEdit from './MessageEdit';
 import CommentInfos from '../Comments/CommentInfos';
 import CommentPost from '../Comments/CommentPost';
+import smooth from 'react-scroll/modules/mixins/smooth';
 
 const MessagesInfos = (props) => {
 
@@ -46,24 +48,44 @@ const MessagesInfos = (props) => {
     return null;
   };
 
-  const commentsToggle = () => setIsShowingComments(e => !e);
+  const handleClosing = (e) => {
 
-  const handleClosing = () => {
-    if (isShowingComments) {
+    scrollOpeningHandle();
+    setIsClosingComments(true);
+    setTimeout(() => {
+      setIsShowingComments(false);
+      setIsClosingComments(false);
+    }, 1000);
 
-      setIsClosingComments(true);
+  };
 
-      setTimeout(() => {
-        setIsShowingComments(false);
-        setIsClosingComments(false);
-      }, 1000);
-    }
+  document.addEventListener('click', (e) => console.log(e.screenY));
+
+  const scrollOpeningHandle = () => {
+    const msgContainer = document.getElementById(`msg-card${messageId}`);
+
+    const boundingMsg = msgContainer.getBoundingClientRect();
+    const msgHeight = boundingMsg.height;
+
+    const msgTop = boundingMsg.top;
+    const realMsgTop = msgTop + window.scrollY;
+    const clientHeight = window.innerHeight;
+    const difference = clientHeight - msgHeight;
+
+    console.table({ msgTop, realMsgTop, clientHeight, difference });
+
+
+    scroll.scrollTo(realMsgTop - difference, {
+      duration: 900,
+      smooth: 'easeInSine'
+    });
+
   };
 
   return (
     <>
       {isDeleting && <MessageDelete data={{ setIsDeleting, messageId }} />}
-      <div className={isEditing ? 'editing__card' : 'msg__card'} id="msg-card">
+      <div className={isEditing ? 'editing__card' : 'msg__card'} id={`msg-card${messageId}`}>
 
         {isEditing
           ? <MessageEdit data={{ setIsEditing, text, attachment, messageId }} />
@@ -75,20 +97,20 @@ const MessagesInfos = (props) => {
               <p className='text'>{text}</p>
               <MessagesLikes data={{ likeList, messageId }} />
               <MessageDislike data={{ dislikeList, messageId }} />
-              <MessagesComment data={{ Comments, setIsShowingComments }} />
+              <MessagesComment data={{ Comments, isShowingComments, setIsShowingComments, messageId }} />
               {ownMessage()}
             </>
           )
         }
       </div>
       {isShowingComments && (
-        <div className='comments__wrapper'>
+        <div className='comments__wrapper' id={`${messageId}wrap`}>
           <div className={`comments-container ${isClosingComments ? 'closing' : 'opening'}`}>
             {Comments
               .sort((prev, next) => prev.commentId - next.commentId)
               .map((comment, idx) => <CommentInfos comment={comment} key={idx} />)}
             <CommentPost messageId={messageId} />
-            <a className='up-icon' href="#msg-card" id="hide-comments" onClick={handleClosing}><UpArrow /></a>
+            <a className='up-icon' id={`hide-comments${messageId}`} onClick={handleClosing}><UpArrow /></a>
           </div>
         </div>
       )}
