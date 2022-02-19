@@ -94,8 +94,6 @@ const userValid = async (req, res, next) => {
     if (path === pathPassword) {
       const { previousPw, newPw } = req.body;
       await passwordSchema.validate({ previousPw, newPw });
-      console.log('mot de passe');
-      console.log(req.body);
       next();
     }
 

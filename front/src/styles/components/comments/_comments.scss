@@ -17,12 +17,12 @@
 }
 
 .opening {
-  animation: opening 800ms linear;
+  animation: opening 800ms ease-in-out;
   // transform: none;
 }
 
 .closing {
-  animation: closing 800ms both linear;
+  animation: closing 800ms both ease-in-out;
 }
 
 .comments__wrapper {
@@ -119,6 +119,8 @@
       transition: 300ms;
       // margin-bottom: 30px;
       min-height: 25px;
+      font-size: 1rem;
+      font-weight: 500;
 
       @media screen and (max-width: $media-medium) {
         justify-self: center;

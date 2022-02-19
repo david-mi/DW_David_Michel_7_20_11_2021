@@ -17,20 +17,26 @@ function MessageDislike(props) {
   const { token, USER_ID } = useContext(loginContext);
   const { setRefreshToogle } = useContext(refreshData);
 
+  // un state gérant l'état de l'affichage des utilisateurs qui ont dislike le message
   const [showDislikeUsers, setShowDislikeUsers] = useState(false);
 
+  /* fonction permettant de savoir si l'utilisateur en question à déjà dislike le message
+  pour pouvoir mettre à jour de la couleur du composant DislikeIcon */
   const hasDisliked = () => {
     if (!dislikeList.length) return false;
     return dislikeList.find(({ User }) => User.userMessageVoted == USER_ID);
   };
 
+  /* fonction qui va envoyer une requête pour envoyer un dislike ou bien le retirer
+  qui va aussi lancer un nouvel appel api pour afficher la mise à jour */
   const sendDislike = async () => {
     const headers = { 'Authorization': `Bearer ${token}` };
-    const dislike = await axios.post(`${apiMessage}/${messageId}/dislike`, null, { headers });
-    console.log(dislike.data.message);
+    await axios.post(`${apiMessage}/${messageId}/dislike`, null, { headers });
     setRefreshToogle((e) => !e);
   };
 
+  /* au hover sur le nombre de dislike, si ce nombre est supérieur à 0
+  on va afficher le prénom / nom / pseudo des utilisateurs qui ont dislike le message */
   return (
     <div className='dislike-container'>
       <span className='dislike-btn' onClick={sendDislike}><DislikeIcon hasDisliked={hasDisliked} /></span>

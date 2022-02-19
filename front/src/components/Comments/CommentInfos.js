@@ -45,7 +45,7 @@ const CommentInfos = ({ comment }) => {
     <div className={isEditing ? 'editing__card' : 'comment__card'}>
       {isDeleting && <CommentDelete data={{ setIsDeleting, commentId, messageId }} />}
       {isEditing
-        ? <CommentEdit data={{ setIsEditing, text, attachment, messageId, commentId }} />
+        ? <CommentEdit data={{ setIsEditing, text, attachment, commentId }} />
         : (
           <>
             <CommentName data={{ ...User, commentUserId }} />

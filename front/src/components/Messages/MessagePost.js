@@ -46,7 +46,6 @@ const MessagePost = () => {
     await axios.post(`${apiMessage}/new`, formData, { headers });
 
     setRefreshToogle((e) => !e);
-    console.log('isSubmitSuccess ' + isSubmitSuccessful);
     reset();
     setCaractersNb(0);
     setDisplayImage(null);

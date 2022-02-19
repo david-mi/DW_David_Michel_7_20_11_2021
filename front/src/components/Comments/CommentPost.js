@@ -35,7 +35,6 @@ const CommentPost = ({ messageId }) => {
   }, [displayImage]);
 
   const sendForm = async (data) => {
-    console.log(data);
     const formData = new FormData();
     formData.append('commentInfos', JSON.stringify(data));
     formData.append('image', data.commentPicture[0]);
@@ -47,7 +46,6 @@ const CommentPost = ({ messageId }) => {
     await axios.post(`${apiMessage}/${messageId}/comments/new`, formData, { headers });
 
     setRefreshToogle((e) => !e);
-    console.log('isSubmitSuccess ' + isSubmitSuccessful);
     reset();
     setCaractersNb(0);
     setDisplayImage(null);

@@ -17,8 +17,11 @@ function MessagesLikes(props) {
   const { token, USER_ID } = useContext(loginContext);
   const { setRefreshToogle } = useContext(refreshData);
 
+  // un state gérant l'état de l'affichage des utilisateurs qui ont like le message
   const [showLikeUsers, setShowLikeUsers] = useState(false);
 
+  /* fonction permettant de savoir si l'utilisateur en question à déjà like le message
+  pour pouvoir mettre à jour de la couleur du composant LikeIcon */
   const hasLiked = () => {
     if (!likeList.length) return false;
     return likeList.find(({ User }) => User.userMessageVoted == USER_ID);
@@ -27,11 +30,12 @@ function MessagesLikes(props) {
   const sendLike = async () => {
     const headers = { 'Authorization': `Bearer ${token}` };
 
-    const like = await axios.post(`${apiMessage}/${messageId}/like`, null, { headers });
-    console.log(like.data.message);
+    await axios.post(`${apiMessage}/${messageId}/like`, null, { headers });
     setRefreshToogle((e) => !e);
   };
 
+  /* au hover sur le nombre de like, si ce nombre est supérieur à 0
+  on va afficher le prénom / nom / pseudo des utilisateurs qui ont like le message */
   return (
     <div className='like-container'>
       <span className="like-btn" onClick={sendLike}><LikeIcon hasLiked={hasLiked} /></span>

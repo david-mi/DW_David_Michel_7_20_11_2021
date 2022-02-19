@@ -49,21 +49,23 @@ const MessagesInfos = (props) => {
 
   const handleClosing = (e) => {
 
-    scrollOpeningHandle();
+    scrollClosingHandle();
     setIsClosingComments(true);
     setTimeout(() => {
       setIsShowingComments(false);
       setIsClosingComments(false);
-    }, 1000);
+    }, 800);
 
   };
 
-  document.addEventListener('click', (e) => console.log(e.screenY));
+  const animDuration = () => Comments.length * 100 + 500;
 
-  const scrollOpeningHandle = () => {
+  const scrollClosingHandle = () => {
+
     const msgContainer = document.getElementById(`msg-card${messageId}`);
 
     const boundingMsg = msgContainer.getBoundingClientRect();
+
     const msgHeight = boundingMsg.height;
 
     const msgTop = boundingMsg.top;
@@ -75,8 +77,8 @@ const MessagesInfos = (props) => {
 
 
     scroll.scrollTo(realMsgTop - difference, {
-      duration: 900,
-      smooth: 'easeInSine'
+      duration: animDuration() + 50,
+      smooth: 'easeInOutCubic'
     });
 
   };
@@ -96,7 +98,7 @@ const MessagesInfos = (props) => {
               <p className='text'>{text}</p>
               <MessagesLikes data={{ likeList, messageId }} />
               <MessageDislike data={{ dislikeList, messageId }} />
-              <MessagesComment data={{ Comments, isShowingComments, setIsShowingComments, messageId }} />
+              <MessagesComment data={{ Comments, isShowingComments, setIsShowingComments, messageId, animDuration }} />
               {ownMessage()}
             </>
           )
@@ -104,7 +106,7 @@ const MessagesInfos = (props) => {
       </div>
       {isShowingComments && (
         <div className='comments__wrapper' id={`${messageId}wrap`}>
-          <div className={`comments-container ${isClosingComments ? 'closing' : 'opening'}`}>
+          <div className={`comments-container ${isClosingComments ? 'closing' : 'opening'}`} style={{ animationDuration: `${animDuration()}ms` }}>
             {Comments
               .sort((prev, next) => prev.commentId - next.commentId)
               .map((comment, idx) => <CommentInfos comment={comment} key={idx} />)}

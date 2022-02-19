@@ -4,17 +4,10 @@ const multer = require('multer');
 const storage = multer.diskStorage({
 
   destination: (req, file, cb) => {
-    console.log(file);
-    console.log(req.route.path);
-    if (req.route.path === '/users/:id/profileupdate') cb(null, 'images/user');
-    if (req.route.path === '/new' || req.route.path === '/:id') {
-      console.log('bonne route');
-      cb(null, 'images/post');
-    }
-    if (req.route.path == '/messages/:id/comments/new' ||
-      req.route.path == '/comments/:id') {
-      cb(null, 'images/comment');
-    }
+    const pathRoute = req.route.path;
+    if (pathRoute === '/users/:id/profileupdate') cb(null, 'images/user');
+    if (pathRoute === '/new' || pathRoute === '/:id') cb(null, 'images/post');
+    if (pathRoute === '/messages/:id/comments/new' || pathRoute == '/comments/:id') cb(null, 'images/comment');
   },
 
   filename: (req, file, cb) => {

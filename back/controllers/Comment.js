@@ -1,4 +1,7 @@
-const { Message, User, Like, Comment } = require('../models');
+// MODELS
+const { Message, User, Comment } = require('../models');
+
+// TOOLS
 const { handleErrorImage, deletePreviousCommentImage } = require('../tools/handleErrorImage');
 
 exports.getCommentByMessageId = async (req, res) => {
@@ -11,7 +14,6 @@ exports.getCommentByMessageId = async (req, res) => {
       attributes: ['username']
     }]
   });
-
 
   res.status(200).json(comments);
 
@@ -30,14 +32,10 @@ exports.postComment = async (req, res) => {
 
 
     if (req.file) {
-      console.log('avec image');
+
       // on récupère l'image stockée par multer et on construit son URL
       const { filename } = req.file;
       const newPicture = `${req.protocol}://${req.get('host')}/images/comment/${filename}`;
-      console.log(filename);
-      console.log(newPicture);
-      console.log(newData);
-      // mise à jour de l'utilisateur
 
       const message = await Comment.create(
         {
@@ -52,8 +50,7 @@ exports.postComment = async (req, res) => {
     }
 
     else {
-      console.log('pas de photo');
-      // mise à jour de l'utilisateur sans photo
+
       const textOnly = await Comment.create(
         {
           ...newData,
@@ -74,15 +71,13 @@ exports.postComment = async (req, res) => {
 };
 
 exports.editComment = async (req, res) => {
+
   const { newData } = res.locals;
   const commentId = req.params.id;
-
-  console.log('commentId ' + commentId);
 
   try {
 
     if (req.file) {
-      console.log('req.file');
       // on récupère l'image stockée par multer et on construit son URL
       const { filename } = req.file;
       const newPicture = `${req.protocol}://${req.get('host')}/images/comment/${filename}`;
@@ -92,13 +87,10 @@ exports.editComment = async (req, res) => {
       let previousPicture = '';
 
       if (getComment.attachment) {
-        console.log('previous');
-        console.log(getComment.attachment);
         previousPicture = getComment.attachment.split('/images/comment/')[1];
-        console.log(previousPicture);
       };
 
-      // mise à jour de l'utilisateur
+      // mise à jour du commentaire
       await Comment.update(
         { ...newData, attachment: newPicture },
         { where: { id: commentId } });
@@ -125,8 +117,6 @@ exports.editComment = async (req, res) => {
 
 exports.deleteCommentImage = async (req, res) => {
 
-  console.log('delCommentImage');
-
   try {
     const idComment = req.params.id;
     const comment = await Comment.findByPk(idComment);
@@ -150,20 +140,14 @@ exports.deleteComment = async (req, res) => {
 
   const commentId = req.params.id;
 
-  console.log('commentid ' + commentId);
-
   try {
+
     const getComment = await Comment.findByPk(commentId);
-    console.log('getComment');
-    console.log(getComment);
 
     let commentPicture = '';
 
     if (getComment.attachment) {
-      console.log('previous');
-      console.log(getComment.attachment);
       commentPicture = getComment.attachment.split('/images/comment/')[1];
-      console.log(commentPicture);
     };
 
     await Comment.destroy({ where: { id: commentId } });

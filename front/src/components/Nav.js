@@ -15,15 +15,14 @@ const Nav = () => {
   const { pictureUpdate, setPictureUpdate } = useContext(profilPictureUpdate);
   const [addPicture, setAddPicture] = useState(false);
   const [userId, setUserId] = useState(null);
+  const [isMounted, setIsMounted] = useState(true);
   const navigate = useNavigate();
 
   const getProfilePicture = async () => {
     const headers = { 'Authorization': `Bearer ${token}` };
     const res = await axios.get(`http://localhost:3000/api/auth/users/${USER_ID}`, { headers });
     const { profilePicture } = res.data;
-    console.log(profilePicture);
     setAddPicture(profilePicture);
-    setUserId(USER_ID);
   };
 
   const logOut = () => {
@@ -35,14 +34,14 @@ const Nav = () => {
 
   // source du souci ?? 
   useEffect(() => {
+    console.log('useEffect[Nav]');
+    if (isLogged && isMounted && USER_ID) getProfilePicture();
 
-    if (isLogged) {
-      console.log('[useEffect] Nav.js MOUNT');
-      getProfilePicture();
-    }
     return () => {
-      console.log('[useEffect] Nav.js DISMOUNT');
+      console.log('return useEffect[Nav]');
+      setIsMounted(false);
     };
+
   }, [isLogged, pictureUpdate]);
 
   return (
@@ -52,7 +51,7 @@ const Nav = () => {
         <nav className='header__nav'>
           <NavLink to={'/home'}><HomeIcon /></NavLink>
           <button onClick={logOut}><LogOutIcon /></button>
-          <NavLink to={`/profile/${userId}`}>
+          <NavLink to={`/profile/${USER_ID}`}>
             {addPicture && <img src={addPicture} alt='photo de profil' />}
           </NavLink>
         </nav>

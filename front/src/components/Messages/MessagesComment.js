@@ -7,34 +7,33 @@ import { MessageIcon } from '../../icons-logos/icons';
 
 const MessagesComment = ({ data }) => {
 
-  const { Comments, isShowingComments, setIsShowingComments, messageId } = data;
+  const { Comments, isShowingComments, setIsShowingComments, messageId, animDuration } = data;
 
   const [showCommentUsers, setShowCommentsUsers] = useState(null);
 
 
-  const scrollClosingHandle = () => {
+  const scrollOpeningHandle = () => {
 
     const cmtContainer = document.getElementById(`${messageId}wrap`);
+    console.log(cmtContainer);
 
     const boundingCmt = cmtContainer.getBoundingClientRect();
-    const cmtHeight = boundingCmt.height;
-
-    const cmtTop = boundingCmt.top;
-    const realCmtTop = cmtTop + window.scrollY;
+    console.log(boundingCmt);
+    const cmtBottom = boundingCmt.bottom;
+    const realCmtBottom = cmtBottom + window.scrollY;
     const clientHeight = window.innerHeight;
-    const difference = clientHeight - cmtHeight;
 
-    console.table({ cmtTop, realCmtTop, clientHeight, difference });
+    console.table({ cmtBottom, realCmtBottom, clientHeight });
 
-    scroll.scrollTo(realCmtTop - difference, {
-      duration: 900,
-      smooth: 'easeInSine'
+    scroll.scrollTo(realCmtBottom - clientHeight, {
+      duration: animDuration() - 100,
+      smooth: 'linear'
     });
   };
 
   useEffect(() => {
     if (isShowingComments) {
-      scrollClosingHandle();
+      scrollOpeningHandle();
     }
   }, [isShowingComments]);
 

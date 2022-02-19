@@ -1,26 +1,28 @@
+// LIBRARIES
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 
 // MODELS
-const models = require('../models');
-const User = models.User;
+const { User } = require('../models');
 
 // TOOLS
-const { profileParser } = require('../tools/jsonParser');
 const { handleErrorImage, deletePreviousUserImage } = require('../tools/handleErrorImage');
 
+/* fonction permettant de récupérer la photo de profil par défaut
+de l'utilisateur stockée dans le dossier images/user */
 const getdefaultUserPicture = (request) => {
   const name = 'default_profile_picture.jpg';
   return `${request.protocol}://${request.get('host')}/images/user/${name}`;
 };
 
+// 
 exports.getAllUsers = async (req, res) => {
 
   const users = await User.findAll()
     .catch(err => res.status(500).json(err));
 
   !users.length
-    ? res.status(404).json({ message: "aucun utilisateur dans la bdd" })
+    ? res.status(404).json({ message: "Aucun utilisateur dans la base de donnée" })
     : res.status(200).json(users);
 
 };
@@ -129,7 +131,15 @@ exports.passwordUpdate = async (req, res) => {
 
 exports.signup = async (req, res) => {
 
+
+
   try {
+
+    const isExisting = await User.findAll(
+      { where: { email: req.body.email } }
+    );
+    if (isExisting.length) throw ('Cet email est déjà enregistré sur la base de donnée');
+
     const hash = await bcrypt.hash(req.body.password, 10);
     const user = await User.create({
       ...req.body,
@@ -141,8 +151,9 @@ exports.signup = async (req, res) => {
     res.status(201).json({ Message: "Utilisateur créé", user });
 
   } catch (err) {
-    res.status(400).json(err.errors[0].message);
-    console.log(err);
+    if (err.errors) return res.status(400).json(err.errors[0].message | err);
+    else return res.status(400).json(err);
+
   }
 
 };
@@ -156,31 +167,31 @@ exports.login = async (req, res) => {
     const compare = await bcrypt.compare(req.body.password, user.password);
     if (!compare) return res.status(401).json({ message: 'Mauvais mot de passe !' });
 
-    const payload = [{ USER_ID: user.id, isAdmin: user.isAdmin }, process.env.TOKEN_SECRET, { expiresIn: '24h' }];
+    const payload = [
+      { USER_ID: user.id, isAdmin: user.isAdmin },
+      process.env.TOKEN_SECRET,
+      { expiresIn: '24h' }
+    ];
 
     res.status(200).json({ token: jwt.sign(...payload) });
 
   } catch (err) {
     res.send(err);
-    console.log(err);
   }
 
 };
 
 exports.deleteUserImage = async (req, res) => {
-  console.log('bonjour');
   try {
     const userId = req.token.USER_ID;
     const user = await User.findByPk(userId);
     const previousPicture = user.profilePicture.split('/images/user/')[1];
-    console.log(previousPicture);
 
     await deletePreviousUserImage(previousPicture);
     await User.update(
       { profilePicture: getdefaultUserPicture(req) },
       { where: { id: userId } }
     );
-
 
     res.status(201).json({ message: `L'image ${previousPicture} à bien été supprimée de votre profil` });
   }

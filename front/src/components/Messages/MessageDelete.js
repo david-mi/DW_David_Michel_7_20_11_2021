@@ -15,6 +15,9 @@ const MessageDelete = (props) => {
   const { token } = useContext(loginContext);
   const { setRefreshToogle } = useContext(refreshData);
 
+  /* fonction qui va supprimer le message dans la base de donnée
+  qui va aussi lancer un nouvel appel api pour afficher la mise à jour
+  un changement d'état sera aussi fait pour retirer la fenêtre de confirmation */
   const deleteMessage = async () => {
     const headers = { 'Authorization': `Bearer ${token}` };
     await axios.delete(`http://localhost:3000/api/messages/${messageId}`, { headers });

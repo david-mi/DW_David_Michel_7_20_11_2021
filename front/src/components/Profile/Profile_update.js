@@ -17,7 +17,6 @@ const apiUsers = 'http://localhost:3000/api/auth/users/';
 const Profile_update = ({ profileData }) => {
 
   const { profilePicture, username, firstname, lastname, bio } = profileData;
-  console.log(profilePicture);
 
   const { setIsUpdating } = useContext(editingContext);
   const { setPictureUpdate } = useContext(profilPictureUpdate);
@@ -29,6 +28,21 @@ const Profile_update = ({ profileData }) => {
   const [isDeletingImg, setIsDeletingImg] = useState(false);
   const [caractersNb, setCaractersNb] = useState(0);
 
+  /* useEffect qui va regarder si une image a été sélectionnée 
+ si oui, on utilise la méthode créateObject pour générer une URL et
+ la mettre dans un state ImageUrl */
+  useEffect(() => {
+    displayImage
+      ? setImageUrl(URL.createObjectURL(displayImage))
+      : setImageUrl(null);
+  }, [displayImage]);
+
+  // useEffect qui va initialiser la longueur de la bio, 0 si null
+  useEffect(() => bio ? setCaractersNb(bio.length) : setCaractersNb(0), []);
+
+  /* fonction qui va gérer l'envoi du formulaire avec l'interface formData. 
+  On change ensuite le state pour indiquer que l'on est plus en mode édition et 
+  on affiche la nouvelle photo de profil si il y en a une */
   const sendForm = async (data) => {
     const formData = new FormData();
     formData.append('userInfos', JSON.stringify(data));
@@ -39,32 +53,17 @@ const Profile_update = ({ profileData }) => {
       "Content-Type": "multipart/form-data"
     };
     await axios.put(`${apiUsers}${USER_ID}/profileupdate`, formData, { headers });
+
     setIsUpdating(false);
-    if (data.picture[0]) {
-      console.log('mise à jour de photo');
-      setPictureUpdate((e) => !e);
-    }
+    if (data.picture[0]) setPictureUpdate((e) => !e);
   };
 
-  // va initialiser la longueur de la bio, 0 si null
-  useEffect(() => bio ? setCaractersNb(bio.length) : setCaractersNb(0), []);
-
-  // gestion de la prévisualisation de l'image 
-  useEffect(() => {
-    displayImage
-      ? setImageUrl(URL.createObjectURL(displayImage))
-      : setImageUrl(null);
-  }, [displayImage]);
-
-
+  // fonction pour reset l'url d'image générée 
   const reseter = () => setDisplayImage(null);
 
   // on check si l'utilisateur à la photo de profil par défaut fourni par le backend
   const hasDefaultPic = () => profilePicture.split('/images/user/')[1] === 'default_profile_picture.jpg';
 
-
-
-  hasDefaultPic();
   return (
     <form className="form" onSubmit={handleSubmit(sendForm)}>
       <div className='image-profile-edit__container'>

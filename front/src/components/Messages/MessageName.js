@@ -13,7 +13,7 @@ const MessageName = (props) => {
         className='names'
         onClick={() => navigate(`/profile/${messageUserId}`)}>
         {firstname} {lastname} ({username})
-        <img className='profile-pic' src={profilePicture} />
+        <img className='profile-pic' src={profilePicture} alt="photo de profil de l'utilisateur" />
       </p>
 
     </>

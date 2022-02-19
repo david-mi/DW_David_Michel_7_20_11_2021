@@ -19,11 +19,13 @@ const Profile_delete_img = (props) => {
 
   const [isImgDeleted, setIsImgDeleted] = useState(false);
 
+  /* fonction pour supprimer une image associée à un profilS
+  qui va aussi lancer un nouvel appel api pour afficher la mise à jour 
+  un changement d'état sera aussi fait pour retirer la fenêtre de confirmation */
   const deleteImage = async (event) => {
     event.preventDefault();
     const headers = { 'Authorization': `Bearer ${token}` };
     await axios.delete(`${apiUsers}${USER_ID}/delimg`, { headers });
-
     setIsImgDeleted(true);
     setPictureUpdate(true);
   };

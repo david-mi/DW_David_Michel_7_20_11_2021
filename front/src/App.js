@@ -36,6 +36,8 @@ const App = () => {
       if (!decodedToken || isTokenExpired) {
         localStorage.clear();
         setIsLogged(false);
+        setIsAdmin(null);
+        setUSER_ID(null);
       }
       if (decodedToken && !isTokenExpired) {
         const { USER_ID, isAdmin } = decodedToken;
@@ -45,7 +47,11 @@ const App = () => {
         setIsLogged(true);
       }
     }
-    if (!check) setIsLogged(false);
+    if (!check) {
+      setIsLogged(false);
+      setIsAdmin(null);
+      setUSER_ID(null);
+    }
   };
 
   useEffect(() => {

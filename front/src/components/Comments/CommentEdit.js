@@ -17,7 +17,7 @@ const apiComment = 'http://localhost:3000/api/comments';
 
 const CommentEdit = (props) => {
 
-  const { setIsEditing, text, attachment, messageId, commentId } = props.data;
+  const { setIsEditing, text, attachment, commentId } = props.data;
 
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(commentSchema) });
   const { setRefreshToogle } = useContext(refreshData);
@@ -28,14 +28,18 @@ const CommentEdit = (props) => {
   const [isDeletingImg, setIsDeletingImg] = useState(false);
   const [caractersNb, setCaractersNb] = useState(text.length);
 
-
+  /* useEffect qui va regarder si une image a été sélectionnée 
+  si oui, on utilise la méthode créateObject pour générer une URL et
+  la mettre dans un state ImageUrl */
   useEffect(() => {
     displayImage
       ? setImageUrl(URL.createObjectURL(displayImage))
       : setImageUrl(null);
   }, [displayImage]);
 
-
+  /* fonction qui va gérer l'envoi du formulaire avec l'interface formData.
+  On rafraîchit ensuite l'affichage des données avec un appel à l'api et on change
+  le state pour indiquer que l'on est plus en mode édition */
   const sendForm = async (data) => {
     const formData = new FormData();
     formData.append('commentInfos', JSON.stringify(data));
@@ -51,6 +55,7 @@ const CommentEdit = (props) => {
     setIsEditing(false);
   };
 
+  // fonction pour reset l'url d'image générée 
   const reseter = () => setDisplayImage(null);
 
   return (

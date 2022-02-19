@@ -5,6 +5,7 @@ const MessageDate = (props) => {
 
   const { createdAt, updatedAt } = props.data;
 
+  /* si la date d'edit est la même que la date de post on ne l'affiche pas */
   return (
     <div className='date-container'>
       <i className='postDate'>le {handleDate(createdAt)}</i>

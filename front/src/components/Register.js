@@ -28,8 +28,8 @@ const Register = () => {
       navigate('/login');
     }
     catch (err) {
-      const { status, statusText } = err.response;
-      setApiError({ status, statusText });
+      const { status, statusText, data } = err.response;
+      setApiError({ status, statusText, data });
     }
 
   };
@@ -44,10 +44,7 @@ const Register = () => {
       <div className='register__container container'>
         <form
           className="form"
-          onSubmit={handleSubmit((data) => {
-            console.log(data);
-            sendForm(data);
-          })}>
+          onSubmit={handleSubmit((data) => sendForm(data))}>
 
           <div className='input-label__container'>
             <label htmlFor="email">Votre mail</label>
@@ -83,7 +80,7 @@ const Register = () => {
 
           <div className='input-label__container'>
             <input type="submit" value="Send" />
-            {Apierror && <small>Erreur {Apierror.status} {Apierror.statusText}</small>}
+            {Apierror && <small>Erreur {Apierror.status} {Apierror.statusText} {Apierror.data}</small>}
           </div>
 
         </form>

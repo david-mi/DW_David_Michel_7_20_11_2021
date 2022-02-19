@@ -1,24 +1,12 @@
+require('dotenv').config();
+
 module.exports = {
   development: {
-    username: "root",
-    password: "adminMAMP",
-    database: "groupomania_development",
-    host: "127.0.0.1",
-    dialect: "mysql",
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PW,
+    database: process.env.DB,
+    host: process.env.DB_HOST,
+    dialect: process.env.DB_DIALECT,
     timezone: "+01:00"
-  },
-  test: {
-    username: "root",
-    password: "adminMAMP",
-    database: "groupomania_test",
-    host: "127.0.0.1",
-    dialect: "mysql"
-  },
-  production: {
-    username: "root",
-    password: "adminMAMP",
-    database: "groupomania_production",
-    host: "127.0.0.1",
-    dialect: "mysql"
   }
-}
+};

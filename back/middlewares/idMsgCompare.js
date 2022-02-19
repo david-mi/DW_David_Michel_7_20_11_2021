@@ -7,7 +7,6 @@ module.exports = async (req, res, next) => {
 
     const message = await Message.findByPk(req.params.id);
     if (!message) return res.status(404).json({ Message: "Message non trouvé" });
-    console.log(message.UserId, req.token.USER_ID);
     if (message.UserId !== req.token.USER_ID) return res.status(403).json({ Message: "Vous n'êtes pas le propriétaire de ce message" });
 
     next();

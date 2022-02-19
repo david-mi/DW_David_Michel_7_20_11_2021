@@ -13,7 +13,7 @@ const CommentName = (props) => {
         className='names'
         onClick={() => navigate(`/profile/${commentUserId}`)}>
         {firstname} {lastname} ({username})
-        <img className='profile-pic' src={profilePicture} />
+        <img className='profile-pic' src={profilePicture} alt="photo de profil de l'utilisateur" />
       </p>
 
     </>

@@ -10,7 +10,6 @@ const db = {};
 // on définit quelle base de donnée listée dans le fichier config on veut utiliser
 const env = process.env.CURRENT_DB;
 const config = require(__dirname + '/../config/config.js')[env];
-console.log(config);
 
 // on se connecte sur la base de donnée mysql via sequelize
 let sequelize = new Sequelize({ ...config });
@@ -27,7 +26,6 @@ fs
   .forEach(file => {
     const model = require(path.join(__dirname, file))(sequelize, Sequelize.DataTypes);
     db[model.name] = model;
-    // console.log(model);
   });
 
 Object.keys(db).forEach(modelName => {
@@ -35,9 +33,6 @@ Object.keys(db).forEach(modelName => {
     db[modelName].associate(db);
   }
 });
-
-// sequelize.sync({ force: true })
-//   .then(res => console.log("ggd"));
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;

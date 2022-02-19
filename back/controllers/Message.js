@@ -1,4 +1,7 @@
+// MODELS
 const { Message, User, MessageVote, Comment, CommentVote } = require('../models');
+
+// TOOLS
 const { handleErrorImage, deletePreviousPostImage } = require('../tools/handleErrorImage');
 
 exports.getAllMessages = async (req, res) => {
@@ -50,9 +53,7 @@ exports.getUserMessages = async (req, res) => {
     const limit = parseInt(req.query.limit);
     const userid = req.query.userid;
     const username = req.query.username;
-    console.log('limit: ' + limit);
-    console.log('userId ' + userid);
-    console.log('userName ' + username);
+
     const messages = await Message.findAll(
       {
         // where: userid ? { UserId: userid } : null,
@@ -73,8 +74,9 @@ exports.getUserMessages = async (req, res) => {
 };
 
 exports.getUserMessagesById = async (req, res) => {
-  console.log('pdr');
+
   try {
+
     const message = await Message.findByPk(req.params.id, {
 
       attributes: ['id', 'text', 'attachment', 'createdAt', 'updatedAt'],
@@ -84,6 +86,7 @@ exports.getUserMessagesById = async (req, res) => {
       ],
     });
     message ? res.status(200).json(message) : res.status(404).json({ Message: "message non trouvé" });
+
   } catch (err) {
     res.send(err);
   }
@@ -97,14 +100,10 @@ exports.postMessage = async (req, res) => {
   try {
 
     if (req.file) {
-      console.log('avec image');
+
       // on récupère l'image stockée par multer et on construit son URL
       const { filename } = req.file;
       const newPicture = `${req.protocol}://${req.get('host')}/images/post/${filename}`;
-      console.log(filename);
-      console.log(newPicture);
-      console.log(newData);
-      // mise à jour de l'utilisateur
 
       const message = await Message.create(
         {
@@ -118,8 +117,7 @@ exports.postMessage = async (req, res) => {
     }
 
     else {
-      console.log('pas de photo');
-      // mise à jour de l'utilisateur sans photo
+
       const messageOnly = await Message.create(
         { ...newData, UserId: userIdToken });
 
@@ -143,7 +141,7 @@ exports.editMessage = async (req, res) => {
   try {
 
     if (req.file) {
-      console.log('req.file');
+
       // on récupère l'image stockée par multer et on construit son URL
       const { filename } = req.file;
       const newPicture = `${req.protocol}://${req.get('host')}/images/post/${filename}`;
@@ -153,13 +151,8 @@ exports.editMessage = async (req, res) => {
       let previousPicture = '';
 
       if (getMessage.attachment) {
-        console.log('previous');
-        console.log(getMessage.attachment);
         previousPicture = getMessage.attachment.split('/images/post/')[1];
-        console.log(previousPicture);
       };
-
-      console.log('après le if');
 
       // mise à jour de l'utilisateur
       await Message.update(
@@ -216,10 +209,7 @@ exports.deleteMessage = async (req, res) => {
     let previousPicture = '';
 
     if (getMessage.attachment) {
-      console.log('previous');
-      console.log(getMessage.attachment);
       previousPicture = getMessage.attachment.split('/images/post/')[1];
-      console.log(previousPicture);
     };
     await Message.destroy({ where: { id: messageId } });
     if (getMessage.attachment) await deletePreviousPostImage(previousPicture);

@@ -25,8 +25,7 @@ const Profile = () => {
   const [isOwner, setIsOwner] = useState(false);
 
   const getProfileData = async () => {
-    console.log('userid ' + USER_ID, ' isAdmin ' + isAdmin);
-    // const { token, USER_ID } = JSON.parse(localStorage.getItem('payload'));
+
     if (id == USER_ID) setIsOwner(true);
     const res = await axios.get(`http://localhost:3000/api/auth/users/${id}`, {
       headers: { 'Authorization': `Bearer ${token}` }

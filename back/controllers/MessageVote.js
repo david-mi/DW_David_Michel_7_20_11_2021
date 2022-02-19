@@ -1,4 +1,4 @@
-
+// MODELS
 const { Message, MessageVote } = require('../models');
 
 exports.showAllVotes = async (req, res) => {

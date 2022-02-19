@@ -12,9 +12,13 @@ const apiMessage = 'http://localhost:3000/api/messages/';
 const MessageDeleteImage = (props) => {
 
   const { setIsDeletingImg, messageId } = props.data;
+
   const { setRefreshToogle } = useContext(refreshData);
   const { token } = useContext(loginContext);
 
+  /* fonction pour supprimer une image associée à un message
+  qui va aussi lancer un nouvel appel api pour afficher la mise à jour 
+  un changement d'état sera aussi fait pour retirer la fenêtre de confirmation */
   const deleteImage = async (event) => {
     event.preventDefault();
     const headers = { 'Authorization': `Bearer ${token}` };
