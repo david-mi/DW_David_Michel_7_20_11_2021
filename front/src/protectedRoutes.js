@@ -13,7 +13,7 @@ const ProtectedRoutes = () => {
 
   const { isLogged } = useContext(loginContext);
 
-  return isLogged ? <Outlet /> : <Login />;
+  return isLogged ? <Outlet /> : <Login path="/login" />;
 };
 
 export default ProtectedRoutes;

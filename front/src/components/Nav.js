@@ -19,6 +19,7 @@ const Nav = () => {
   const navigate = useNavigate();
 
   const getProfilePicture = async () => {
+    console.log(USER_ID, token);
     const headers = { 'Authorization': `Bearer ${token}` };
     const res = await axios.get(`http://localhost:3000/api/auth/users/${USER_ID}`, { headers });
     const { profilePicture } = res.data;
@@ -26,7 +27,7 @@ const Nav = () => {
   };
 
   const logOut = () => {
-    localStorage.removeItem('payload');
+    localStorage.removeItem('token');
     setIsLogged(false);
     //!  A SURVEILLER SI IL FAUT PAS ATTENDRE QUE SETISLOGGED SOIT BIEN FALSE POUR FAIRE LA REDIRECTION
     navigate('/login');
@@ -34,15 +35,17 @@ const Nav = () => {
 
   // source du souci ?? 
   useEffect(() => {
-    console.log('useEffect[Nav]');
     if (isLogged && isMounted && USER_ID) getProfilePicture();
-
+    console.log('userid ' + USER_ID);
+    console.log('isLogged ' + isLogged);
+    console.log('token ' + token);
+    console.log('ismounted ' + isMounted);
     return () => {
-      console.log('return useEffect[Nav]');
       setIsMounted(false);
+      console.log('Nav unmounted');
     };
 
-  }, [isLogged, pictureUpdate]);
+  }, [isLogged, pictureUpdate, USER_ID]);
 
   return (
 

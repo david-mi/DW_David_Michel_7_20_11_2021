@@ -23,15 +23,17 @@ const App = () => {
   const [token, setToken] = useState(null);
   const [isAdmin, setIsAdmin] = useState(null);
   const [USER_ID, setUSER_ID] = useState(null);
+  const [redirectToggle, setRedirectToggle] = useState(false);
 
   const loggedCheck = () => {
 
-    const check = localStorage.getItem('payload');
-
+    const check = localStorage.getItem('token');
+    console.log('app.js');
     if (check) {
-      const payload = JSON.parse(localStorage.getItem('payload'));
-      const decodedToken = decodeToken(payload.token);
-      const isTokenExpired = isExpired(payload.token);
+      console.log('check');
+      const getToken = JSON.parse(localStorage.getItem('token'));
+      const decodedToken = decodeToken(getToken);
+      const isTokenExpired = isExpired(getToken);
 
       if (!decodedToken || isTokenExpired) {
         localStorage.clear();
@@ -41,8 +43,9 @@ const App = () => {
       }
       if (decodedToken && !isTokenExpired) {
         const { USER_ID, isAdmin } = decodedToken;
-        setToken(payload.token);
+        console.log('userid ' + USER_ID);
         setIsAdmin(isAdmin);
+        setToken(getToken);
         setUSER_ID(USER_ID);
         setIsLogged(true);
       }
@@ -63,7 +66,7 @@ const App = () => {
     <loginContext.Provider value={{ isLogged, setIsLogged, token, setToken, USER_ID, isAdmin }}>
       <BrowserRouter>
         <Routes>
-          <Route exact path="/login" element={<Login />}></Route>
+          <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route element={<ProtectedRoutes />}>
             <Route path="/home" element={<Home />}></Route>

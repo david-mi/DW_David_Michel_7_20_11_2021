@@ -27,12 +27,14 @@ const Login = () => {
 
   const sendData = async (data) => {
     try {
+      setIsLogged(false);
       const response = await axios.post('http://localhost:3000/api/auth/login', data);
-      const payload = response.data;
-      localStorage.setItem('payload', JSON.stringify(payload));
+      const { token } = response.data;
+      localStorage.setItem('token', JSON.stringify(token));
       setApiError(false);
-      setToken(payload.token);
+      setToken(token);
       setIsLogged(true);
+      navigate('/home');
     }
     catch (err) {
       console.log(err);
@@ -42,10 +44,9 @@ const Login = () => {
     }
   };
 
-  useEffect(() => {
-    console.log('[useEffect] Login.js');
-    if (isLogged && Apierror === false) navigate('/home');
-  }, [isLogged, Apierror]);
+  // useEffect(() => {
+  //   if (isLogged && Apierror === false) navigate('/home');
+  // }, [isLogged, Apierror]);
 
   const passwordToggle = () => setIsHidden(e => !e);
 
@@ -57,10 +58,7 @@ const Login = () => {
       <div className='login__container container'>
         <form
           className='form'
-          onSubmit={handleSubmit(data => {
-            console.log(data);
-            sendData(data);
-          })}>
+          onSubmit={handleSubmit(sendData)}>
 
           <div className='input-label__container'>
             <label htmlFor="email">Votre mail</label>
