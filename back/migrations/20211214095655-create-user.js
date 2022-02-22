@@ -36,9 +36,9 @@ module.exports = {
       profilePicture: {
         type: Sequelize.STRING
       },
-      isAdmin: {
+      status: {
         allowNull: false,
-        type: Sequelize.BOOLEAN
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: true,

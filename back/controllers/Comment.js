@@ -2,7 +2,7 @@
 const { Message, User, Comment } = require('../models');
 
 // TOOLS
-const { handleErrorImage, deletePreviousCommentImage } = require('../tools/handleErrorImage');
+const { handleErrorImage, deletePreviousCommentImage } = require('../tools/handleImage');
 
 exports.getCommentByMessageId = async (req, res) => {
 

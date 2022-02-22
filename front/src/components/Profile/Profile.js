@@ -17,7 +17,7 @@ const Profile = () => {
 
   const { id } = useParams();
 
-  const { isLogged, setIsLogged, token, USER_ID, isAdmin } = useContext(loginContext);
+  const { isLogged, setIsLogged, token, USER_ID, status } = useContext(loginContext);
   const [pictureUpdate, setPictureUpdate] = useState(profilPictureUpdate);
   const [profileData, setProfileData] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);

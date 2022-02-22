@@ -1,5 +1,5 @@
 // LIBRARIES
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { DeleteIcon, EditIcon, UpArrow } from '../../icons-logos/icons';
 import { animateScroll as scroll } from 'react-scroll';
 
@@ -20,12 +20,13 @@ import CommentPost from '../Comments/CommentPost';
 
 const MessagesInfos = (props) => {
 
-  const { USER_ID } = useContext(loginContext);
+  const { USER_ID, status } = useContext(loginContext);
 
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [isShowingComments, setIsShowingComments] = useState(false);
   const [isClosingComments, setIsClosingComments] = useState(false);
+  const [isMessageByAdmin, setIsMessageByAdmin] = useState(false);
 
   const { User, MessageVotes, Comments, text, attachment, createdAt, updatedAt } = props.data;
 
@@ -33,6 +34,7 @@ const MessagesInfos = (props) => {
   const messageId = props.data.id;
   const likeList = MessageVotes.filter(elem => elem.isLiked);
   const dislikeList = MessageVotes.filter(elem => !elem.isLiked);
+  const messageUserStatus = User.status;
 
   const ownMessage = () => {
 
@@ -44,7 +46,13 @@ const MessagesInfos = (props) => {
         </>
       );
     }
+
+    if (status === 'admin' || (status === 'moderator' && !isMessageByAdmin)) {
+      return <div className='del-icon__wrapper' onClick={() => setIsDeleting(true)}><DeleteIcon /></div>;
+    }
+
     return null;
+
   };
 
   const handleClosing = (e) => {
@@ -57,6 +65,10 @@ const MessagesInfos = (props) => {
     }, 800);
 
   };
+
+  useEffect(() => {
+    if (messageUserStatus === 'admin') setIsMessageByAdmin(true);
+  });
 
   const animDuration = () => Comments.length * 100 + 500;
 
@@ -87,7 +99,6 @@ const MessagesInfos = (props) => {
     <>
       {isDeleting && <MessageDelete data={{ setIsDeleting, messageId }} />}
       <div className={isEditing ? 'editing__card' : 'msg__card'} id={`msg-card${messageId}`}>
-
         {isEditing
           ? <MessageEdit data={{ setIsEditing, text, attachment, messageId }} />
           : (
@@ -104,17 +115,19 @@ const MessagesInfos = (props) => {
           )
         }
       </div>
-      {isShowingComments && (
-        <div className='comments__wrapper' id={`${messageId}wrap`}>
-          <div className={`comments-container ${isClosingComments ? 'closing' : 'opening'}`} style={{ animationDuration: `${animDuration()}ms` }}>
-            {Comments
-              .sort((prev, next) => prev.commentId - next.commentId)
-              .map((comment, idx) => <CommentInfos comment={comment} key={idx} />)}
-            <CommentPost messageId={messageId} />
-            <a className='up-icon' id={`hide-comments${messageId}`} onClick={handleClosing}><UpArrow /></a>
+      {
+        isShowingComments && (
+          <div className='comments__wrapper' id={`${messageId}wrap`}>
+            <div className={`comments-container ${isClosingComments ? 'closing' : 'opening'}`} style={{ animationDuration: `${animDuration()}ms` }}>
+              {Comments
+                .sort((prev, next) => prev.commentId - next.commentId)
+                .map((comment, idx) => <CommentInfos comment={comment} key={idx} />)}
+              <CommentPost messageId={messageId} />
+              <a className='up-icon' id={`hide-comments${messageId}`} onClick={handleClosing}><UpArrow /></a>
+            </div>
           </div>
-        </div>
-      )}
+        )
+      }
 
     </>
   );

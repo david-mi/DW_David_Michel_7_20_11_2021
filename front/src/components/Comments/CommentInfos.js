@@ -1,5 +1,5 @@
 // LIBRARIES
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 
 // CONTEXT
 import { loginContext } from '../../Context/loginContext';
@@ -19,14 +19,17 @@ const CommentInfos = ({ comment }) => {
 
   const { commentId, messageId, User, CommentVotes, text, attachment, createdAt, updatedAt } = comment;
   const commentUserId = User.id;
-
+  const commentUserStatus = User.status;
+  console.log(comment);
+  console.log('commentUserStatus ' + commentUserStatus);
   const commentLikeList = CommentVotes.filter(elem => elem.isLiked);
   const commentDislikeList = CommentVotes.filter(elem => !elem.isLiked);
 
-  const { USER_ID } = useContext(loginContext);
+  const { USER_ID, status } = useContext(loginContext);
 
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [isCommentByAdmin, setIsCommentByAdmin] = useState(false);
 
   const ownComment = () => {
 
@@ -38,8 +41,18 @@ const CommentInfos = ({ comment }) => {
         </>
       );
     }
+
+    if (status === 'admin' || (status === 'moderator' && !isCommentByAdmin)) {
+      return <div className='del-icon__wrapper' onClick={() => setIsDeleting(true)}><DeleteIcon /></div>;
+    }
+
     return null;
+
   };
+
+  useEffect(() => {
+    if (commentUserStatus === 'admin') setIsCommentByAdmin(true);
+  });
 
   return (
     <div className={isEditing ? 'editing__card' : 'comment__card'}>

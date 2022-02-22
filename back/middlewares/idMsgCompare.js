@@ -6,13 +6,17 @@ module.exports = async (req, res, next) => {
   try {
 
     const message = await Message.findByPk(req.params.id);
-    if (!message) return res.status(404).json({ Message: "Message non trouvé" });
-    if (message.UserId !== req.token.USER_ID) return res.status(403).json({ Message: "Vous n'êtes pas le propriétaire de ce message" });
+
+    if (!message) throw ({ message: "Message non trouvé", status: 404 });
+    if (message.UserId !== req.token.USER_ID) throw ({ message: "Vous n'êtes pas le propriétaire de ce message", status: 403 });
 
     next();
 
   } catch (err) {
-    res.send(err);
+    return err.message && err.status
+      ? res.status(err.status).json({ message: err.message })
+      : res.status(400).json(err);
   }
 
 };
+

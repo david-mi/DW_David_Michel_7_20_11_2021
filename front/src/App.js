@@ -16,14 +16,15 @@ import { loginContext } from './Context/loginContext';
 import ProtectedRoutes from './protectedRoutes';
 import Profile_email_update from './components/Profile/Profile_email_update';
 import ProfilePwUpdate from './components/Profile/ProfilePwUpdate';
+import ModerationRoutes from './ModerationRoute';
+import Moderation from './components/Moderation/Moderation';
 
 const App = () => {
 
   const [isLogged, setIsLogged] = useState(false);
   const [token, setToken] = useState(null);
-  const [isAdmin, setIsAdmin] = useState(null);
+  const [status, setStatus] = useState(null);
   const [USER_ID, setUSER_ID] = useState(null);
-  const [redirectToggle, setRedirectToggle] = useState(false);
 
   const loggedCheck = () => {
 
@@ -38,13 +39,13 @@ const App = () => {
       if (!decodedToken || isTokenExpired) {
         localStorage.clear();
         setIsLogged(false);
-        setIsAdmin(null);
+        setStatus(null);
         setUSER_ID(null);
       }
       if (decodedToken && !isTokenExpired) {
-        const { USER_ID, isAdmin } = decodedToken;
+        const { USER_ID, status } = decodedToken;
         console.log('userid ' + USER_ID);
-        setIsAdmin(isAdmin);
+        setStatus(status);
         setToken(getToken);
         setUSER_ID(USER_ID);
         setIsLogged(true);
@@ -52,7 +53,7 @@ const App = () => {
     }
     if (!check) {
       setIsLogged(false);
-      setIsAdmin(null);
+      setStatus(null);
       setUSER_ID(null);
     }
   };
@@ -63,7 +64,7 @@ const App = () => {
   }, [isLogged]);
 
   return (
-    <loginContext.Provider value={{ isLogged, setIsLogged, token, setToken, USER_ID, isAdmin }}>
+    <loginContext.Provider value={{ isLogged, setIsLogged, token, setToken, USER_ID, status }}>
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />}></Route>
@@ -73,6 +74,9 @@ const App = () => {
             <Route path="/profile/:id" element={<Profile />}></Route>
             <Route path="/profile/updatemail" element={<Profile_email_update />}></Route>
             <Route path="/profile/updatepassword" element={< ProfilePwUpdate />}></Route>
+            <Route element={<ModerationRoutes />}>
+              <Route path="/moderation-board" element={<Moderation />}></Route>
+            </Route>
           </Route>
           <Route path="/" element={<Navigate replace to="/home" />}></Route>
           <Route path='*' element={<NotFound />}></Route>

@@ -1,0 +1,132 @@
+select[name="users"] {
+  max-width: 400px;
+  width: 100%;
+  height: 40px;
+  font-size: 1.2rem;
+  text-align: center;
+}
+
+.moderation__container {
+  max-width: 600px !important;
+  width: 600px !important;
+  background-color: $clr-secondary;
+  box-shadow: 0 0 10px black;
+  border-radius: 20px;
+  overflow: hidden;
+  padding: clamp(15px, 2vw, 50px);
+
+  @media screen and (max-width: $media) {
+    width: 100%;
+    border-radius: 0px !important;
+  }
+
+  @media screen and (max-width: $media-small) {
+    padding-inline: 0;
+  }
+
+  .moderation-infos__container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: auto repeat(4, auto);
+    grid-template-areas:
+      "img img"
+      "username username"
+      "firstname lastname"
+      "status status";
+    place-items: center;
+    gap: 30px;
+    background-color: $clr-secondary;
+    width: 80%;
+
+    @media screen and (max-width: $media) {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto repeat(5, auto);
+      grid-template-areas:
+        "img"
+        "username"
+        "firstname"
+        "lastname"
+        "status";
+      max-width: 600px;
+    }
+
+    .profile-picture__container {
+      grid-area: img;
+      .profile__picture {
+        max-width: 220px;
+      }
+    }
+
+    li {
+      font-size: 1.3rem;
+      background-color: white;
+      line-height: 30px;
+      display: flex;
+      @media screen and (max-width: $media) {
+        width: 100%;
+      }
+
+      .attribute,
+      .value {
+        height: 100%;
+        text-align: center;
+        padding: 5px;
+        width: 100%;
+      }
+
+      .attribute {
+        background-color: $clr-main;
+        font-weight: bold;
+        color: white;
+        width: 100px;
+        @media screen and (max-width: $media) {
+          min-width: 30%;
+          width: 50%;
+        }
+      }
+
+      .value {
+        padding-inline: 10px;
+      }
+    }
+
+    .username-container {
+      grid-area: username;
+    }
+
+    .firstname-container,
+    .lastname-container {
+      width: 100%;
+    }
+
+    .firstname-container {
+      grid-area: firstname;
+      justify-self: self-end;
+    }
+
+    .lastname-container {
+      grid-area: lastname;
+      justify-self: self-start;
+    }
+
+    .status-container {
+      grid-area: status;
+    }
+  }
+
+  .buttons-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    width: 100%;
+    .btn {
+      background-color: $clr-main;
+      color: white;
+      height: 40px;
+      line-height: 40px;
+      max-width: 200px;
+      flex: 0 1 200px;
+    }
+  }
+}

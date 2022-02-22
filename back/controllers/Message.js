@@ -2,7 +2,7 @@
 const { Message, User, MessageVote, Comment, CommentVote } = require('../models');
 
 // TOOLS
-const { handleErrorImage, deletePreviousPostImage } = require('../tools/handleErrorImage');
+const { handleErrorImage, deletePreviousPostImage } = require('../tools/handleImage');
 
 exports.getAllMessages = async (req, res) => {
 
@@ -12,7 +12,7 @@ exports.getAllMessages = async (req, res) => {
       include: [
         {
           model: User,
-          attributes: ['id', 'username', 'firstname', 'lastname', 'profilePicture']
+          attributes: ['id', 'username', 'firstname', 'lastname', 'status', 'profilePicture']
         },
         {
           model: MessageVote,
@@ -27,7 +27,7 @@ exports.getAllMessages = async (req, res) => {
           attributes: [['id', 'commentId'], 'messageId', 'text', 'attachment', 'createdAt', 'updatedAt'],
           include: [{
             model: User,
-            attributes: ['id', 'username', 'firstname', 'lastname', 'profilePicture'],
+            attributes: ['id', 'username', 'firstname', 'lastname', 'status', 'profilePicture'],
           }, {
             model: CommentVote,
             attributes: ['id', 'isLiked'],
@@ -202,6 +202,7 @@ exports.deleteMessageImage = async (req, res) => {
 exports.deleteMessage = async (req, res) => {
 
   const messageId = req.params.id;
+  const status = req.token.status;
 
   try {
     const getMessage = await Message.findByPk(messageId);
@@ -213,7 +214,7 @@ exports.deleteMessage = async (req, res) => {
     };
     await Message.destroy({ where: { id: messageId } });
     if (getMessage.attachment) await deletePreviousPostImage(previousPicture);
-    res.status(201).json({ message: "Message supprimé" });
+    res.status(201).json({ message: `Message supprimé par ${status}` });
   }
   catch (err) {
     res.status(400).json(err);

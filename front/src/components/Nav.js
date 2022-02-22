@@ -7,11 +7,11 @@ import axios from 'axios';
 import { loginContext, profilPictureUpdate } from '../Context/loginContext';
 
 // ICONS 
-import { LogOutIcon, HomeIcon } from '../icons-logos/icons';
+import { LogOutIcon, HomeIcon, ModerationPanel } from '../icons-logos/icons';
 
 const Nav = () => {
 
-  const { isLogged, setIsLogged, token, USER_ID } = useContext(loginContext);
+  const { isLogged, setIsLogged, token, USER_ID, status } = useContext(loginContext);
   const { pictureUpdate, setPictureUpdate } = useContext(profilPictureUpdate);
   const [addPicture, setAddPicture] = useState(false);
   const [userId, setUserId] = useState(null);
@@ -52,6 +52,7 @@ const Nav = () => {
     isLogged
       ? (
         <nav className='header__nav'>
+          {status === 'admin' && <NavLink to={'/moderation-board'}><ModerationPanel /></NavLink>}
           <NavLink to={'/home'}><HomeIcon /></NavLink>
           <button onClick={logOut}><LogOutIcon /></button>
           <NavLink to={`/profile/${USER_ID}`}>

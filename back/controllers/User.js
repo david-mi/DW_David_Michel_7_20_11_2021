@@ -6,16 +6,8 @@ const jwt = require('jsonwebtoken');
 const { User } = require('../models');
 
 // TOOLS
-const { handleErrorImage, deletePreviousUserImage } = require('../tools/handleErrorImage');
+const { handleErrorImage, deletePreviousUserImage, getdefaultUserPicture } = require('../tools/handleImage');
 
-/* fonction permettant de récupérer la photo de profil par défaut
-de l'utilisateur stockée dans le dossier images/user */
-const getdefaultUserPicture = (request) => {
-  const name = 'default_profile_picture.jpg';
-  return `${request.protocol}://${request.get('host')}/images/user/${name}`;
-};
-
-// 
 exports.getAllUsers = async (req, res) => {
 
   const users = await User.findAll()
@@ -31,7 +23,7 @@ exports.showProfile = async (req, res) => {
 
   const user = await User.findByPk(
     req.params.id, {
-    attributes: ['username', 'firstname', 'lastname', 'bio', 'profilePicture', 'isAdmin', 'createdAt'],
+    attributes: ['username', 'firstname', 'lastname', 'bio', 'profilePicture', 'status', 'createdAt'],
   }).catch((err) => res.status(500).json(err));
 
   if (!user) return res.status(404).json({ message: "Utilisateur non existant" });
@@ -145,7 +137,7 @@ exports.signup = async (req, res) => {
       ...req.body,
       password: hash,
       profilePicture: getdefaultUserPicture(req),
-      isAdmin: false
+      status: 'user'
     });
 
     res.status(201).json({ Message: "Utilisateur créé", user });
@@ -167,8 +159,10 @@ exports.login = async (req, res) => {
     const compare = await bcrypt.compare(req.body.password, user.password);
     if (!compare) return res.status(401).json({ message: 'Mauvais mot de passe !' });
 
+    const { USER_ID, status } = user;
+
     const payload = [
-      { USER_ID: user.id, isAdmin: user.isAdmin },
+      { USER_ID: user.id, status },
       process.env.TOKEN_SECRET,
       { expiresIn: '24h' }
     ];
@@ -220,4 +214,6 @@ exports.deleteOneUser = async (req, res) => {
   }
 
 };
+
+
 

@@ -1,5 +1,12 @@
 const { unlink } = require('fs/promises');
 
+/* fonction permettant de récupérer la photo de profil par défaut
+de l'utilisateur stockée dans le dossier images/user */
+exports.getdefaultUserPicture = (request) => {
+  const name = 'default_profile_picture.jpg';
+  return `${request.protocol}://${request.get('host')}/images/user/${name}`;
+};
+
 exports.handleErrorImage = async (request, location) => {
 
   const { filename } = request.file;

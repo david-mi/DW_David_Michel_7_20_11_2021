@@ -1,12 +1,18 @@
+// LIBRARIES
 const express = require('express');
 const router = express.Router();
+
+// MIDDLEWARES
 const auth = require('../middlewares/auth');
 const registerSchema = require('../middlewares/YupValidation/registerSchema');
 const loginSchema = require('../middlewares/YupValidation/loginSchema');
 const userValid = require('../middlewares/YupValidation/userSchema');
 const userIdCompare = require('../middlewares/userIdCompare');
-const userCtrl = require('../controllers/User');
 const multer = require('../middlewares/multer');
+
+// CONTROLLERS
+const userCtrl = require('../controllers/User');
+
 
 router.get('/users', auth, userCtrl.getAllUsers);
 router.get('/users/:id/profile', auth, userIdCompare, userCtrl.showProfile);

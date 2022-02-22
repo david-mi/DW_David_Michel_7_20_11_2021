@@ -1,6 +1,12 @@
 const Profile_infos = ({ profileData }) => {
 
-  const { profilePicture, username, firstname, lastname, bio, isAdmin } = profileData;
+  const { profilePicture, username, firstname, lastname, bio, status } = profileData;
+
+  const showStatus = {
+    user: 'Utilisateur',
+    moderator: 'Modérateur',
+    admin: 'Administrateur'
+  };
 
   return (
     <ul className='profile-infos__container'>
@@ -25,7 +31,7 @@ const Profile_infos = ({ profileData }) => {
       </li>
       <li className='status-container'>
         <span className='attribute'>STATUS</span>
-        <span className='value'>{isAdmin ? 'Administateur' : 'utilisateur'}</span>
+        <span className='value'>{showStatus[status]}</span>
       </li>
     </ul>
   );

@@ -8,19 +8,25 @@ import { loginContext, refreshData } from '../../Context/loginContext';
 // LOGOS
 import Logo from '../../icons-logos/Logo';
 
+const apiMessage = 'http://localhost:3000/api/messages';
+const apiModeration = 'http://localhost:3000/api/mod';
+
 const MessageDelete = (props) => {
 
   const { setIsDeleting, messageId } = props.data;
 
-  const { token } = useContext(loginContext);
+  const { token, status } = useContext(loginContext);
   const { setRefreshToogle } = useContext(refreshData);
 
   /* fonction qui va supprimer le message dans la base de donnée
   qui va aussi lancer un nouvel appel api pour afficher la mise à jour
-  un changement d'état sera aussi fait pour retirer la fenêtre de confirmation */
+  un changement d'état sera aussi fait pour retirer la fenêtre de confirmation 
+  l'appel api sera différent selon le status de la personne */
   const deleteMessage = async () => {
     const headers = { 'Authorization': `Bearer ${token}` };
-    await axios.delete(`http://localhost:3000/api/messages/${messageId}`, { headers });
+    status === 'moderator' || status === 'admin'
+      ? await axios.delete(`${apiModeration}/messages/${messageId}/delete`, { headers })
+      : await axios.delete(`${apiMessage}/${messageId}`, { headers });
     setIsDeleting(false);
     setRefreshToogle((e) => !e);
   };

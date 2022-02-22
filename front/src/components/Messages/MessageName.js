@@ -15,7 +15,6 @@ const MessageName = (props) => {
         {firstname} {lastname} ({username})
         <img className='profile-pic' src={profilePicture} alt="photo de profil de l'utilisateur" />
       </p>
-
     </>
   );
 

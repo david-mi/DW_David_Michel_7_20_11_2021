@@ -4,7 +4,7 @@ const { profileParser } = require('../../tools/jsonParser');
 const namesRegex = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð\s'.-]+$/;
 const forbiddenChars = /[$\/<>;]/;
 
-const { handleErrorImage } = require('../../tools/handleErrorImage');
+const { handleErrorImage } = require('../../tools/handleImage');
 
 const profileSchema = yup.object().shape({
 

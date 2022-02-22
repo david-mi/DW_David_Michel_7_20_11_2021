@@ -14,10 +14,7 @@
     margin-left: auto;
     gap: 20px;
     align-items: center;
-    display: grid;
-    grid-template-columns: repeat(3, auto);
-    grid-template-rows: 1fr;
-    grid-template-areas: "feed logout img";
+    display: flex;
 
     @media screen and (max-width: $media-header) {
       margin-left: 0;
@@ -62,7 +59,7 @@
       transition: all 300ms;
       transform: scale(0.8);
       @media screen and (max-width: $media-header) {
-        font-size: 4rem;
+        font-size: 3.6rem;
       }
 
       &:hover {
@@ -97,7 +94,7 @@
       object-fit: cover;
 
       @media screen and (max-width: $media-header) {
-        height: 90px;
+        height: 70px;
       }
     }
   }

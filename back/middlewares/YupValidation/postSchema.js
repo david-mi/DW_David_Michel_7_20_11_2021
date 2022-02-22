@@ -3,7 +3,7 @@ const { messageParser } = require('../../tools/jsonParser');
 
 const forbiddenChars = /[$\/<>;]/;
 
-const { handleErrorImage } = require('../../tools/handleErrorImage');
+const { handleErrorImage } = require('../../tools/handleImage');
 
 const postSchema = yup.object().shape({
 
