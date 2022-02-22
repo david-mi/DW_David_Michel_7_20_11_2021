@@ -1,3 +1,5 @@
+/* permet de parser les données venant d'un formdata pour
+le contenu d'un profil utilisateur */
 exports.profileParser = (data) => {
   const parsed = JSON.parse(data);
   return {
@@ -8,6 +10,8 @@ exports.profileParser = (data) => {
   };
 };
 
+/* permet de parser les données venant d'un formdata pour
+le contenu d'un post ou d'un commentaire */
 exports.messageParser = (data) => {
   const parsed = JSON.parse(data);
   return {

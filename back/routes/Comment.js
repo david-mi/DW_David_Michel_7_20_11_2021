@@ -1,14 +1,17 @@
+// LIBRARIES
 const express = require('express');
 const router = express.Router();
-const commentCtrl = require('../controllers/Comment');
-const commentVoteCtrl = require('../controllers/CommentVote');
+
+// MIDDLEWARES
 const auth = require('../middlewares/auth');
 const multer = require('../middlewares/multer');
 const commentSchema = require('../middlewares/YupValidation/commentSchema');
 const idCommentCompare = require('../middlewares/idCommentCompare');
 
-router.get('/messages/:messageid/comments', auth, commentCtrl.getCommentByMessageId);
-router.get('/comments/votes/all', auth, commentVoteCtrl.showAllCommentsLikes);
+// CONTROLLERS
+const commentCtrl = require('../controllers/Comment');
+const commentVoteCtrl = require('../controllers/CommentVote');
+
 
 router.put('/comments/:id', auth, idCommentCompare, multer, commentSchema, commentCtrl.editComment);
 

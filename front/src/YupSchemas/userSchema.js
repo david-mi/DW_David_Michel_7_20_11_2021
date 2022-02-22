@@ -1,8 +1,12 @@
+// LIBRARIES
 import * as yup from 'yup';
 
+// regex pour les noms et prénoms
 const namesRegex = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð\s'.-]+$/;
+// regex pour les caractères interdits
 const forbiddenChars = /[$\/<>;]/;
 
+// schéma yup pour les données d'un profil
 const profileSchema = yup.object().shape({
 
   username: yup
@@ -36,6 +40,7 @@ const profileSchema = yup.object().shape({
     .max(400, 'Le bio de peut pas dépasser 400 caractères'),
 });
 
+// schéma yup pour les données d'un email
 const emailSchema = yup.object().shape({
   previousEmail: yup
     .string()
@@ -50,12 +55,14 @@ const emailSchema = yup.object().shape({
     .email("Format mail non valide")
 });
 
+// schéma yup pour les données d'un mot de passe
 const passwordSchema = yup.object().shape({
 
   previousPw: yup
     .string()
-    .trim()
     .required('Champ Requis')
+    .test('forbiddenChars', 'Caractère interdit', value => !forbiddenChars.test(value))
+    .trim()
     .min(6, `Veuillez mettre au minimum 6 caractères`)
     .matches(/[a-z]/, 'Le mot de passe doit contenir au moins 1 minuscule')
     .matches(/[A-Z]/, 'Le mot de passe doit contenir au moins 1 majuscule')
@@ -63,8 +70,9 @@ const passwordSchema = yup.object().shape({
 
   newPw: yup
     .string()
-    .trim()
     .required('Champ Requis')
+    .test('forbiddenChars', 'Caractère interdit', value => !forbiddenChars.test(value))
+    .trim()
     .min(6, `Veuillez mettre au minimum 6 caractères`)
     .matches(/[a-z]/, 'Le mot de passe doit contenir au moins 1 minuscule')
     .matches(/[A-Z]/, 'Le mot de passe doit contenir au moins 1 majuscule')

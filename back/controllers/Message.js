@@ -6,6 +6,8 @@ const { handleErrorImage, deletePreviousPostImage } = require('../tools/handleIm
 
 exports.getAllMessages = async (req, res) => {
 
+  /* on récupère tous les messages avec les infos associés : User lié au message, les Votes, Users associés aux votes 
+  les commentaires, users associés aux commentaires, votes des commentaires et users associés aux votes */
   try {
     const messages = await Message.findAll({
       attributes: ['id', 'text', 'attachment', 'createdAt', 'updatedAt'],
@@ -48,50 +50,6 @@ exports.getAllMessages = async (req, res) => {
   }
 };
 
-exports.getUserMessages = async (req, res) => {
-  try {
-    const limit = parseInt(req.query.limit);
-    const userid = req.query.userid;
-    const username = req.query.username;
-
-    const messages = await Message.findAll(
-      {
-        // where: userid ? { UserId: userid } : null,
-        where: userid && { userid },
-        limit: limit || null,
-        include: [{
-          model: User,
-          attributes: [["username", "pseudo"]],
-        }]
-      }
-    );
-    !messages.length
-      ? res.status(404).json({ message: "Aucun message trouvé" })
-      : res.status(200).json(messages);
-  } catch (err) {
-    res.send(err);
-  }
-};
-
-exports.getUserMessagesById = async (req, res) => {
-
-  try {
-
-    const message = await Message.findByPk(req.params.id, {
-
-      attributes: ['id', 'text', 'attachment', 'createdAt', 'updatedAt'],
-      include: [
-        { model: User, attributes: ['username', 'id'] },
-        { model: MessageVote, attributes: ['id'], include: [{ model: User, attributes: [['username', 'pseudo']] }] }
-      ],
-    });
-    message ? res.status(200).json(message) : res.status(404).json({ Message: "message non trouvé" });
-
-  } catch (err) {
-    res.send(err);
-  }
-};
-
 exports.postMessage = async (req, res) => {
 
   const { newData } = res.locals;
@@ -113,7 +71,6 @@ exports.postMessage = async (req, res) => {
         });
 
       res.status(201).json({ success: message });
-
     }
 
     else {
@@ -159,7 +116,7 @@ exports.editMessage = async (req, res) => {
         { ...newData, attachment: newPicture },
         { where: { id: idMessage } });
 
-      // on supprime l'ancienne image du dossier images
+      // on supprime l'ancienne image du dossier post
       if (getMessage.attachment) await deletePreviousPostImage(previousPicture);
     }
     else {
@@ -183,10 +140,13 @@ exports.deleteMessageImage = async (req, res) => {
   try {
     const idMessage = req.params.id;
     const message = await Message.findByPk(idMessage);
+    // on récupère le nom de l'image présente dans le message
     const previousPicture = message.attachment.split('/images/post/')[1];
 
+    // on supprime l'image du dossier post
     await deletePreviousPostImage(previousPicture);
 
+    // on met à jour le post en mettant le champ attachement à null
     await Message.update(
       { attachment: null },
       { where: { id: idMessage } }
@@ -206,14 +166,17 @@ exports.deleteMessage = async (req, res) => {
 
   try {
     const getMessage = await Message.findByPk(messageId);
+    let previousImage = '';
 
-    let previousPicture = '';
-
+    // si une url est présente dans le champ attachment, on récupère le nom
     if (getMessage.attachment) {
-      previousPicture = getMessage.attachment.split('/images/post/')[1];
+      previousImage = getMessage.attachment.split('/images/post/')[1];
     };
+
+    // on supprime le message et l'image du dossier post si il y en avait une
     await Message.destroy({ where: { id: messageId } });
-    if (getMessage.attachment) await deletePreviousPostImage(previousPicture);
+    if (getMessage.attachment) await deletePreviousPostImage(previousImage);
+
     res.status(201).json({ message: `Message supprimé par ${status}` });
   }
   catch (err) {

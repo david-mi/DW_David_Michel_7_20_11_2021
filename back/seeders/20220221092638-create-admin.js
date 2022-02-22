@@ -1,5 +1,6 @@
 require('dotenv').config();
 
+// création d'un compte administrateur, à appeler à la création de la base de donnée
 module.exports = {
   up: async (queryInterface) => {
 

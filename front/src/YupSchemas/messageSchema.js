@@ -1,5 +1,7 @@
+// LIBRARIES
 const yup = require('yup');
 
+// regex pour les caractères interdits
 const forbiddenChars = /[$\/<>;]/;
 
 const messageSchema = yup.object().shape({

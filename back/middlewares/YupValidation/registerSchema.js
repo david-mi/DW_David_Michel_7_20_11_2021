@@ -1,7 +1,12 @@
+// LIBRARIES
 const yup = require('yup');
 
-const namesRegex = /^[a-zA-Z\s'.-]+$/;
+// regex pour les noms et prénoms
+const namesRegex = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð\s'.-]+$/;
+// regex pour les caractères interdits
+const forbiddenChars = /[$\/<>;]/;
 
+// schéma yup pour les données d'une inscription
 const registerSchema = yup.object().shape({
 
   email: yup
@@ -12,8 +17,9 @@ const registerSchema = yup.object().shape({
 
   password: yup
     .string()
-    .trim()
     .required('Champ Requis')
+    .test('forbiddenChars', 'Caractère interdit', value => !forbiddenChars.test(value))
+    .trim()
     .min(6, `Veuillez mettre au minimum 6 caractères`)
     .matches(/[a-z]/, 'Le mot de passe doit contenir au moins 1 minuscule')
     .matches(/[A-Z]/, 'Le mot de passe doit contenir au moins 1 majuscule')
@@ -21,8 +27,9 @@ const registerSchema = yup.object().shape({
 
   username: yup
     .string()
-    .trim()
     .required('Champ Requis')
+    .test('forbiddenChars', 'Caractère interdit', value => !forbiddenChars.test(value))
+    .trim()
     .min(2, 'Le pseudo doit contenir au minimum 2 caractères')
     .max(15, 'Le pseudo de peut pas dépasser 15 caractères'),
 
@@ -43,11 +50,10 @@ const registerSchema = yup.object().shape({
     .max(15, 'Le nom de peut pas dépasser 15 caractères'),
 });
 
+// application du schéma pour la validation ou non
 const registerValid = async (req, res, next) => {
   try {
-    await registerSchema.validate({
-      ...req.body
-    });
+    await registerSchema.validate({ ...req.body });
     next();
   }
   catch (err) {

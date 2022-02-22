@@ -7,6 +7,8 @@ exports.getdefaultUserPicture = (request) => {
   return `${request.protocol}://${request.get('host')}/images/user/${name}`;
 };
 
+/* fonction qui s'occupe de supprimer l'image enregistré d'une requête si celle-ci
+n'aboutit pas */
 exports.handleErrorImage = async (request, location) => {
 
   const { filename } = request.file;
@@ -20,6 +22,7 @@ exports.handleErrorImage = async (request, location) => {
 
 };
 
+/* fonction qui permet de supprimer l'image de profil d'un utilisateur */
 exports.deletePreviousUserImage = async (previousPic) => {
 
   const defaultPic = 'default_profile_picture.jpg';
@@ -36,6 +39,7 @@ exports.deletePreviousUserImage = async (previousPic) => {
 
 };
 
+/* fonction qui permet de supprimer l'image du post d'un utilisateur */
 exports.deletePreviousPostImage = async (previousPic) => {
   console.log('previous', previousPic);
   try {
@@ -47,6 +51,7 @@ exports.deletePreviousPostImage = async (previousPic) => {
 
 };
 
+/* fonction qui permet de supprimer l'image du commentaire d'un utilisateur */
 exports.deletePreviousCommentImage = async (previousPic) => {
   console.log('previous', previousPic);
   try {

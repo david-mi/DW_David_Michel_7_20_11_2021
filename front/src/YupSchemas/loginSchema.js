@@ -1,4 +1,8 @@
+// LIBRARIES
 import * as yup from 'yup';
+
+// regex pour les caractères interdits
+const forbiddenChars = /[$\/<>;]/;
 
 const loginSchema = yup.object().shape({
 
@@ -10,12 +14,13 @@ const loginSchema = yup.object().shape({
 
   password: yup
     .string()
-    .trim()
     .required('Champ Requis')
+    .test('forbiddenChars', 'Caractère interdit', value => !forbiddenChars.test(value))
+    .trim()
     .min(6, `Veuillez mettre au minimum 6 caractères`)
     .matches(/[a-z]/, 'Le mot de passe doit contenir au moins 1 minuscule')
     .matches(/[A-Z]/, 'Le mot de passe doit contenir au moins 1 majuscule')
-    .matches(/[0-9]/, 'Le mot de passe doit contenir au moins 1 chiffre')
+    .matches(/[0-9]/, 'Le mot de passe doit contenir au moins 1 chiffre'),
 
 });
 

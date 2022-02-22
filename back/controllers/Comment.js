@@ -4,32 +4,18 @@ const { Message, User, Comment } = require('../models');
 // TOOLS
 const { handleErrorImage, deletePreviousCommentImage } = require('../tools/handleImage');
 
-exports.getCommentByMessageId = async (req, res) => {
-
-  const messageId = req.params.messageid;
-  const comments = await Comment.findAll({
-    where: { messageId },
-    include: [{
-      model: User,
-      attributes: ['username']
-    }]
-  });
-
-  res.status(200).json(comments);
-
-};
-
 exports.postComment = async (req, res) => {
 
   const messageId = req.params.id;
   const userIdToken = req.token.USER_ID;
+
+  // on récupère les données qui ont été traitées dans le middleware précédent
   const { newData } = res.locals;
 
   try {
 
     const message = await Message.findByPk(messageId);
     if (!message) throw ({ message: "Ce message n'existe pas" });
-
 
     if (req.file) {
 
@@ -120,10 +106,13 @@ exports.deleteCommentImage = async (req, res) => {
   try {
     const idComment = req.params.id;
     const comment = await Comment.findByPk(idComment);
+    // on récupère le nom de l'image présente dans le commentaire
     const previousPicture = comment.attachment.split('/images/comment/')[1];
 
+    // on supprime l'image du dossier comment
     await deletePreviousCommentImage(previousPicture);
 
+    // on met à jour le commentaire en mettant le champ attachement à null
     await Comment.update(
       { attachment: null },
       { where: { id: idComment } }
@@ -141,18 +130,17 @@ exports.deleteComment = async (req, res) => {
   const commentId = req.params.id;
 
   try {
-
     const getComment = await Comment.findByPk(commentId);
+    let commentImage = '';
 
-    let commentPicture = '';
-
+    // si une url est présente dans le champ attachment, on récupère le nom
     if (getComment.attachment) {
-      commentPicture = getComment.attachment.split('/images/comment/')[1];
+      commentImage = getComment.attachment.split('/images/comment/')[1];
     };
 
+    // on supprime le commentaire et l'image du dossier comment si il y en avait une
     await Comment.destroy({ where: { id: commentId } });
-
-    if (getComment.attachment) await deletePreviousCommentImage(commentPicture);
+    if (getComment.attachment) await deletePreviousCommentImage(commentImage);
 
     res.status(201).json({ message: "Commentaire supprimé" });
   }
