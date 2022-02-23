@@ -1,5 +1,5 @@
 // LIBRARIES
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
@@ -21,7 +21,7 @@ const apiUsers = 'http://localhost:3000/api/auth/users/';
 
 const Profile_email_update = () => {
 
-  const { isLogged, setIsLogged, token, USER_ID } = useContext(loginContext);
+  const { setIsLogged, token, USER_ID } = useContext(loginContext);
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(emailSchema) });
   const navigate = useNavigate();
 

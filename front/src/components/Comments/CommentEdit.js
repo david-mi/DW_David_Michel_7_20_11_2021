@@ -27,6 +27,7 @@ const CommentEdit = (props) => {
   const [imageUrl, setImageUrl] = useState(null);
   const [isDeletingImg, setIsDeletingImg] = useState(false);
   const [caractersNb, setCaractersNb] = useState(text.length);
+  const [apiError, setApiError] = useState('');
 
   /* useEffect qui va regarder si une image a été sélectionnée 
   si oui, on utilise la méthode créateObject pour générer une URL et
@@ -36,6 +37,9 @@ const CommentEdit = (props) => {
       ? setImageUrl(URL.createObjectURL(displayImage))
       : setImageUrl(null);
   }, [displayImage]);
+
+  // useEffect qui va supprimer l'erreur affichée venant de l'api au bout d'une seconde
+  useEffect(() => apiError && setTimeout(() => setApiError(''), 1000), [apiError]);
 
   /* fonction qui va gérer l'envoi du formulaire avec l'interface formData.
   On rafraîchit ensuite l'affichage des données avec un appel à l'api et on change
@@ -49,10 +53,19 @@ const CommentEdit = (props) => {
       'Authorization': `Bearer ${token}`,
       "Content-Type": "multipart/form-data"
     };
-    await axios.put(`${apiComment}/${commentId}`, formData, { headers });
 
-    setRefreshToogle((e) => !e);
-    setIsEditing(false);
+    try {
+      await axios.put(`${apiComment}/${commentId}`, formData, { headers });
+      setRefreshToogle((e) => !e);
+      setIsEditing(false);
+    }
+    catch (err) {
+      const { message } = err.response.data;
+      /* on envoie le message d'erreur dans l'api dans un state
+      qui sera utilisé pour afficher le message à la fin du formulaire */
+      setApiError(message);
+    }
+
   };
 
   // fonction pour reset l'url d'image générée 
@@ -61,7 +74,10 @@ const CommentEdit = (props) => {
   return (
     <form className="form" onSubmit={handleSubmit(sendForm)}>
 
-      <p>image/gif <i>(optionnel)</i></p>
+      <div className="media-infos__container">
+        <p className='media'>media <i>(optionnel)</i></p>
+        <p className='media'>max : 3mo - gif | png | jp(e)g | webm</p>
+      </div>
 
       {(imageUrl || attachment) && (
         <>
@@ -101,6 +117,7 @@ const CommentEdit = (props) => {
       <div className="submit-abort__container">
         <input type="submit" className='send-msg__btn btn'></input>
         <button className='btn' onClick={() => setIsEditing(false)}>Annuler</button>
+        {apiError && <small>Erreur : {apiError}</small>}
       </div>
 
     </form>

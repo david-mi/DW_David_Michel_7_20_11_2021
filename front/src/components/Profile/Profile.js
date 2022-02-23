@@ -8,16 +8,16 @@ import { editingContext, profilPictureUpdate, loginContext } from '../../Context
 
 // PAGES & COMPONENTS
 import Header from '../../pages/Header';
-import Profile_infos from './Profile_infos';
-import Profile_update from './Profile_update';
-import Profile_delete from './Profile_delete';
+import ProfileInfos from './ProfileInfos';
+import ProfileUpdate from './ProfileUpdate';
+import ProfileDelete from './ProfileDelete';
 import Title from '../../pages/Title';
 
 const Profile = () => {
 
   const { id } = useParams();
 
-  const { isLogged, setIsLogged, token, USER_ID, status } = useContext(loginContext);
+  const { token, USER_ID } = useContext(loginContext);
   const [pictureUpdate, setPictureUpdate] = useState(profilPictureUpdate);
   const [profileData, setProfileData] = useState(null);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -43,14 +43,14 @@ const Profile = () => {
         <Header />
         <Title name="Profil" />
         <div className='profile__container container slide'>
-          {isDeleting && <Profile_delete isDeleting={isDeleting} setIsDeleting={setIsDeleting} />}
+          {isDeleting && <ProfileDelete isDeleting={isDeleting} setIsDeleting={setIsDeleting} />}
           {isUpdating
             ? (
               <editingContext.Provider value={{ isUpdating, setIsUpdating }}>
-                <Profile_update profileData={profileData}></Profile_update>
+                <ProfileUpdate profileData={profileData}></ProfileUpdate>
               </editingContext.Provider>
             )
-            : <Profile_infos profileData={profileData} />
+            : <ProfileInfos profileData={profileData} />
           }
         </div>
         {isOwner && (

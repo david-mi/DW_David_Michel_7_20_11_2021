@@ -1,5 +1,5 @@
 // LIBRARIES
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from "react-router-dom";
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -20,7 +20,7 @@ const Login = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(loginSchema) });
   const navigate = useNavigate();
-  const { isLogged, setIsLogged, setToken } = useContext(loginContext);
+  const { setIsLogged, setToken } = useContext(loginContext);
 
   const [Apierror, setApiError] = useState('');
   const [isHidden, setIsHidden] = useState(true);
@@ -43,10 +43,6 @@ const Login = () => {
       setApiError({ status, statusText, message });
     }
   };
-
-  // useEffect(() => {
-  //   if (isLogged && Apierror === false) navigate('/home');
-  // }, [isLogged, Apierror]);
 
   const passwordToggle = () => setIsHidden(e => !e);
 

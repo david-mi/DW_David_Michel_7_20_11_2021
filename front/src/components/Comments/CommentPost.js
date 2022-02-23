@@ -18,7 +18,7 @@ const CommentPost = ({ messageId }) => {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitSuccessful }
+    formState: { errors }
   } = useForm({ resolver: yupResolver(commentSchema) });
 
   const { setRefreshToogle } = useContext(refreshData);
@@ -27,12 +27,26 @@ const CommentPost = ({ messageId }) => {
   const [displayImage, setDisplayImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
   const [caractersNb, setCaractersNb] = useState(0);
+  const [apiError, setApiError] = useState('');
 
+  /* useEffect qui va regarder si une image a été sélectionnée 
+  si oui, on utilise la méthode créateObject pour générer une URL et
+  la mettre dans un state ImageUrl */
   useEffect(() => {
     displayImage
       ? setImageUrl(URL.createObjectURL(displayImage))
       : setImageUrl(null);
   }, [displayImage]);
+
+  // useEffect qui va supprimer l'erreur affichée venant de l'api au bout d'une seconde
+  useEffect(() => apiError && setTimeout(() => setApiError(''), 1000), [apiError]);
+
+  const imgReseter = () => setDisplayImage(null);
+
+  const resetForm = () => {
+    setDisplayImage(null);
+    reset();
+  };
 
   const sendForm = async (data) => {
     const formData = new FormData();
@@ -43,20 +57,21 @@ const CommentPost = ({ messageId }) => {
       'Authorization': `Bearer ${token}`,
       "Content-Type": "multipart/form-data"
     };
-    await axios.post(`${apiMessage}/${messageId}/comments/new`, formData, { headers });
 
-    setRefreshToogle((e) => !e);
-    reset();
-    setCaractersNb(0);
-    setDisplayImage(null);
-  };
+    try {
+      await axios.post(`${apiMessage}/${messageId}/comments/new`, formData, { headers });
 
-  const imgReseter = () => setDisplayImage(null);
-
-
-  const resetForm = () => {
-    setDisplayImage(null);
-    reset();
+      setRefreshToogle((e) => !e);
+      reset();
+      setCaractersNb(0);
+      setDisplayImage(null);
+    }
+    catch (err) {
+      const { message } = err.response.data;
+      /* on envoie le message d'erreur dans l'api dans un state
+      qui sera utilisé pour afficher le message à la fin du formulaire */
+      setApiError(message);
+    }
   };
 
   return (
@@ -65,7 +80,10 @@ const CommentPost = ({ messageId }) => {
 
         <form className="post-card__form" onSubmit={handleSubmit(sendForm)}>
 
-          <p>image/gif <i>(optionnel)</i></p>
+          <div className="media-infos__container">
+            <p className='media'>media <i>(optionnel)</i></p>
+            <p className='media'>max : 3mo - gif | png | jp(e)g | webm</p>
+          </div>
 
           {imageUrl && (
             <div className='image-post-edit__container'>
@@ -100,6 +118,7 @@ const CommentPost = ({ messageId }) => {
           <div className='submit-reset__container'>
             <input type="submit" className='send-msg__btn btn'></input>
             <a className='reset-btn btn' onClick={resetForm}>Reset</a>
+            {apiError && <small>Erreur : {apiError}</small>}
           </div>
         </form>
 

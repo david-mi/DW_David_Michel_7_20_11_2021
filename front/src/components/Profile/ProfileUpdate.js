@@ -10,7 +10,7 @@ import { editingContext, profilPictureUpdate } from '../../Context/loginContext'
 import { loginContext } from '../../Context/loginContext';
 
 // PAGES & COMPONENTS
-import Profile_delete_img from './Profile_delete_img';
+import ProfileDeleteImg from './ProfileDeleteImg';
 
 const apiUsers = 'http://localhost:3000/api/auth/users/';
 
@@ -27,6 +27,7 @@ const Profile_update = ({ profileData }) => {
   const [imageUrl, setImageUrl] = useState(null);
   const [isDeletingImg, setIsDeletingImg] = useState(false);
   const [caractersNb, setCaractersNb] = useState(0);
+  const [apiError, setApiError] = useState('');
 
   /* useEffect qui va regarder si une image a été sélectionnée 
  si oui, on utilise la méthode créateObject pour générer une URL et
@@ -36,6 +37,9 @@ const Profile_update = ({ profileData }) => {
       ? setImageUrl(URL.createObjectURL(displayImage))
       : setImageUrl(null);
   }, [displayImage]);
+
+  // useEffect qui va supprimer l'erreur affichée venant de l'api au bout d'une seconde
+  useEffect(() => apiError && setTimeout(() => setApiError(''), 1000), [apiError]);
 
   // useEffect qui va initialiser la longueur de la bio, 0 si null
   useEffect(() => bio ? setCaractersNb(bio.length) : setCaractersNb(0), []);
@@ -52,10 +56,19 @@ const Profile_update = ({ profileData }) => {
       'Authorization': `Bearer ${token}`,
       "Content-Type": "multipart/form-data"
     };
-    await axios.put(`${apiUsers}${USER_ID}/profileupdate`, formData, { headers });
 
-    setIsUpdating(false);
-    if (data.picture[0]) setPictureUpdate((e) => !e);
+    try {
+      await axios.put(`${apiUsers}${USER_ID}/profileupdate`, formData, { headers });
+      setIsUpdating(false);
+      if (data.picture[0]) setPictureUpdate((e) => !e);
+    }
+    catch (err) {
+      const { message } = err.response.data;
+      /* on envoie le message d'erreur dans l'api dans un state
+      qui sera utilisé pour afficher le message à la fin du formulaire */
+      setApiError(message);
+    }
+
   };
 
   // fonction pour reset l'url d'image générée 
@@ -75,7 +88,7 @@ const Profile_update = ({ profileData }) => {
           {imageUrl
             ? <a onClick={reseter} className="btn btn-abort">Annuler</a>
             : isDeletingImg
-              ? <Profile_delete_img data={{ setIsDeletingImg }} />
+              ? <ProfileDeleteImg data={{ setIsDeletingImg }} />
               : hasDefaultPic() || <a onClick={() => setIsDeletingImg(true)} className="btn btn-delete">Supprimer</a>}
         </div>
         <input
@@ -118,7 +131,7 @@ const Profile_update = ({ profileData }) => {
 
       <div className='input-label__container'>
         <input type="submit" value="Valider" />
-        {/* {Apierror && <small>Erreur {Apierror.status} {Apierror.statusText}</small>} */}
+        {apiError && <small>Erreur : {apiError}</small>}
       </div>
 
     </form >

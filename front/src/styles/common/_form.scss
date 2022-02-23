@@ -23,4 +23,23 @@
     background-color: $clr-main;
     color: white;
   }
+
+  .media-infos__container {
+    grid-area: media-info;
+    color: $clr-main;
+
+    .media {
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .media-info {
+      margin-bottom: 0;
+    }
+
+    .media-restriction {
+      margin-bottom: 10px;
+      font-size: 0.8rem;
+    }
+  }
 }

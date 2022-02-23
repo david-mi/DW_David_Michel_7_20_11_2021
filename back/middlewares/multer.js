@@ -28,17 +28,21 @@ const upload = multer({
     on applique une regex pour définir les extensions que l'on souhaite
     accepter au sein du middleware */
     const ext = file.mimetype.split('/')[1];
-    const regExt = /^png|jpe?g|svg|webp|gif$/;
+    const regExt = /^png|jpe?g|webp|gif$/;
     if (regExt.test(ext)) cb(null, true);
-    if (!regExt.test(ext)) cb(new Error("Type de fichier non accepté"));
+    if (!regExt.test(ext)) cb(({ message: "Type de fichier non accepté" }));
   },
 
   // on impose une limite de taille à l'image de 3mo
   limits: { fileSize: 3145728 },
 
-  storage
-  // image sera le nom dédié aux fichiers images dans le formData reçu
+  storage,
+  // image sera le champ dédié aux fichiers images dans le formData
 }).single('image');
 
 
-module.exports = upload;
+module.exports = (req, res, next) => {
+  upload(req, res, (err) => err
+    ? res.status(400).json(err)
+    : next());
+};

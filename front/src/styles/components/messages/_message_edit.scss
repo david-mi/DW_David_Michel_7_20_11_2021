@@ -1,5 +1,7 @@
 .editing__card {
   max-width: 800px;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   background-color: $clr-secondary-light;
 
@@ -14,9 +16,29 @@
   }
 
   .submit-abort__container {
+    position: relative;
     display: flex;
     justify-content: center;
     width: 100%;
     gap: 20px;
+    margin-bottom: 10px;
+
+    .btn {
+      width: auto;
+      flex: 1 1 200px;
+    }
+
+    small {
+      position: absolute;
+      color: red;
+      height: 15px;
+      bottom: -25px;
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: 100% !important;
+      width: 100%;
+      text-align: center;
+      font-weight: bold;
+    }
   }
 }

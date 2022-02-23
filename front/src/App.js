@@ -14,14 +14,14 @@ import Register from './components/Register';
 // FILES
 import { loginContext } from './Context/loginContext';
 import ProtectedRoutes from './protectedRoutes';
-import Profile_email_update from './components/Profile/Profile_email_update';
+import ProfileEmailUpdate from './components/Profile/ProfileEmailUpdate';
 import ProfilePwUpdate from './components/Profile/ProfilePwUpdate';
 import ModerationRoutes from './ModerationRoute';
 import Moderation from './components/Moderation/Moderation';
 
 const App = () => {
 
-  const [isLogged, setIsLogged] = useState(false);
+  const [isLogged, setIsLogged] = useState(null);
   const [token, setToken] = useState(null);
   const [status, setStatus] = useState(null);
   const [USER_ID, setUSER_ID] = useState(null);
@@ -63,16 +63,21 @@ const App = () => {
     loggedCheck();
   }, [isLogged]);
 
+  // useEffect(() => {
+  //   console.log('loggedCheck');
+  //   loggedCheck();
+  // });
+
   return (
     <loginContext.Provider value={{ isLogged, setIsLogged, token, setToken, USER_ID, status }}>
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/register" element={<Register />}></Route>
-          <Route element={<ProtectedRoutes />}>
+          <Route element={<ProtectedRoutes data={{ loggedCheck }} />}>
             <Route path="/home" element={<Home />}></Route>
             <Route path="/profile/:id" element={<Profile />}></Route>
-            <Route path="/profile/updatemail" element={<Profile_email_update />}></Route>
+            <Route path="/profile/updatemail" element={<ProfileEmailUpdate />}></Route>
             <Route path="/profile/updatepassword" element={< ProfilePwUpdate />}></Route>
             <Route element={<ModerationRoutes />}>
               <Route path="/moderation-board" element={<Moderation />}></Route>

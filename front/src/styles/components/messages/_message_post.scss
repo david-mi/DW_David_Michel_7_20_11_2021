@@ -7,7 +7,7 @@
 .message-post__container {
   animation: growing 500ms forwards;
   transform: scale(0);
-  overflow: hidden;
+  // overflow: hidden;
   max-width: 800px;
   width: 100%;
   padding: 20px;
@@ -38,16 +38,29 @@
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(5, auto);
     grid-template-areas:
-      "imginfo imginfo"
+      "media-info media-info"
       "img img"
       "abcontainer abcontainer"
       "inputlabel inputlabel"
       "srcontainer srcontainer";
 
-    p {
-      margin-bottom: 10px;
-      grid-area: imginfo;
-      font-weight: bold;
+    .media-infos__container {
+      grid-area: media-info;
+      color: $clr-main;
+
+      .media {
+        font-weight: bold;
+        text-align: center;
+      }
+
+      .media-info {
+        margin-bottom: 0;
+      }
+
+      .media-restriction {
+        margin-bottom: 10px;
+        font-size: 0.8rem;
+      }
     }
 
     .browse-abort__container,
@@ -67,8 +80,22 @@
     }
 
     .submit-reset__container {
+      position: relative;
       grid-area: srcontainer;
-      margin-bottom: 0;
+      margin-bottom: 10px;
+
+      small {
+        position: absolute;
+        color: red;
+        height: 15px;
+        bottom: -25px;
+        left: 50%;
+        transform: translateX(-50%);
+        max-width: 100% !important;
+        width: 100%;
+        text-align: center;
+        font-weight: bold;
+      }
     }
     .image-post-edit__container {
       grid-area: img;
