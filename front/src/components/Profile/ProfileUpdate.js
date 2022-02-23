@@ -79,6 +79,12 @@ const Profile_update = ({ profileData }) => {
 
   return (
     <form className="form" onSubmit={handleSubmit(sendForm)}>
+
+      <div className="media-infos__container">
+        <p className='media'>media <i>(optionnel)</i></p>
+        <p className='media'>max : 3mo - gif | png | jp(e)g | webm</p>
+      </div>
+
       <div className='image-profile-edit__container'>
         <div className='profile-picture__container'>
           <img src={imageUrl || profilePicture} className="profile__picture"></img>

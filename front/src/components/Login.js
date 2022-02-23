@@ -60,8 +60,7 @@ const Login = () => {
             <label htmlFor="email">Votre mail</label>
             <input
               placeholder="email"
-              {...register('email')}
-              style={errors.email && { background: "red" }}>
+              {...register('email')}>
             </input>
             {errors.email && <small>{errors.email.message}</small>}
           </div>

@@ -75,8 +75,7 @@ const Profile_email_update = () => {
             <label htmlFor="previousEmail"></label>
             <input
               placeholder="Votre mail actuel"
-              {...register('previousEmail')}
-              style={errors.previousEmail && { background: "red", color: "white" }}>
+              {...register('previousEmail')}>
             </input>
             {errors.previousEmail && <small>{errors.previousEmail.message}</small>}
           </div>
@@ -85,8 +84,7 @@ const Profile_email_update = () => {
             <label htmlFor="newEmail"></label>
             <input
               placeholder="Votre nouvel email"
-              {...register('newEmail')}
-              style={errors.newEmail && { background: "red" }}>
+              {...register('newEmail')}>
             </input>
             {errors.newEmail && <small>{errors.newEmail.message}</small>}
           </div>

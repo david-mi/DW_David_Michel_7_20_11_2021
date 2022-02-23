@@ -79,8 +79,7 @@ const ProfilePwUpdate = () => {
             <input
               placeholder="ancien mot de passe"
               type={isPrevPwHidden ? 'password' : 'text'}
-              {...register('previousPw')}
-              style={errors.previousPw && { background: "red" }}>
+              {...register('previousPw')}>
             </input>
             <div className='password-toggle' id="oldPwToogle" onClick={prevPasswordToggle}>{isPrevPwHidden ? <HideInput /> : <ShowInput />}</div>
             {errors.previousPw && <small>{errors.previousPw.message}</small>}
@@ -91,8 +90,7 @@ const ProfilePwUpdate = () => {
             <input
               placeholder="nouveau mot de passe"
               type={isNewPwHidden ? 'password' : 'text'}
-              {...register('newPw')}
-              style={errors.newPw && { background: "red" }}>
+              {...register('newPw')}>
             </input>
             <div className='password-toggle' id="newPwToogle" onClick={newPasswordToggle}>{isNewPwHidden ? <HideInput /> : <ShowInput />}</div>
             {errors.newPw && <small>{errors.newPw.message}</small>}

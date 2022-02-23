@@ -48,7 +48,7 @@ const Register = () => {
 
           <div className='input-label__container'>
             <label htmlFor="email">Votre mail</label>
-            <input placeholder="email" {...register('email')} style={errors.email && { background: "red" }}>
+            <input placeholder="email" {...register('email')}>
             </input>
             {errors.email && <small>{errors.email.message}</small>}
           </div>
