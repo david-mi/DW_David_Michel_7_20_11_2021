@@ -1,6 +1,7 @@
 <p align="center">
-<img src="front\public\images\logos\icon-left-font-monochrome-white.png">
+<img src="front\public\images\logos\logo-for-gihub.png">
 </p>
+
 # Installation du Projet 7 - Groupomania
 
 ## Backend
