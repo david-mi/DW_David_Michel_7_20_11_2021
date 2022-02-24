@@ -10,7 +10,9 @@ const { handleErrorImage, deletePreviousUserImage, getdefaultUserPicture } = req
 
 exports.getAllUsers = async (req, res) => {
 
-  const users = await User.findAll()
+  const users = await User.findAll({
+    attributes: ['id', 'username', 'firstname', 'lastname', 'email', 'status', 'profilePicture']
+  })
     .catch(err => res.status(500).json(err));
 
   !users.length

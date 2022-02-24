@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useState, useContext } from 'react';
 
 // CONTEXT
-import { loginContext } from '../../Context/loginContext';
+import { loginContext } from '../../Context/context';
 
 // ICONS
 import Logo from '../../icons-logos/Logo';
@@ -12,11 +12,13 @@ const adminApi = 'http://localhost:3000/api/mod/admin';
 
 const DeleteUser = ({ data }) => {
 
-  const { setIsDeleting, userId, setToggleUpdate, setUser } = data;
+  const { setIsDeleting, userId, setToggleUpdate } = data;
 
   const { token } = useContext(loginContext);
   const [isDeleted, setIsDeleted] = useState(false);
 
+  /* fonction permettant d'envoyer la requête qui va supprimer un utilisateur de
+  la base de donnée ainsi que gérer certains states */
   const deleteUser = async () => {
     const headers = { 'Authorization': `Bearer ${token}` };
     await axios.delete(`${adminApi}/users/${userId}/delete`, { headers });

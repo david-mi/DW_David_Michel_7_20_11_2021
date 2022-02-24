@@ -3,12 +3,12 @@ import { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
 // CONTEXT
-import { refreshData, loginContext } from '../Context/loginContext';
+import { refreshData, loginContext } from '../Context/context';
 
 // PAGES & COMPONENTS
 import Header from '../pages/Header';
 import Title from '../pages/Title';
-import MessagesInfos from './Messages/MessagesInfos';
+import MessagesInfos from './Messages/MessageInfos';
 import MessagePost from './Messages/MessagePost';
 
 const apiMessage = 'http://localhost:3000/api/messages';
@@ -20,6 +20,8 @@ const Home = () => {
   const [messages, setMessages] = useState(null);
   const [refreshToogle, setRefreshToogle] = useState(false);
 
+  /* fonction qui va faire une requête api afin de récupérer 
+  toutes les informations qui seront affichés (messages, commentaires, likes, utilisateurs...)*/
   const getMessages = async () => {
     const headers = { 'Authorization': `Bearer ${token}` };
     const res = await axios.get(apiMessage + '/all', { headers });
@@ -27,6 +29,8 @@ const Home = () => {
     setMessages(data);
   };
 
+  /* useEffect qui va appeler la fonction getMessages à chaque changement d'état
+  du state refreshToggle */
   useEffect(getMessages, [refreshToogle]);
 
   return (

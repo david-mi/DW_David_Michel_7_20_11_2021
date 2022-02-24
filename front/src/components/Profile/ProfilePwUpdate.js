@@ -1,11 +1,11 @@
-import { useContext, useState, useEffect } from 'react';
+import { useContext, useState } from 'react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 // CONTEXT
-import { loginContext } from '../../Context/loginContext';
+import { loginContext } from '../../Context/context';
 
 // SCHEMA
 import { passwordSchema } from '../../YupSchemas/userSchema';
@@ -20,7 +20,7 @@ const apiUsers = 'http://localhost:3000/api/auth/users/';
 
 const ProfilePwUpdate = () => {
 
-  const { isLogged, setIsLogged, token, USER_ID } = useContext(loginContext);
+  const { setIsLogged, token, USER_ID } = useContext(loginContext);
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(passwordSchema) });
   const navigate = useNavigate();
 
@@ -29,6 +29,8 @@ const ProfilePwUpdate = () => {
   const [isPrevPwHidden, setIsPrevPwHidden] = useState(true);
   const [isNewPwHidden, setIsNewPwHidden] = useState(true);
 
+  /* fonction qui va envoyer la requête afin de mettre à jour le mot de passe de l'utilisateur. 
+  on va aussi nettoyer son localstorage */
   const sendData = async (data) => {
     const headers = { 'Authorization': `Bearer ${token}` };
 
@@ -47,11 +49,14 @@ const ProfilePwUpdate = () => {
     }
   };
 
+  /* fonction qui va s'occuper de changer le state indiquant si l'utilisateur 
+  est connecté et va le rediriger sur /login */
   const redirect = () => {
     setIsLogged(false);
     navigate('/login');
   };
 
+  // fonctions permettant d'afficher ou non les mots de passe en clair dans l'input
   const prevPasswordToggle = () => setIsPrevPwHidden(e => !e);
   const newPasswordToggle = () => setIsNewPwHidden(e => !e);
 

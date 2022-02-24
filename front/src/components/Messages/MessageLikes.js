@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useContext, useState } from 'react';
 
 // CONTEXT
-import { loginContext, refreshData } from '../../Context/loginContext';
+import { loginContext, refreshData } from '../../Context/context';
 
 // ICONS
 import { LikeIcon } from '../../icons-logos/icons';
@@ -24,7 +24,7 @@ function MessagesLikes(props) {
   pour pouvoir mettre à jour de la couleur du composant LikeIcon */
   const hasLiked = () => {
     if (!likeList.length) return false;
-    return likeList.find(({ User }) => User.userMessageVoted == USER_ID);
+    return likeList.find(({ User }) => User.userMessageVoted === USER_ID);
   };
 
   const sendLike = async () => {

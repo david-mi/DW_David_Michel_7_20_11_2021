@@ -3,7 +3,7 @@ import { useContext, useState } from 'react';
 import axios from 'axios';
 
 // CONTEXT
-import { refreshData, loginContext } from '../../Context/loginContext';
+import { refreshData, loginContext } from '../../Context/context';
 
 // ICONS
 import { DislikeIcon } from '../../icons-logos/icons';
@@ -24,7 +24,7 @@ function MessageDislike(props) {
   pour pouvoir mettre à jour de la couleur du composant DislikeIcon */
   const hasDisliked = () => {
     if (!dislikeList.length) return false;
-    return dislikeList.find(({ User }) => User.userMessageVoted == USER_ID);
+    return dislikeList.find(({ User }) => User.userMessageVoted === USER_ID);
   };
 
   /* fonction qui va envoyer une requête pour envoyer un dislike ou bien le retirer

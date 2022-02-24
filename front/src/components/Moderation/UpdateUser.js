@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useState, useContext, useEffect } from 'react';
 
 // CONTEXT
-import { loginContext } from '../../Context/loginContext';
+import { loginContext } from '../../Context/context';
 
 // ICONS
 import Logo from '../../icons-logos/Logo';
@@ -18,6 +18,8 @@ const ChangeStatus = ({ data }) => {
   const [isChanged, setIsChanged] = useState(false);
   const [endpoint, setEndpoint] = useState(null);
 
+  /* fonction permettant d'envoyer la requête qui va changer le status d'un 
+  utilisateur dans la base de donnée ainsi que gérer certains states */
   const handleStatus = async (target) => {
     const headers = { 'Authorization': `Bearer ${token}` };
     await axios.post(`${adminApi}/users/${userId}/${target}`, null, { headers });
@@ -25,11 +27,13 @@ const ChangeStatus = ({ data }) => {
     setToggleUpdate(e => !e);
   };
 
+  /* useEffect qui va modifier le state contenant l'endpoint de la requête api selon le status
+  actuel de l'utilisateur ciblé */
   useEffect(() => {
     userStatus === 'moderator'
       ? setEndpoint('removemod')
       : setEndpoint('setmod');
-  }, []);
+  }, [userStatus]);
 
   return (
     <div className='confirm__wrapper'>

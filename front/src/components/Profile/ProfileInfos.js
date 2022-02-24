@@ -1,7 +1,9 @@
-const Profile_infos = ({ profileData }) => {
+const ProfileInfos = ({ profileData }) => {
 
   const { profilePicture, username, firstname, lastname, bio, status } = profileData;
 
+  /* objet qui va permettre des mots plus adaptés pour afficher 
+  le status de l'utilisateur affiché */
   const showStatus = {
     user: 'Utilisateur',
     moderator: 'Modérateur',
@@ -38,4 +40,4 @@ const Profile_infos = ({ profileData }) => {
 
 };
 
-export default Profile_infos;
+export default ProfileInfos;

@@ -9,7 +9,7 @@ import axios from 'axios';
 import loginSchema from '../YupSchemas/loginSchema';
 
 // CONTEXT
-import { loginContext } from '../Context/loginContext';
+import { loginContext } from '../Context/context';
 
 // PAGES & COMPONENTS & ICONS
 import Header from '../pages/Header';
@@ -20,11 +20,14 @@ const Login = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(loginSchema) });
   const navigate = useNavigate();
-  const { setIsLogged, setToken } = useContext(loginContext);
+  const { setIsLogged } = useContext(loginContext);
 
   const [Apierror, setApiError] = useState('');
   const [isHidden, setIsHidden] = useState(true);
 
+  /* fonction qui va permettre d'envoyer les informations de connexion afin
+  de se connecter à l'application. Si les informations sont bonnes, l'api nous renverra un token
+  qu'on mettra dans le dans le storage et on sera redirigé sur /home */
   const sendData = async (data) => {
     try {
       setIsLogged(false);
@@ -32,20 +35,19 @@ const Login = () => {
       const { token } = response.data;
       localStorage.setItem('token', JSON.stringify(token));
       setApiError(false);
-      setToken(token);
+      // setToken(token);
       setIsLogged(true);
       navigate('/home');
     }
     catch (err) {
-      console.log(err);
       const { status, statusText } = err.response;
       const { message } = err.response.data;
       setApiError({ status, statusText, message });
     }
   };
 
+  // fonction qui permet d'afficher ou non le mot de passe en clair dans l'input
   const passwordToggle = () => setIsHidden(e => !e);
-
 
   return (
     <>

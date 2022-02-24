@@ -4,17 +4,19 @@ import { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // CONTEXT
-import { loginContext } from '../../Context/loginContext';
+import { loginContext } from '../../Context/context';
 
 // ICONS
 import Logo from '../../icons-logos/Logo';
 
-const Profile_delete = ({ setIsDeleting }) => {
+const ProfileDelete = ({ setIsDeleting }) => {
 
   const navigate = useNavigate();
   const { setIsLogged, token, setToken, USER_ID } = useContext(loginContext);
   const [isDeleted, setIsDeleted] = useState(false);
 
+  /* fonction qui va s'occuper de faire la requête permettant de supprimer un utilisateur 
+  de la base de donnée, nettoyer le localStorage et de changer le state de suppression*/
   const deleteUser = async () => {
     const headers = { 'Authorization': `Bearer ${token}` };
     await axios.delete(`http://localhost:3000/api/auth/users/${USER_ID}`, { headers });
@@ -22,6 +24,8 @@ const Profile_delete = ({ setIsDeleting }) => {
     setIsDeleted(true);
   };
 
+  /* fonction permettant de reset l'état des states, dont celui qui va indiquer 
+  que l'utilisateur est maintenant. L'utilisateur sera redirigé sur la page register */
   const redirect = () => {
     setIsLogged(false);
     setToken(null);
@@ -51,4 +55,4 @@ const Profile_delete = ({ setIsDeleting }) => {
   );
 };
 
-export default Profile_delete;
+export default ProfileDelete;

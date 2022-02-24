@@ -9,9 +9,9 @@
 - Copier le .env fourni à la racine du .zip et le mettre dans le dossier back
 - Ajouter les valeurs correspondantes à vos informations de connexion mysql dans le fichier .env (DB_PW et DB_USERNAME)
 - Se  positionner dans le dossier backend via un terminal et rentrer la commande **npm i** pour y installer les dépendances
-- rentrer la commande **`sequelize db:create groupomania_development`** qui va créer la base de donnée
-- rentrer la commande **`sequelize db:migrate`** qui va configurer la base de donnée
-- rentrer la commande **`sequelize db:seed:all`** qui va ajouter un administrateur préconfiguré dans dans la base de donnée
+- rentrer la commande **`npx sequelize db:create`** qui va créer la base de donnée
+- rentrer la commande **`npx sequelize db:migrate`** qui va configurer la base de donnée
+- rentrer la commande **`npx sequelize db:seed:all`** qui va ajouter un administrateur préconfiguré dans dans la base de donnée
 - rentrer la commande **`node server`** afin de lancer le serveur
 
 ## Frontend

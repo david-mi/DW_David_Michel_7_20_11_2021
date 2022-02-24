@@ -3,14 +3,14 @@ import axios from 'axios';
 import { useState, useContext, useEffect } from 'react';
 
 // CONTEXT
-import { profilPictureUpdate } from '../../Context/loginContext';
-import { loginContext } from '../../Context/loginContext';
+import { profilPictureUpdate } from '../../Context/context';
+import { loginContext } from '../../Context/context';
 import Logo from '../../icons-logos/Logo';
 
 // API PATH
 const apiUsers = 'http://localhost:3000/api/auth/users/';
 
-const Profile_delete_img = (props) => {
+const ProfileDeleteImg = (props) => {
 
   const { setIsDeletingImg } = props.data;
 
@@ -19,7 +19,7 @@ const Profile_delete_img = (props) => {
 
   const [isImgDeleted, setIsImgDeleted] = useState(false);
 
-  /* fonction pour supprimer une image associée à un profilS
+  /* fonction pour supprimer une image associée à un profil
   qui va aussi lancer un nouvel appel api pour afficher la mise à jour 
   un changement d'état sera aussi fait pour retirer la fenêtre de confirmation */
   const deleteImage = async (event) => {
@@ -29,8 +29,6 @@ const Profile_delete_img = (props) => {
     setIsImgDeleted(true);
     setPictureUpdate(true);
   };
-
-  useEffect(() => () => setPictureUpdate(false));
 
   return (
     <div className='confirm__wrapper'>
@@ -54,4 +52,4 @@ const Profile_delete_img = (props) => {
   );
 };
 
-export default Profile_delete_img;
+export default ProfileDeleteImg;

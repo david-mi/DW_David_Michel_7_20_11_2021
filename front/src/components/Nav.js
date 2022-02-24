@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 
 // CONTEXT
-import { loginContext, profilPictureUpdate } from '../Context/loginContext';
+import { loginContext, profilPictureUpdate } from '../Context/context';
 
 // ICONS 
 import { LogOutIcon, HomeIcon, ModerationPanel } from '../icons-logos/icons';
@@ -12,34 +12,39 @@ import { LogOutIcon, HomeIcon, ModerationPanel } from '../icons-logos/icons';
 const Nav = () => {
 
   const { isLogged, setIsLogged, token, USER_ID, status } = useContext(loginContext);
-  const { pictureUpdate, setPictureUpdate } = useContext(profilPictureUpdate);
+  const { pictureUpdate } = useContext(profilPictureUpdate);
   const [addPicture, setAddPicture] = useState(false);
-  const [userId, setUserId] = useState(null);
   const [isMounted, setIsMounted] = useState(true);
   const navigate = useNavigate();
 
+  //fonction permettant de récupérer les infos d'un utilisateur pour afficher sa photo de profil
   const getProfilePicture = async () => {
-    console.log(USER_ID, token);
     const headers = { 'Authorization': `Bearer ${token}` };
     const res = await axios.get(`http://localhost:3000/api/auth/users/${USER_ID}`, { headers });
     const { profilePicture } = res.data;
     setAddPicture(profilePicture);
   };
 
+  /* fonction qui va nettoyer le localStorage, changer le state qui indique 
+  si l'utilisateur est connecté ou non et le rediriger sur /login */
   const logOut = () => {
-    localStorage.removeItem('token');
+    localStorage.clear();
     setIsLogged(false);
-    //!  A SURVEILLER SI IL FAUT PAS ATTENDRE QUE SETISLOGGED SOIT BIEN FALSE POUR FAIRE LA REDIRECTION
     navigate('/login');
   };
 
-  // source du souci ?? 
+  /* useEffect qui va observer les changements d'état des states isLogged, pictureUpdate et USER_ID
+  et va s'occuper d'appeler la fonction getProfilePicture si les conditions sont remplies */
   useEffect(() => {
-    if (isLogged && isMounted && USER_ID) getProfilePicture();
-    console.log('userid ' + USER_ID);
-    console.log('isLogged ' + isLogged);
-    console.log('token ' + token);
-    console.log('ismounted ' + isMounted);
+    setIsMounted(true);
+    if (isLogged && isMounted && USER_ID) {
+      getProfilePicture();
+      console.log('getProfilePicture');
+    }
+    // console.log('userid ' + USER_ID);
+    // console.log('isLogged ' + isLogged);
+    // console.log('token ' + token);
+    // console.log('ismounted ' + isMounted);
     return () => {
       setIsMounted(false);
       console.log('Nav unmounted');
@@ -47,6 +52,7 @@ const Nav = () => {
 
   }, [isLogged, pictureUpdate, USER_ID]);
 
+  // on va afficher les liens vers des menus selon si l'utilisateur est admin, connecté ou non
   return (
 
     isLogged

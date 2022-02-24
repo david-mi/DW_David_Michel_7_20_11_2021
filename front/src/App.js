@@ -3,7 +3,6 @@ import { Route, Routes, BrowserRouter, Navigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { isExpired, decodeToken } from "react-jwt";
 
-
 // PAGES & COMPONENTS
 import Home from './components/Home';
 import Login from './components/Login';
@@ -11,13 +10,18 @@ import NotFound from './pages/NotFound';
 import Profile from './components/Profile/Profile';
 import Register from './components/Register';
 
-// FILES
-import { loginContext } from './Context/loginContext';
+// CONTEXT
+import { loginContext } from './Context/context';
+
+// ROUTES
 import ProtectedRoutes from './protectedRoutes';
-import ProfileEmailUpdate from './components/Profile/ProfileEmailUpdate';
-import ProfilePwUpdate from './components/Profile/ProfilePwUpdate';
 import ModerationRoutes from './ModerationRoute';
+
+// COMPONENTS
+import ProfileEmailUpdate from './components/Profile/ProfileEmailUpdate';
 import Moderation from './components/Moderation/Moderation';
+import ProfilePwUpdate from './components/Profile/ProfilePwUpdate';
+
 
 const App = () => {
 
@@ -29,9 +33,7 @@ const App = () => {
   const loggedCheck = () => {
 
     const check = localStorage.getItem('token');
-    console.log('app.js');
     if (check) {
-      console.log('check');
       const getToken = JSON.parse(localStorage.getItem('token'));
       const decodedToken = decodeToken(getToken);
       const isTokenExpired = isExpired(getToken);
@@ -44,7 +46,6 @@ const App = () => {
       }
       if (decodedToken && !isTokenExpired) {
         const { USER_ID, status } = decodedToken;
-        console.log('userid ' + USER_ID);
         setStatus(status);
         setToken(getToken);
         setUSER_ID(USER_ID);
@@ -58,15 +59,7 @@ const App = () => {
     }
   };
 
-  useEffect(() => {
-    console.log('loggedCheck');
-    loggedCheck();
-  }, [isLogged]);
-
-  // useEffect(() => {
-  //   console.log('loggedCheck');
-  //   loggedCheck();
-  // });
+  useEffect(loggedCheck, [isLogged]);
 
   return (
     <loginContext.Provider value={{ isLogged, setIsLogged, token, setToken, USER_ID, status }}>

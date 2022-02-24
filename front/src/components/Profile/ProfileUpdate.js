@@ -6,15 +6,14 @@ import axios from 'axios';
 import { useContext, useState, useEffect } from 'react';
 
 // CONTEXT
-import { editingContext, profilPictureUpdate } from '../../Context/loginContext';
-import { loginContext } from '../../Context/loginContext';
+import { editingContext, profilPictureUpdate, loginContext } from '../../Context/context';
 
 // PAGES & COMPONENTS
 import ProfileDeleteImg from './ProfileDeleteImg';
 
 const apiUsers = 'http://localhost:3000/api/auth/users/';
 
-const Profile_update = ({ profileData }) => {
+const ProfileUpdate = ({ profileData }) => {
 
   const { profilePicture, username, firstname, lastname, bio } = profileData;
 
@@ -144,4 +143,4 @@ const Profile_update = ({ profileData }) => {
   );
 };
 
-export default Profile_update;
+export default ProfileUpdate;

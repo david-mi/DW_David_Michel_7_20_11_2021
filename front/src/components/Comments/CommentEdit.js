@@ -8,7 +8,7 @@ import axios from 'axios';
 import commentSchema from '../../YupSchemas/commentSchema';
 
 // CONTEXT
-import { refreshData, loginContext } from '../../Context/loginContext';
+import { refreshData, loginContext } from '../../Context/context';
 
 // COMPONENTS
 import CommentDeleteImage from './CommentDeleteImage';
@@ -83,14 +83,14 @@ const CommentEdit = (props) => {
         <>
           <div className='image-post-edit__container'>
             <div className='post-picture__container'>
-              <img src={imageUrl || attachment} className="post__picture"></img>
+              <img src={imageUrl || attachment} className="post__picture" alt="media lié au commentaire"></img>
             </div>
           </div>
           {imageUrl
-            ? <a onClick={reseter} className="btn btn-abort">Annuler</a>
+            ? <button onClick={reseter} className="btn btn-abort">Annuler</button>
             : isDeletingImg
               ? <CommentDeleteImage data={{ setIsDeletingImg, commentId }} />
-              : <a onClick={() => setIsDeletingImg(true)} className="btn btn-delete">Supprimer</a>}
+              : <button onClick={() => setIsDeletingImg(true)} className="btn btn-delete">Supprimer</button>}
         </>
       )}
 

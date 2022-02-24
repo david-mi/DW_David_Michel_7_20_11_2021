@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useContext } from 'react';
 
 // CONTEXT
-import { loginContext, refreshData } from '../../Context/loginContext';
+import { loginContext, refreshData } from '../../Context/context';
 
 // LOGOS
 import Logo from '../../icons-logos/Logo';

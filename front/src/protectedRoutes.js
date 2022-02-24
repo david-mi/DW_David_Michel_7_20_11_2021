@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import { Outlet, Navigate } from 'react-router-dom';
 
 // CONTEXT
-import { loginContext } from './Context/loginContext';
+import { loginContext } from './Context/context';
 
 const ProtectedRoutes = () => {
 

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { NavLink, useParams } from 'react-router-dom';
 
 // CONTEXT
-import { editingContext, profilPictureUpdate, loginContext } from '../../Context/loginContext';
+import { editingContext, profilPictureUpdate, loginContext } from '../../Context/context';
 
 // PAGES & COMPONENTS
 import Header from '../../pages/Header';
@@ -24,17 +24,24 @@ const Profile = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isOwner, setIsOwner] = useState(false);
 
-  const getProfileData = async () => {
+  /* useEffect qui va appeller la fonction getProfileData a chaque changement d'état
+  du state isUpdating ou pictureUpdate */
+  useEffect(() => {
 
-    if (id == USER_ID) setIsOwner(true);
-    const res = await axios.get(`http://localhost:3000/api/auth/users/${id}`, {
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
-    setProfileData(res.data);
-  };
+    // fonction qui va envoyer la requête pour récupérer les infos d'un profil et les mettre dans un state
+    const getProfileData = async () => {
+      const userId = Number(id);
+      if (userId === USER_ID) setIsOwner(true);
+      const res = await axios.get(`http://localhost:3000/api/auth/users/${userId}`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      setProfileData(res.data);
+    };
+    console.log('getProfileData');
+    getProfileData();
+  }, [isUpdating, pictureUpdate, token, USER_ID, id]);
 
-  useEffect(getProfileData, [isUpdating, pictureUpdate]);
-
+  // si aucune donnée n'est présente dans le state profileDate, le composant retournera null
   if (!profileData) return null;
 
   return (

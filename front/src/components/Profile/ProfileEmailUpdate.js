@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 // CONTEXT
-import { loginContext } from '../../Context/loginContext';
+import { loginContext } from '../../Context/context';
 
 // SCHEMA
 import { emailSchema } from '../../YupSchemas/userSchema';
@@ -19,7 +19,7 @@ import Logo from '../../icons-logos/Logo';
 
 const apiUsers = 'http://localhost:3000/api/auth/users/';
 
-const Profile_email_update = () => {
+const ProfileEmailUpdate = () => {
 
   const { setIsLogged, token, USER_ID } = useContext(loginContext);
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(emailSchema) });
@@ -28,6 +28,8 @@ const Profile_email_update = () => {
   const [serverInfos, setServerInfos] = useState(null);
   const [changedEmail, setChangedEmail] = useState(false);
 
+  /* fonction qui va envoyer la requête afin de mettre à jour le mail de l'utilisateur. 
+  on va aussi nettoyer son localstorage */
   const sendData = async (data) => {
     const headers = { 'Authorization': `Bearer ${token}` };
 
@@ -47,6 +49,8 @@ const Profile_email_update = () => {
 
   };
 
+  /* fonction qui va s'occuper de changer le state indiquant si l'utilisateur 
+  est connecté et va le rediriger sur /login */
   const redirect = () => {
     setIsLogged(false);
     navigate('/login');
@@ -102,4 +106,4 @@ const Profile_email_update = () => {
   );
 };
 
-export default Profile_email_update;
+export default ProfileEmailUpdate;

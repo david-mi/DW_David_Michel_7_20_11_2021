@@ -8,7 +8,7 @@ import axios from 'axios';
 import messageSchema from '../../YupSchemas/messageSchema';
 
 // CONTEXT
-import { refreshData, loginContext } from '../../Context/loginContext';
+import { refreshData, loginContext } from '../../Context/context';
 
 // COMPONENTS
 import MessageDeleteImage from './MessageDeleteImage';
@@ -83,14 +83,14 @@ const MessageEdit = (props) => {
         <>
           <div className='image-post-edit__container'>
             <div className='post-picture__container'>
-              <img src={imageUrl || attachment} className="post__picture"></img>
+              <img src={imageUrl || attachment} className="post__picture" alt="media lié au message"></img>
             </div>
           </div>
           {imageUrl
-            ? <a onClick={reseter} className="btn btn-abort">Annuler</a>
+            ? <button onClick={reseter} className="btn btn-abort">Annuler</button>
             : isDeletingImg
               ? <MessageDeleteImage data={{ setIsDeletingImg, messageId }} />
-              : <a onClick={() => setIsDeletingImg(true)} className="btn btn-delete">Supprimer</a>}
+              : <button onClick={() => setIsDeletingImg(true)} className="btn btn-delete">Supprimer</button>}
         </>
       )}
 

@@ -11,9 +11,9 @@ const db = {};
 const env = process.env.CURRENT_DB;
 const config = require(__dirname + '/../config/config.js')[env];
 
-// on se connecte sur la base de donnée mysql via sequelize
 let sequelize = new Sequelize({ ...config });
 
+// on se connecte sur la base de donnée mysql via sequelize
 sequelize.authenticate()
   .then(() => console.log(`Connected on ${config.database}`))
   .catch((err) => console.log(`Failed to connect to ${config.database}`, err));

@@ -8,7 +8,7 @@ import axios from 'axios';
 import messageSchema from '../../YupSchemas/messageSchema';
 
 // CONTEXT
-import { refreshData, loginContext } from '../../Context/loginContext';
+import { refreshData, loginContext } from '../../Context/context';
 
 const apiMessage = 'http://localhost:3000/api/messages';
 
@@ -41,6 +41,17 @@ const MessagePost = () => {
   // useEffect qui va supprimer l'erreur affichée venant de l'api au bout d'une seconde
   useEffect(() => apiError && setTimeout(() => setApiError(''), 1000), [apiError]);
 
+  /* fonction permettant de signaler dans le state si on affiche
+  une image ou non */
+  const imgReseter = () => setDisplayImage(null);
+
+  /* fonction permettant de reset le formulaire ainsi que l'image affichée */
+  const resetForm = () => {
+    imgReseter();
+    reset();
+  };
+
+  /* fonction gérant l'envoi des données ainsi que le reset de certains states */
   const sendForm = async (data) => {
     const formData = new FormData();
     formData.append('postInfos', JSON.stringify(data));
@@ -64,16 +75,6 @@ const MessagePost = () => {
       qui sera utilisé pour afficher le message à la fin du formulaire */
       setApiError(message);
     }
-
-
-  };
-
-  const imgReseter = () => setDisplayImage(null);
-
-
-  const resetForm = () => {
-    setDisplayImage(null);
-    reset();
   };
 
   return (
@@ -90,7 +91,7 @@ const MessagePost = () => {
           {imageUrl && (
             <div className='image-post-edit__container'>
               <div className='post-picture__container'>
-                <img src={imageUrl} className="post__picture"></img>
+                <img src={imageUrl} className="post__picture" alt="media lié au message"></img>
               </div>
               {errors.file && <small>{errors.file.message}</small>}
             </div>
@@ -118,7 +119,7 @@ const MessagePost = () => {
 
           <div className='submit-reset__container'>
             <input type="submit" className='send-msg__btn btn'></input>
-            <a className='reset-btn btn' onClick={resetForm}>Reset</a>
+            <button className='reset-btn btn' onClick={resetForm}>Reset</button>
             {apiError && <small>Erreur : {apiError}</small>}
           </div>
         </form>

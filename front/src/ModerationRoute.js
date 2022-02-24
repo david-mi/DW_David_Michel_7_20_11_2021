@@ -1,19 +1,15 @@
 // LIBRARIES
 import { useContext } from 'react';
-import { Outlet } from 'react-router-dom';
+import { Outlet, Navigate } from 'react-router-dom';
 
 // CONTEXT
-import { loginContext } from './Context/loginContext';
-
-// COMPONENT
-import Home from './components/Home';
-
+import { loginContext } from './Context/context';
 
 const ModerationRoutes = () => {
 
   const { status } = useContext(loginContext);
 
-  return (status === 'admin' || status === 'moderator') ? <Outlet /> : <Home path="/home" />;
+  return status === 'admin' ? <Outlet /> : <Navigate to="/home" />;
 };
 
 export default ModerationRoutes;

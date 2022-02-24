@@ -3,7 +3,7 @@ import { useContext, useEffect, useState } from 'react';
 import axios from 'axios';
 
 // CONTEXT
-import { loginContext } from '../../Context/loginContext';
+import { loginContext } from '../../Context/context';
 
 // COMPONENTS
 import Header from '../../pages/Header';
@@ -13,6 +13,8 @@ import ChangeStatus from './UpdateUser';
 
 const Moderation = () => {
 
+  /* objet qui va permettre des mots plus adaptés pour afficher 
+  le status de l'utilisateur affiché */
   const showStatus = {
     user: 'Utilisateur',
     moderator: 'Modérateur',
@@ -29,16 +31,7 @@ const Moderation = () => {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
-  const getUsers = async () => {
-    setUser(null);
-    const getUsers = await axios.get(`http://localhost:3000/api/auth/users/`, {
-      headers: { 'Authorization': `Bearer ${token}` }
-    });
-    const adminFilter = getUsers.data.filter(user => user.status !== 'admin');
-    adminFilter.length ? setUsers(adminFilter) : setUsers(null);
-
-  };
-
+  // fonction qui va gérer l'affichage des utilisateur avec le menu select
   const selectOneUser = (event) => {
     const value = event.target.value;
     if (value === 'default') {
@@ -50,17 +43,36 @@ const Moderation = () => {
       const findUser = users.find(user => user.id === idValue);
       setUser(findUser);
       setUserStatus(findUser.status);
+      /* le setTimout sert à gérer le state qui affichera la classe permettant
+       l'animation de slide */
       setTimeout(() => setToggleClass(false), 600);
     }
   };
 
-  useEffect(getUsers, [toggleUpdate]);
+  // useEffect qui va faire appel à la fonction getUsers à chaque changement d'état du state toggleUpdate
+  useEffect(() => {
+
+    // fonction permettant de récupérer la liste des utilisateurs inscrits sur l'application
+    const getUsers = async () => {
+      setUser(null);
+      const getUsers = await axios.get(`http://localhost:3000/api/auth/users/`, {
+        headers: { 'Authorization': `Bearer ${token}` }
+      });
+      // on retire l'administrateur de la liste
+      const adminFilter = getUsers.data.filter(user => user.status !== 'admin');
+      console.log(adminFilter);
+      adminFilter.length ? setUsers(adminFilter) : setUsers(null);
+    };
+
+    getUsers();
+
+  }, [toggleUpdate, token]);
 
   return (
     <>
       <Header />
       {isUpdating && <ChangeStatus data={{ setIsUpdating, userId, setToggleUpdate, userStatus }} />}
-      {isDeleting && <DeleteUser data={{ setIsDeleting, userId, setToggleUpdate, setUser }} />}
+      {isDeleting && <DeleteUser data={{ setIsDeleting, userId, setToggleUpdate }} />}
       <Title name="Modération" />
       <select
         onBlur={e => e.target.value = 'default'}
@@ -81,7 +93,7 @@ const Moderation = () => {
           <div className={`moderation__container container ${toggleClass && 'slide'}`}>
             <ul className='moderation-infos__container'>
               <div className='profile-picture__container'>
-                <img src={user.profilePicture} className="profile__picture" alt="photo de profil" />
+                <img src={user.profilePicture} className="profile__picture" alt="avatar de l'utilisateur" />
               </div>
               <li className='username-container'>
                 <span className='attribute'>PSEUDO</span>
