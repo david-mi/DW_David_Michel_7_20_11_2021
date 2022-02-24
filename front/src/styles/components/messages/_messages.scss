@@ -79,12 +79,12 @@
   }
 
   .profile-pic {
-    height: 35px;
+    height: 40px;
     aspect-ratio: 1/1;
     border-radius: 50%;
     border: 2px solid $clr-main;
     position: absolute;
-    right: -40px;
+    right: -50px;
     object-fit: cover;
   }
 
@@ -227,6 +227,11 @@
 
   .comment-container {
     grid-area: comment;
+
+    .comment-btn {
+      background-color: transparent;
+      border: none;
+    }
   }
 
   .del-icon__wrapper {

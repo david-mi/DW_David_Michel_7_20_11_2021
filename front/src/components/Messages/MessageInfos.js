@@ -1,5 +1,5 @@
 // LIBRARIES
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect, useRef } from 'react';
 import { DeleteIcon, EditIcon, UpArrow } from '../../icons-logos/icons';
 import { animateScroll as scroll } from 'react-scroll';
 
@@ -21,6 +21,8 @@ import CommentPost from '../Comments/CommentPost';
 const MessagesInfos = (props) => {
 
   const { USER_ID, status } = useContext(loginContext);
+  const msgContainerRef = useRef(null);
+  const cmtContainerRef = useRef(null);
 
   const [isDeleting, setIsDeleting] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -75,8 +77,7 @@ const MessagesInfos = (props) => {
   de l'animation de scrolling à la fermeture des commentaires */
   const scrollClosingHandle = () => {
 
-    const msgContainer = document.getElementById(`msg-card${messageId}`);
-    const boundingMsg = msgContainer.getBoundingClientRect();
+    const boundingMsg = msgContainerRef.current.getBoundingClientRect();
     const msgHeight = boundingMsg.height;
 
     const msgTop = boundingMsg.top;
@@ -110,7 +111,7 @@ const MessagesInfos = (props) => {
   return (
     <>
       {isDeleting && <MessageDelete data={{ setIsDeleting, messageId }} />}
-      <div className={isEditing ? 'editing__card' : 'msg__card'} id={`msg-card${messageId}`}>
+      <div className={isEditing ? 'editing__card' : 'msg__card'} ref={msgContainerRef}>
         {isEditing
           ? <MessageEdit data={{ setIsEditing, text, attachment, messageId }} />
           : (
@@ -121,7 +122,7 @@ const MessagesInfos = (props) => {
               <p className='text'>{text}</p>
               <MessagesLikes data={{ likeList, messageId }} />
               <MessageDislike data={{ dislikeList, messageId }} />
-              <MessagesComment data={{ Comments, isShowingComments, setIsShowingComments, messageId, animDuration }} />
+              <MessagesComment data={{ Comments, isShowingComments, setIsShowingComments, animDuration, cmtContainerRef }} />
               {ownMessage()}
             </>
           )
@@ -129,7 +130,7 @@ const MessagesInfos = (props) => {
       </div>
       {
         isShowingComments && (
-          <div className='comments__wrapper' id={`${messageId}wrap`}>
+          <div className='comments__wrapper' ref={cmtContainerRef}>
             <div className={`comments-container ${isClosingComments ? 'closing' : 'opening'}`} style={{ animationDuration: `${animDuration()}ms` }}>
               {Comments
                 .sort((prev, next) => prev.commentId - next.commentId)

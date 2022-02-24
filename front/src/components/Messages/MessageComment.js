@@ -7,32 +7,25 @@ import { MessageIcon } from '../../icons-logos/icons';
 
 const MessagesComment = ({ data }) => {
 
-  const { Comments, isShowingComments, setIsShowingComments, messageId, animDuration } = data;
+  const { Comments, isShowingComments, setIsShowingComments, animDuration, cmtContainerRef } = data;
 
   const [showCommentUsers, setShowCommentsUsers] = useState(null);
 
-
-  const scrollOpeningHandle = () => {
-
-    const cmtContainer = document.getElementById(`${messageId}wrap`);
-    console.log(cmtContainer);
-
-    const boundingCmt = cmtContainer.getBoundingClientRect();
-    console.log(boundingCmt);
-    const cmtBottom = boundingCmt.bottom;
-    const realCmtBottom = cmtBottom + window.scrollY;
-    const clientHeight = window.innerHeight;
-
-    console.table({ cmtBottom, realCmtBottom, clientHeight });
-
-    scroll.scrollTo(realCmtBottom - clientHeight, {
-      duration: animDuration() - 100,
-      smooth: 'linear'
-    });
-  };
-
   useEffect(() => {
     if (isShowingComments) {
+      const scrollOpeningHandle = () => {
+
+        const boundingCmt = cmtContainerRef.current.getBoundingClientRect();
+        const cmtBottom = boundingCmt.bottom;
+
+        const realCmtBottom = cmtBottom + window.scrollY;
+        const clientHeight = window.innerHeight;
+
+        scroll.scrollTo(realCmtBottom - clientHeight, {
+          duration: animDuration() - 100,
+          smooth: 'linear'
+        });
+      };
       scrollOpeningHandle();
     }
   }, [isShowingComments]);
@@ -73,11 +66,10 @@ const MessagesComment = ({ data }) => {
   return (
     <>
       <div className='comment-container'>
-        <a className='comment-btn'
-          id={`comment-btn${messageId}`}
+        <button className='comment-btn'
           onClick={() => setIsShowingComments(e => !e)}>
           <MessageIcon />
-        </a>
+        </button>
         <span className='commentNb'
           onMouseOver={() => setShowCommentsUsers(true)}
           onMouseLeave={() => setShowCommentsUsers(false)}

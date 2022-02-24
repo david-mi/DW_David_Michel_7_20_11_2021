@@ -60,7 +60,6 @@ const Moderation = () => {
       });
       // on retire l'administrateur de la liste
       const adminFilter = getUsers.data.filter(user => user.status !== 'admin');
-      console.log(adminFilter);
       adminFilter.length ? setUsers(adminFilter) : setUsers(null);
     };
 

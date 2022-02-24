@@ -41,7 +41,7 @@ exports.deletePreviousUserImage = async (previousPic) => {
 
 /* fonction qui permet de supprimer l'image du post d'un utilisateur */
 exports.deletePreviousPostImage = async (previousPic) => {
-  console.log('previous', previousPic);
+
   try {
     await unlink(`images/post/${previousPic}`);
   }
@@ -53,7 +53,7 @@ exports.deletePreviousPostImage = async (previousPic) => {
 
 /* fonction qui permet de supprimer l'image du commentaire d'un utilisateur */
 exports.deletePreviousCommentImage = async (previousPic) => {
-  console.log('previous', previousPic);
+
   try {
     await unlink(`images/comment/${previousPic}`);
   }
