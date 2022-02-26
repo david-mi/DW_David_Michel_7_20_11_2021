@@ -6,7 +6,9 @@
 
 ## Backend
 
-- Copier le .env fourni à la racine du .zip et le mettre dans le dossier back
+- Retirer l'extension .example sur le .env situé à la racine du dossier back
+- Mettez vos valeurs dans les champs DB_USERNAME et DB_PW
+- Mettez les valeurs ADMIN_MAIL ET ADMIN_PW fournies à la racine du .zip
 - Ajouter les valeurs correspondantes à vos informations de connexion mysql dans le fichier .env (DB_PW et DB_USERNAME)
 - Se  positionner dans le dossier backend via un terminal et rentrer la commande **npm i** pour y installer les dépendances
 - rentrer la commande **`npx sequelize db:create`** qui va créer la base de donnée
