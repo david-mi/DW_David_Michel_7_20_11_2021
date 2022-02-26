@@ -8,11 +8,12 @@ import { refreshData, loginContext } from '../../Context/context';
 // ICONS
 import { DislikeIcon } from '../../icons-logos/icons';
 
-const apiMessage = 'http://localhost:3000/api/messages';
+//DATA
+import { apiMessage, getHeaders } from '../../data/apiData';
 
-function MessageDislike(props) {
+const MessageDislike = ({ data }) => {
 
-  const { dislikeList, messageId } = props.data;
+  const { dislikeList, messageId } = data;
 
   const { token, USER_ID } = useContext(loginContext);
   const { setRefreshToogle } = useContext(refreshData);
@@ -30,8 +31,7 @@ function MessageDislike(props) {
   /* fonction qui va envoyer une requête pour envoyer un dislike ou bien le retirer
   qui va aussi lancer un nouvel appel api pour afficher la mise à jour */
   const sendDislike = async () => {
-    const headers = { 'Authorization': `Bearer ${token}` };
-    await axios.post(`${apiMessage}/${messageId}/dislike`, null, { headers });
+    await axios.post(`${apiMessage}/${messageId}/dislike`, null, getHeaders(token));
     setRefreshToogle((e) => !e);
   };
 
@@ -59,6 +59,6 @@ function MessageDislike(props) {
       }
     </div>
   );
-}
+};
 
 export default MessageDislike;

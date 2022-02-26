@@ -13,13 +13,20 @@ import { refreshData, loginContext } from '../../Context/context';
 // COMPONENTS
 import MessageDeleteImage from './MessageDeleteImage';
 
-const apiMessage = 'http://localhost:3000/api/messages';
+// DATA
+import { apiMessage, getHeaders } from '../../data/apiData';
 
-const MessageEdit = (props) => {
+const MessageEdit = ({ data }) => {
 
-  const { setIsEditing, text, attachment, messageId } = props.data;
+  const { setIsEditing, text, attachment, messageId } = data;
 
-  const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(messageSchema) });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm({ resolver: yupResolver(messageSchema) });
+
   const { setRefreshToogle } = useContext(refreshData);
   const { token } = useContext(loginContext);
 
@@ -28,6 +35,8 @@ const MessageEdit = (props) => {
   const [isDeletingImg, setIsDeletingImg] = useState(false);
   const [caractersNb, setCaractersNb] = useState(text.length);
   const [apiError, setApiError] = useState('');
+  const [isShowingMediaInfos, setIsShowingMediaInfos] = useState(false);
+
 
   /* useEffect qui va regarder si une image a été sélectionnée 
   si oui, on utilise la méthode créateObject pour générer une URL et
@@ -47,15 +56,10 @@ const MessageEdit = (props) => {
   const sendForm = async (data) => {
     const formData = new FormData();
     formData.append('postInfos', JSON.stringify(data));
-    formData.append('image', data.pictureEdit[0]);
-
-    const headers = {
-      'Authorization': `Bearer ${token}`,
-      "Content-Type": "multipart/form-data"
-    };
+    formData.append('image', data[`messagePictureEdit-${messageId}`][0]);
 
     try {
-      await axios.put(`${apiMessage}/${messageId}`, formData, { headers });
+      await axios.put(`${apiMessage}/${messageId}`, formData, getHeaders(token, 'multipart'));
       setRefreshToogle((e) => !e);
       setIsEditing(false);
     }
@@ -68,16 +72,15 @@ const MessageEdit = (props) => {
 
   };
 
-  // fonction pour reset l'url d'image générée 
-  const reseter = () => setDisplayImage(null);
+  /* fonction permettant de reset le state qui indique si on affiche une image et va
+  aussi retirer l'image précédemment enregistrée dans le formulaire */
+  const resetImg = () => {
+    setDisplayImage(null);
+    reset({ [`messagePictureEdit-${messageId}`]: { length: 0 } });
+  };
 
   return (
     <form className="form" onSubmit={handleSubmit(sendForm)}>
-
-      {/* <div className="media-infos__container">
-        <p className='media'>media <i>(optionnel)</i></p>
-        <p className='media'>max : 3mo - gif | png | jp(e)g | webm</p>
-      </div> */}
 
       {(imageUrl || attachment) && (
         <>
@@ -87,7 +90,7 @@ const MessageEdit = (props) => {
             </div>
           </div>
           {imageUrl
-            ? <button type="button" onClick={reseter} className="btn btn-abort">Annuler</button>
+            ? <button type="button" onClick={resetImg} className="btn btn-abort">Annuler</button>
             : isDeletingImg
               ? <MessageDeleteImage data={{ setIsDeletingImg, messageId }} />
               : <button type="button" onClick={() => setIsDeletingImg(true)} className="btn btn-delete">Supprimer</button>}
@@ -96,15 +99,26 @@ const MessageEdit = (props) => {
 
 
       <input
-        type="file" id="pictureEdit" style={{ display: "none" }}
+        type="file" id={`messagePictureEdit-${messageId}`} style={{ display: "none" }}
         onInput={(e) => setDisplayImage(e.target.files[0])}
         onClick={(e) => e.target.value = null}
-        {...register('pictureEdit')}>
+        {...register(`messagePictureEdit-${messageId}`)}>
       </input>
 
       <div className='input-label__container'>
-        <label htmlFor="pictureEdit" className='btn btn-browse'></label>
         <label htmlFor="text">Votre message {caractersNb}/500</label>
+        {isShowingMediaInfos && (
+          <div className="media-infos">
+            <p className='size'><span>Taille maximale :</span>3mo</p>
+            <p className='formats'><span>Formats acceptés :</span>gif | png | jp(e)g | webm</p>
+          </div>
+        )}
+        <label
+          onMouseOver={() => setIsShowingMediaInfos(true)}
+          onMouseLeave={() => setIsShowingMediaInfos(false)}
+          htmlFor={`messagePictureEdit-${messageId}`}
+          className='btn-browse'>
+        </label>
         <textarea
           autoFocus
           placeholder="Message : entre 10 et 500 caractères"

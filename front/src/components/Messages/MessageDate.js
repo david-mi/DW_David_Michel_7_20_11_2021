@@ -1,9 +1,9 @@
 // FUNCTIONS
 import { handleDate } from '../../functions/messageFunctions';
 
-const MessageDate = (props) => {
+const MessageDate = ({ data }) => {
 
-  const { createdAt, updatedAt } = props.data;
+  const { createdAt, updatedAt } = data;
 
   /* si la date d'edit est la même que la date de post on ne l'affiche pas */
   return (

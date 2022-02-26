@@ -1,9 +1,9 @@
 // FUNCTIONS
 import { handleCommentDate } from '../../functions/messageFunctions';
 
-const CommentDate = (props) => {
+const CommentDate = ({ data }) => {
 
-  const { createdAt, updatedAt } = props.data;
+  const { createdAt, updatedAt } = data;
 
   /* si la date d'edit est la même que la date de post on ne l'affiche pas */
   return (

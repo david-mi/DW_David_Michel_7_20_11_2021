@@ -13,13 +13,19 @@ import { refreshData, loginContext } from '../../Context/context';
 // COMPONENTS
 import CommentDeleteImage from './CommentDeleteImage';
 
-const apiComment = 'http://localhost:3000/api/comments';
+// DATA
+import { apiComment, getHeaders } from '../../data/apiData';
 
-const CommentEdit = (props) => {
+const CommentEdit = ({ data }) => {
 
-  const { setIsEditing, text, attachment, commentId } = props.data;
+  const { setIsEditing, text, attachment, commentId } = data;
 
-  const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(commentSchema) });
+  const { register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm({ resolver: yupResolver(commentSchema) });
+
   const { setRefreshToogle } = useContext(refreshData);
   const { token } = useContext(loginContext);
 
@@ -28,6 +34,7 @@ const CommentEdit = (props) => {
   const [isDeletingImg, setIsDeletingImg] = useState(false);
   const [caractersNb, setCaractersNb] = useState(text.length);
   const [apiError, setApiError] = useState('');
+  const [isShowingMediaInfos, setIsShowingMediaInfos] = useState(false);
 
   /* useEffect qui va regarder si une image a été sélectionnée 
   si oui, on utilise la méthode créateObject pour générer une URL et
@@ -47,15 +54,10 @@ const CommentEdit = (props) => {
   const sendForm = async (data) => {
     const formData = new FormData();
     formData.append('commentInfos', JSON.stringify(data));
-    formData.append('image', data.pictureEdit[0]);
-
-    const headers = {
-      'Authorization': `Bearer ${token}`,
-      "Content-Type": "multipart/form-data"
-    };
+    formData.append('image', data[`commentPictureEdit-${commentId}`][0]);
 
     try {
-      await axios.put(`${apiComment}/${commentId}`, formData, { headers });
+      await axios.put(`${apiComment}/${commentId}`, formData, getHeaders(token, 'multipart'));
       setRefreshToogle((e) => !e);
       setIsEditing(false);
     }
@@ -65,11 +67,14 @@ const CommentEdit = (props) => {
       qui sera utilisé pour afficher le message à la fin du formulaire */
       setApiError(message);
     }
-
   };
 
-  // fonction pour reset l'url d'image générée 
-  const reseter = () => setDisplayImage(null);
+  /* fonction permettant de reset le state qui indique si on affiche une image et va
+  aussi retirer l'image précédemment enregistrée dans le formulaire */
+  const resetImg = () => {
+    setDisplayImage(null);
+    reset({ [`commentPictureEdit-${commentId}`]: { length: 0 } });
+  };
 
   return (
     <form className="form" onSubmit={handleSubmit(sendForm)}>
@@ -82,7 +87,7 @@ const CommentEdit = (props) => {
             </div>
           </div>
           {imageUrl
-            ? <button type="button" onClick={reseter} className="btn btn-abort">Annuler</button>
+            ? <button type="button" onClick={resetImg} className="btn btn-abort">Annuler</button>
             : isDeletingImg
               ? <CommentDeleteImage data={{ setIsDeletingImg, commentId }} />
               : <button type="button" onClick={() => setIsDeletingImg(true)} className="btn btn-delete">Supprimer</button>}
@@ -90,16 +95,26 @@ const CommentEdit = (props) => {
       )}
 
       <input
-        type="file" id="pictureEdit" style={{ display: "none" }}
+        type="file" id={`commentPictureEdit-${commentId}`} style={{ display: "none" }}
         onInput={(e) => setDisplayImage(e.target.files[0])}
         onClick={(e) => e.target.value = null}
-        {...register('pictureEdit')}>
+        {...register(`commentPictureEdit-${commentId}`)}>
       </input>
 
       <div className='input-label__container'>
-        <label htmlFor="pictureEdit" className='btn btn-browse'></label>
-
         <label htmlFor="text">Votre Commentaire {caractersNb}/500</label>
+        {isShowingMediaInfos && (
+          <div className="media-infos">
+            <p className='size'><span>Taille maximale :</span>3mo</p>
+            <p className='formats'><span>Formats acceptés :</span>gif | png | jp(e)g | webm</p>
+          </div>
+        )}
+        <label
+          onMouseOver={() => setIsShowingMediaInfos(true)}
+          onMouseLeave={() => setIsShowingMediaInfos(false)}
+          htmlFor={`commentPictureEdit-${commentId}`}
+          className='btn-browse'>
+        </label>
         <textarea
           placeholder="Comment : entre 10 et 500 caractères"
           id='text' defaultValue={text}

@@ -9,6 +9,9 @@ import { loginContext } from '../../Context/context';
 // ICONS
 import Logo from '../../icons-logos/Logo';
 
+// DATA 
+import { apiUser, getHeaders } from '../../data/apiData';
+
 const ProfileDelete = ({ setIsDeleting }) => {
 
   const navigate = useNavigate();
@@ -18,8 +21,7 @@ const ProfileDelete = ({ setIsDeleting }) => {
   /* fonction qui va s'occuper de faire la requête permettant de supprimer un utilisateur 
   de la base de donnée, nettoyer le localStorage et de changer le state de suppression*/
   const deleteUser = async () => {
-    const headers = { 'Authorization': `Bearer ${token}` };
-    await axios.delete(`http://localhost:3000/api/auth/users/${USER_ID}`, { headers });
+    await axios.delete(`${apiUser}/${USER_ID}`, getHeaders(token));
     localStorage.clear();
     setIsDeleted(true);
   };

@@ -9,6 +9,9 @@ import { loginContext, profilPictureUpdate } from '../Context/context';
 // ICONS 
 import { LogOutIcon, HomeIcon, ModerationPanel } from '../icons-logos/icons';
 
+// DATA
+import { apiUser, getHeaders } from '../data/apiData';
+
 const Nav = () => {
 
   const { isLogged, setIsLogged, token, USER_ID, status } = useContext(loginContext);
@@ -20,7 +23,7 @@ const Nav = () => {
   //fonction permettant de récupérer les infos d'un utilisateur pour afficher sa photo de profil
   const getProfilePicture = async () => {
     const headers = { 'Authorization': `Bearer ${token}` };
-    const res = await axios.get(`http://localhost:3000/api/auth/users/${USER_ID}`, { headers });
+    const res = await axios.get(`${apiUser}/${USER_ID}`, getHeaders(token));
     const { profilePicture } = res.data;
     setAddPicture(profilePicture);
   };

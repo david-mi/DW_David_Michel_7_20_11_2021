@@ -10,10 +10,18 @@
   }
 
   .profil-edit-buttons__container {
+    position: relative;
     display: flex;
     justify-content: center;
     width: 100%;
     gap: 20px;
+
+    .media-infos {
+      top: -100px;
+      background-color: $clr-main;
+      left: -30px;
+      right: -30px;
+    }
 
     .btn {
       flex: 0 1 200px;

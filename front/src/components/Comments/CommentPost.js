@@ -10,7 +10,8 @@ import commentSchema from '../../YupSchemas/commentSchema';
 // CONTEXT
 import { refreshData, loginContext } from '../../Context/context';
 
-const apiMessage = 'http://localhost:3000/api/messages';
+// DATA
+import { apiMessage, getHeaders } from '../../data/apiData';
 
 const CommentPost = ({ messageId }) => {
 
@@ -28,6 +29,7 @@ const CommentPost = ({ messageId }) => {
   const [imageUrl, setImageUrl] = useState(null);
   const [caractersNb, setCaractersNb] = useState(0);
   const [apiError, setApiError] = useState('');
+  const [isShowingMediaInfos, setIsShowingMediaInfos] = useState(false);
 
   /* useEffect qui va regarder si une image a été sélectionnée 
   si oui, on utilise la méthode créateObject pour générer une URL et
@@ -41,29 +43,29 @@ const CommentPost = ({ messageId }) => {
   // useEffect qui va supprimer l'erreur affichée venant de l'api au bout d'une seconde
   useEffect(() => apiError && setTimeout(() => setApiError(''), 1000), [apiError]);
 
-  /* fonction permettant de signaler dans le state si on affiche
-  une image ou non */
-  const imgReseter = () => setDisplayImage(null);
+  /* fonction permettant de reset le state qui indique si on affiche une image et va
+  aussi retirer l'image précédemment enregistrée dans le formulaire */
+  const resetImg = () => {
+    setDisplayImage(null);
+    reset({ [`commentPicture-${messageId}`]: { length: 0 } });
+  };
 
   /* fonction permettant de reset le formulaire ainsi que l'image affichée */
   const resetForm = () => {
-    imgReseter();
+    setDisplayImage(null);
     reset();
   };
 
   /* fonction gérant l'envoi des données ainsi que le reset de certains states */
   const sendForm = async (data) => {
+    console.log(data);
+    console.log(data[`commentPicture-${messageId}`]);
     const formData = new FormData();
     formData.append('commentInfos', JSON.stringify(data));
-    formData.append('image', data.commentPicture[0]);
-
-    const headers = {
-      'Authorization': `Bearer ${token}`,
-      "Content-Type": "multipart/form-data"
-    };
+    formData.append('image', data[`commentPicture-${messageId}`][0]);
 
     try {
-      await axios.post(`${apiMessage}/${messageId}/comments/new`, formData, { headers });
+      await axios.post(`${apiMessage}/${messageId}/comments/new`, formData, getHeaders(token, 'multipart'));
 
       setRefreshToogle((e) => !e);
       reset();
@@ -93,18 +95,29 @@ const CommentPost = ({ messageId }) => {
             </div>
           )}
           <div className='browse-abort__container'>
-            {imageUrl && <button type="button" onClick={imgReseter} className="btn btn-abort">Annuler</button>}
+            {imageUrl && <button type="button" onClick={resetImg} className="btn btn-abort">Annuler</button>}
           </div>
           <input
             type="file" id={`commentPicture-${messageId}`} style={{ display: "none" }}
             onInput={(e) => setDisplayImage(e.target.files[0])}
             onClick={(e) => e.target.value = null}
-            {...register('commentPicture')}>
+            {...register(`commentPicture-${messageId}`)}>
           </input>
 
           <div className='input-label__container'>
             <label htmlFor={`commentText-${messageId}`}>Votre commentaire {caractersNb}/500</label>
-            <label htmlFor={`commentPicture-${messageId}`} className='btn-browse'></label>
+            {isShowingMediaInfos && (
+              <div className="media-infos">
+                <p className='size'><span>Taille maximale :</span>3mo</p>
+                <p className='formats'><span>Formats acceptés :</span>gif | png | jp(e)g | webm</p>
+              </div>
+            )}
+            <label
+              onMouseOver={() => setIsShowingMediaInfos(true)}
+              onMouseLeave={() => setIsShowingMediaInfos(false)}
+              htmlFor={`commentPicture-${messageId}`}
+              className='btn-browse'>
+            </label>
             <textarea
               placeholder="Commentaire : entre 3 et 500 caractères"
               id={`commentText-${messageId}`}

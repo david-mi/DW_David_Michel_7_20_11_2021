@@ -13,6 +13,9 @@ import ProfileUpdate from './ProfileUpdate';
 import ProfileDelete from './ProfileDelete';
 import Title from '../../pages/Title';
 
+// DATA 
+import { apiUser, getHeaders } from '../../data/apiData';
+
 const Profile = () => {
 
   const { id } = useParams();
@@ -32,9 +35,7 @@ const Profile = () => {
     const getProfileData = async () => {
       const userId = Number(id);
       if (userId === USER_ID) setIsOwner(true);
-      const res = await axios.get(`http://localhost:3000/api/auth/users/${userId}`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const res = await axios.get(`${apiUser}/${userId}`, getHeaders(token));
       setProfileData(res.data);
     };
     console.log('getProfileData');

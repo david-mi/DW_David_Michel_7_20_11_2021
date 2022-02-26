@@ -8,11 +8,12 @@ import { loginContext, refreshData } from '../../Context/context';
 // ICONS
 import { DislikeIcon } from '../../icons-logos/icons';
 
-const apiComment = 'http://localhost:3000/api/comments';
+// DATA
+import { apiComment, getHeaders } from '../../data/apiData';
 
-function CommentDislike(props) {
+const CommentDislike = ({ data }) => {
 
-  const { commentDislikeList, commentId } = props.data;
+  const { commentDislikeList, commentId } = data;
 
   const { token, USER_ID } = useContext(loginContext);
   const { setRefreshToogle } = useContext(refreshData);
@@ -30,8 +31,7 @@ function CommentDislike(props) {
   /* fonction qui va envoyer une requête pour envoyer un dislike ou bien le retirer
   qui va aussi lancer un nouvel appel api pour afficher la mise à jour */
   const sendDislike = async () => {
-    const headers = { 'Authorization': `Bearer ${token}` };
-    await axios.post(`${apiComment}/${commentId}/dislike`, null, { headers });
+    await axios.post(`${apiComment}/${commentId}/dislike`, null, getHeaders(token));
     setRefreshToogle((e) => !e);
   };
 
@@ -59,6 +59,6 @@ function CommentDislike(props) {
       }
     </div>
   );
-}
+};
 
 export default CommentDislike;

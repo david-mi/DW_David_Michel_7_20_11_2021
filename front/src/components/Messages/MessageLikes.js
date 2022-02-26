@@ -8,11 +8,12 @@ import { loginContext, refreshData } from '../../Context/context';
 // ICONS
 import { LikeIcon } from '../../icons-logos/icons';
 
-const apiMessage = 'http://localhost:3000/api/messages';
+//DATA
+import { apiMessage, getHeaders } from '../../data/apiData';
 
-function MessagesLikes(props) {
+const MessagesLikes = ({ data }) => {
 
-  const { likeList, messageId } = props.data;
+  const { likeList, messageId } = data;
 
   const { token, USER_ID } = useContext(loginContext);
   const { setRefreshToogle } = useContext(refreshData);
@@ -28,9 +29,7 @@ function MessagesLikes(props) {
   };
 
   const sendLike = async () => {
-    const headers = { 'Authorization': `Bearer ${token}` };
-
-    await axios.post(`${apiMessage}/${messageId}/like`, null, { headers });
+    await axios.post(`${apiMessage}/${messageId}/like`, null, getHeaders(token));
     setRefreshToogle((e) => !e);
   };
 
@@ -58,6 +57,6 @@ function MessagesLikes(props) {
       }
     </div>
   );
-}
+};
 
 export default MessagesLikes;

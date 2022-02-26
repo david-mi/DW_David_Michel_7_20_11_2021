@@ -11,7 +11,7 @@ import { editingContext, profilPictureUpdate, loginContext } from '../../Context
 // PAGES & COMPONENTS
 import ProfileDeleteImg from './ProfileDeleteImg';
 
-const apiUsers = 'http://localhost:3000/api/auth/users/';
+import { apiUser, getHeaders } from '../../data/apiData';
 
 const ProfileUpdate = ({ profileData }) => {
 
@@ -27,6 +27,7 @@ const ProfileUpdate = ({ profileData }) => {
   const [isDeletingImg, setIsDeletingImg] = useState(false);
   const [caractersNb, setCaractersNb] = useState(0);
   const [apiError, setApiError] = useState('');
+  const [isShowingMediaInfos, setIsShowingMediaInfos] = useState(false);
 
   /* useEffect qui va regarder si une image a été sélectionnée 
  si oui, on utilise la méthode créateObject pour générer une URL et
@@ -51,13 +52,8 @@ const ProfileUpdate = ({ profileData }) => {
     formData.append('userInfos', JSON.stringify(data));
     formData.append('image', data.picture[0]);
 
-    const headers = {
-      'Authorization': `Bearer ${token}`,
-      "Content-Type": "multipart/form-data"
-    };
-
     try {
-      await axios.put(`${apiUsers}${USER_ID}/profileupdate`, formData, { headers });
+      await axios.put(`${apiUser}/${USER_ID}/profileupdate`, formData, getHeaders(token));
       setIsUpdating(false);
       if (data.picture[0]) setPictureUpdate((e) => !e);
     }
@@ -67,7 +63,6 @@ const ProfileUpdate = ({ profileData }) => {
       qui sera utilisé pour afficher le message à la fin du formulaire */
       setApiError(message);
     }
-
   };
 
   // fonction pour reset l'url d'image générée 
@@ -79,17 +74,24 @@ const ProfileUpdate = ({ profileData }) => {
   return (
     <form className="form" onSubmit={handleSubmit(sendForm)}>
 
-      {/* <div className="media-infos__container">
-        <p className='media'>media <i>(optionnel)</i></p>
-        <p className='media'>max : 3mo - gif | png | jp(e)g | webm</p>
-      </div> */}
-
       <div className='image-profile-edit__container'>
         <div className='profile-picture__container'>
           <img src={imageUrl || profilePicture} className="profile__picture"></img>
         </div>
         <div className='profil-edit-buttons__container'>
-          <label htmlFor="image" className='btn btn-browse'>Parcourir</label>
+          {isShowingMediaInfos && (
+            <div className="media-infos">
+              <p className='size'><span>Taille maximale :</span>3mo</p>
+              <p className='formats'><span>Formats acceptés :</span>gif | png | jp(e)g | webm</p>
+            </div>
+          )}
+          <label
+            onMouseOver={() => setIsShowingMediaInfos(true)}
+            onMouseLeave={() => setIsShowingMediaInfos(false)}
+            htmlFor={'image'}
+            className='btn btn-browse'>
+            Parcourir
+          </label>
           {imageUrl
             ? <button type="button" onClick={reseter} className="btn btn-abort">Annuler</button>
             : isDeletingImg

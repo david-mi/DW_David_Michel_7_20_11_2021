@@ -8,12 +8,12 @@ import { loginContext, refreshData } from '../../Context/context';
 // LOGOS
 import Logo from '../../icons-logos/Logo';
 
-const apiMessage = 'http://localhost:3000/api/messages';
-const apiModeration = 'http://localhost:3000/api/mod';
+//DATA
+import { apiMessage, apiModeration, getHeaders } from '../../data/apiData';
 
-const MessageDelete = (props) => {
+const MessageDelete = ({ data }) => {
 
-  const { setIsDeleting, messageId } = props.data;
+  const { setIsDeleting, messageId } = data;
 
   const { token, status } = useContext(loginContext);
   const { setRefreshToogle } = useContext(refreshData);
@@ -23,10 +23,9 @@ const MessageDelete = (props) => {
   un changement d'état sera aussi fait pour retirer la fenêtre de confirmation 
   l'appel api sera différent selon le status de la personne */
   const deleteMessage = async () => {
-    const headers = { 'Authorization': `Bearer ${token}` };
     status === 'moderator' || status === 'admin'
-      ? await axios.delete(`${apiModeration}/messages/${messageId}/delete`, { headers })
-      : await axios.delete(`${apiMessage}/${messageId}`, { headers });
+      ? await axios.delete(`${apiModeration}/messages/${messageId}/delete`, getHeaders(token))
+      : await axios.delete(`${apiMessage}/${messageId}`, getHeaders(token));
     setIsDeleting(false);
     setRefreshToogle((e) => !e);
   };

@@ -11,7 +11,8 @@ import Title from '../pages/Title';
 import MessagesInfos from './Messages/MessageInfos';
 import MessagePost from './Messages/MessagePost';
 
-const apiMessage = 'http://localhost:3000/api/messages';
+// DATA
+import { apiMessage, getHeaders } from '../data/apiData';
 
 const Home = () => {
 
@@ -23,8 +24,7 @@ const Home = () => {
   /* fonction qui va faire une requête api afin de récupérer 
   toutes les informations qui seront affichés (messages, commentaires, likes, utilisateurs...)*/
   const getMessages = async () => {
-    const headers = { 'Authorization': `Bearer ${token}` };
-    const res = await axios.get(apiMessage + '/all', { headers });
+    const res = await axios.get(apiMessage + '/all', getHeaders(token));
     const data = res.data;
     setMessages(data);
   };

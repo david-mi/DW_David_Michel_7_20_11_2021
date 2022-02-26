@@ -8,11 +8,12 @@ import { loginContext, refreshData } from '../../Context/context';
 // ICONS
 import { LikeIcon } from '../../icons-logos/icons';
 
-const apiComment = 'http://localhost:3000/api/comments';
+// DATA
+import { apiComment, getHeaders } from '../../data/apiData';
 
-function CommentLike(props) {
+const CommentLike = ({ data }) => {
 
-  const { commentLikeList, commentId } = props.data;
+  const { commentLikeList, commentId } = data;
 
   const { token, USER_ID } = useContext(loginContext);
   const { setRefreshToogle } = useContext(refreshData);
@@ -30,8 +31,7 @@ function CommentLike(props) {
   /* fonction qui va envoyer une requête pour envoyer un like ou bien le retirer
   qui va aussi lancer un nouvel appel api pour afficher la mise à jour */
   const sendLike = async () => {
-    const headers = { 'Authorization': `Bearer ${token}` };
-    await axios.post(`${apiComment}/${commentId}/like`, null, { headers });
+    await axios.post(`${apiComment}/${commentId}/like`, null, getHeaders(token));
     setRefreshToogle((e) => !e);
   };
 
@@ -59,6 +59,6 @@ function CommentLike(props) {
       }
     </div>
   );
-}
+};
 
 export default CommentLike;

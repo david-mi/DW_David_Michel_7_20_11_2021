@@ -16,8 +16,8 @@ import Header from '../../pages/Header';
 import Title from '../../pages/Title';
 import Logo from '../../icons-logos/Logo';
 
-
-const apiUsers = 'http://localhost:3000/api/auth/users/';
+// DATA 
+import { apiUser, getHeaders } from '../../data/apiData';
 
 const ProfileEmailUpdate = () => {
 
@@ -31,10 +31,8 @@ const ProfileEmailUpdate = () => {
   /* fonction qui va envoyer la requête afin de mettre à jour le mail de l'utilisateur. 
   on va aussi nettoyer son localstorage */
   const sendData = async (data) => {
-    const headers = { 'Authorization': `Bearer ${token}` };
-
     try {
-      const update = await axios.put(`${apiUsers}${USER_ID}/emailupdate`, data, { headers });
+      const update = await axios.put(`${apiUser}/${USER_ID}/emailupdate`, data, getHeaders(token));
       setServerInfos(update.data.message);
       setChangedEmail(true);
       localStorage.clear();
@@ -46,7 +44,6 @@ const ProfileEmailUpdate = () => {
         setServerInfos({ status, statusText, message });
       }
     }
-
   };
 
   /* fonction qui va s'occuper de changer le state indiquant si l'utilisateur 
@@ -98,7 +95,7 @@ const ProfileEmailUpdate = () => {
             {serverInfos && <small>Erreur {serverInfos.status} {serverInfos.statusText} {serverInfos.message}</small>}
           </div>
 
-          <button className='abort-btn' onClick={() => navigate(`/profile/${USER_ID}`)}>Annuler</button>
+          <button type="button" className='abort-btn' onClick={() => navigate(`/profile/${USER_ID}`)}>Annuler</button>
 
         </form>
       </div>

@@ -13,6 +13,9 @@ import Header from '../pages/Header';
 import Title from '../pages/Title';
 import { ShowInput, HideInput } from '../icons-logos/icons';
 
+// DATA
+import { apiSignup } from '../data/apiData';
+
 const Register = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(registerSchema) });
@@ -24,7 +27,7 @@ const Register = () => {
   const sendForm = async (formdata) => {
 
     try {
-      await axios.post('http://localhost:3000/api/auth/signup', formdata);
+      await axios.post(apiSignup, formdata);
       navigate('/login');
     }
     catch (err) {

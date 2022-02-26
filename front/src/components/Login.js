@@ -16,6 +16,9 @@ import Header from '../pages/Header';
 import Title from '../pages/Title';
 import { ShowInput, HideInput } from '../icons-logos/icons';
 
+// DATA
+import { apiLogin } from '../data/apiData';
+
 const Login = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(loginSchema) });
@@ -31,7 +34,7 @@ const Login = () => {
   const sendData = async (data) => {
     try {
       setIsLogged(false);
-      const response = await axios.post('http://localhost:3000/api/auth/login', data);
+      const response = await axios.post(apiLogin, data);
       const { token } = response.data;
       localStorage.setItem('token', JSON.stringify(token));
       setApiError(false);

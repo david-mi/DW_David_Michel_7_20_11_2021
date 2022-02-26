@@ -16,7 +16,8 @@ import Title from '../../pages/Title';
 import { ShowInput, HideInput } from '../../icons-logos/icons';
 import Logo from '../../icons-logos/Logo';
 
-const apiUsers = 'http://localhost:3000/api/auth/users/';
+// DATA 
+import { apiUser, getHeaders } from '../../data/apiData';
 
 const ProfilePwUpdate = () => {
 
@@ -32,10 +33,8 @@ const ProfilePwUpdate = () => {
   /* fonction qui va envoyer la requête afin de mettre à jour le mot de passe de l'utilisateur. 
   on va aussi nettoyer son localstorage */
   const sendData = async (data) => {
-    const headers = { 'Authorization': `Bearer ${token}` };
-
     try {
-      const update = await axios.put(`${apiUsers}${USER_ID}/pwupdate`, data, { headers });
+      const update = await axios.put(`${apiUser}${USER_ID}/pwupdate`, data, getHeaders(token));
       setServerInfos(update.data.message);
       setChangedPw(true);
       localStorage.clear();
@@ -105,7 +104,7 @@ const ProfilePwUpdate = () => {
             <input type="submit" value="Send" />
             {serverInfos && <small>Erreur {serverInfos.status} {serverInfos.statusText} {serverInfos.message}</small>}
           </div>
-          <button className='abort-btn' onClick={() => navigate(`/profile/${USER_ID}`)}>Annuler</button>
+          <button type="button" className='abort-btn' onClick={() => navigate(`/profile/${USER_ID}`)}>Annuler</button>
         </form>
       </div>
     </>

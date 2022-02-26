@@ -8,12 +8,12 @@ import { loginContext, refreshData } from '../../Context/context';
 // LOGOS
 import Logo from '../../icons-logos/Logo';
 
-const apiComment = 'http://localhost:3000/api/comments';
-const apiModeration = 'http://localhost:3000/api/mod';
+//DATA
+import { apiComment, apiModeration, getHeaders } from '../../data/apiData';
 
-const CommentDelete = (props) => {
+const CommentDelete = ({ data }) => {
 
-  const { setIsDeleting, commentId } = props.data;
+  const { setIsDeleting, commentId } = data;
 
   const { token, status } = useContext(loginContext);
   const { setRefreshToogle } = useContext(refreshData);
@@ -23,10 +23,9 @@ const CommentDelete = (props) => {
   un changement d'état sera aussi fait pour retirer la fenêtre de 
   l'appel api sera différent selon le status de la personne */
   const deleteComment = async () => {
-    const headers = { 'Authorization': `Bearer ${token}` };
     status === 'moderator' || status === 'admin'
-      ? await axios.delete(`${apiModeration}/comments/${commentId}/delete`, { headers })
-      : await axios.delete(`${apiComment}/${commentId}`, { headers });
+      ? await axios.delete(`${apiModeration}/comments/${commentId}/delete`, getHeaders(token))
+      : await axios.delete(`${apiComment}/${commentId}`, getHeaders(token));
     setIsDeleting(false);
     setRefreshToogle((e) => !e);
   };

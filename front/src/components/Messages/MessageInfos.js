@@ -18,7 +18,15 @@ import MessageEdit from './MessageEdit';
 import CommentInfos from '../Comments/CommentInfos';
 import CommentPost from '../Comments/CommentPost';
 
-const MessagesInfos = (props) => {
+const MessagesInfos = ({ data }) => {
+
+  const { User, MessageVotes, Comments, text, attachment, createdAt, updatedAt } = data;
+
+  const messageUserId = User.id;
+  const messageId = data.id;
+  const likeList = MessageVotes.filter(elem => elem.isLiked);
+  const dislikeList = MessageVotes.filter(elem => !elem.isLiked);
+  const messageUserStatus = User.status;
 
   const { USER_ID, status } = useContext(loginContext);
   const msgContainerRef = useRef(null);
@@ -29,14 +37,6 @@ const MessagesInfos = (props) => {
   const [isShowingComments, setIsShowingComments] = useState(false);
   const [isClosingComments, setIsClosingComments] = useState(false);
   const [isMessageByAdmin, setIsMessageByAdmin] = useState(false);
-
-  const { User, MessageVotes, Comments, text, attachment, createdAt, updatedAt } = props.data;
-
-  const messageUserId = User.id;
-  const messageId = props.data.id;
-  const likeList = MessageVotes.filter(elem => elem.isLiked);
-  const dislikeList = MessageVotes.filter(elem => !elem.isLiked);
-  const messageUserStatus = User.status;
 
   /* fonction permettant de montrer les boutons d'édition et de suppression d'un message 
   selon le status d'un utilisateur */
