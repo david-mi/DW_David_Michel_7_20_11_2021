@@ -9,7 +9,6 @@ const handleDate = (date) => {
     day: "numeric",
     hour: 'numeric',
     minute: 'numeric',
-    second: 'numeric'
   };
 
   return formatDate.toLocaleString('fr-FR', options);
@@ -22,7 +21,7 @@ const handleCommentDate = (date) => {
 
   const options = {
     // weekday: 'long',
-    // year: 'numeric',
+    year: 'numeric',
     month: 'numeric',
     day: "numeric",
     hour: 'numeric',

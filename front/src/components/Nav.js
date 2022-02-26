@@ -62,7 +62,7 @@ const Nav = () => {
           <NavLink to={'/home'}><HomeIcon /></NavLink>
           <button onClick={logOut}><LogOutIcon /></button>
           <NavLink to={`/profile/${USER_ID}`}>
-            {addPicture && <img src={addPicture} alt='photo de profil' />}
+            {addPicture && <img src={addPicture} className="profile-pic" alt="avatar de l'utilisateur" />}
           </NavLink>
         </nav>
       )

@@ -13,6 +13,7 @@ const MessagesComment = ({ data }) => {
 
   useEffect(() => {
     if (isShowingComments) {
+
       const scrollOpeningHandle = () => {
 
         const boundingCmt = cmtContainerRef.current.getBoundingClientRect();
@@ -22,11 +23,13 @@ const MessagesComment = ({ data }) => {
         const clientHeight = window.innerHeight;
 
         scroll.scrollTo(realCmtBottom - clientHeight, {
-          duration: animDuration() - 100,
-          smooth: 'linear'
+          duration: animDuration() + 100,
+          smooth: 'easeOutSine'
         });
+        console.log(Comments.length);
       };
-      scrollOpeningHandle();
+      setTimeout(scrollOpeningHandle, 100);
+      // scrollOpeningHandle();
     }
   }, [isShowingComments]);
 

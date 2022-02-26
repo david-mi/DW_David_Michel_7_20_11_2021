@@ -83,11 +83,6 @@ const MessagePost = () => {
 
         <form className="post-card__form" onSubmit={handleSubmit(sendForm)}>
 
-          <div className="media-infos__container">
-            <p className='media'>media <i>(optionnel)</i></p>
-            <p className='media'>max : 3mo - gif | png | jp(e)g | webm</p>
-          </div>
-
           {imageUrl && (
             <div className='image-post-edit__container'>
               <div className='post-picture__container'>
@@ -97,8 +92,7 @@ const MessagePost = () => {
             </div>
           )}
           <div className='browse-abort__container'>
-            {imageUrl && <button onClick={imgReseter} className="btn btn-abort">Annuler</button>}
-            <label htmlFor="picture" className='btn btn-browse'>Parcourir</label>
+            {imageUrl && <button type="button" onClick={imgReseter} className="btn btn-abort">Annuler</button>}
           </div>
           <input
             type="file" id="picture" style={{ display: "none" }}
@@ -109,6 +103,7 @@ const MessagePost = () => {
 
           <div className='input-label__container'>
             <label htmlFor="text">Votre message {caractersNb}/500</label>
+            <label htmlFor="picture" className='btn-browse'></label>
             <textarea
               placeholder="Message : entre 10 et 500 caractères"
               id='text'{...register('text')}
@@ -119,7 +114,7 @@ const MessagePost = () => {
 
           <div className='submit-reset__container'>
             <input type="submit" className='send-msg__btn btn'></input>
-            <button className='reset-btn btn' onClick={resetForm}>Reset</button>
+            <button type="button" className='reset-btn btn' onClick={resetForm}>Reset</button>
             {apiError && <small>Erreur : {apiError}</small>}
           </div>
         </form>

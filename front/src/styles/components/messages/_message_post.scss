@@ -7,7 +7,7 @@
 .message-post__container {
   animation: growing 500ms forwards;
   transform: scale(0);
-  max-width: 800px;
+  max-width: 600px;
   width: 100%;
   padding: 20px;
   color: $clr-main !important;
@@ -21,23 +21,25 @@
   background-color: $clr-secondary-light;
   box-shadow: 0 0 5px black;
   padding: 20px;
+  border-radius: 30px;
 
-  .post-card__form > * {
-    margin-bottom: 30px;
+  // .post-card__form > * {
+  //   margin-bottom: 30px;
 
-    @media screen and (max-width: $media-small) {
-      margin-bottom: 20px;
-    }
-  }
+  //   @media screen and (max-width: $media-small) {
+  //     margin-bottom: 20px;
+  //   }
+  // }
 
   .post-card__form {
-    display: grid;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
     place-items: center;
-    gap: 0 20px;
+    // gap: 0 20px;
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(5, auto);
+    grid-template-rows: repeat(4, auto);
     grid-template-areas:
-      "media-info media-info"
       "img img"
       "abcontainer abcontainer"
       "inputlabel inputlabel"
@@ -76,6 +78,10 @@
 
     .browse-abort__container {
       grid-area: abcontainer;
+
+      .btn {
+        margin-bottom: 20px;
+      }
     }
 
     .submit-reset__container {
@@ -98,18 +104,64 @@
     }
     .image-post-edit__container {
       grid-area: img;
+      margin-bottom: 30px;
     }
 
     .input-label__container {
+      position: relative;
       grid-area: inputlabel;
       // width: 100%;
       max-width: 500px;
+      margin-bottom: 30px;
+
+      textarea {
+        padding-right: 70px;
+        line-height: 1.4rem;
+        overflow: visible;
+        &::-webkit-scrollbar {
+          width: 0; /* Remove scrollbar space */
+          background: transparent;
+        }
+      }
+
+      .btn-browse {
+        position: absolute;
+        right: 5px;
+        width: 50px;
+        height: 50px;
+        top: calc(50% + 11px);
+        transform: translateY(-50%);
+        background-color: transparent;
+        box-shadow: none;
+        transition: 500ms cubic-bezier(0.42, 1.26, 0.85, 1.09);
+
+        &:hover {
+          transform: translateY(-50%) scale(1.2) rotate(1turn);
+          cursor: pointer;
+        }
+
+        &::after {
+          content: " ";
+          background: url("../../../../public/images/svg/IcBaselineImage.svg") no-repeat;
+          inset: 0;
+          position: absolute;
+        }
+      }
     }
 
     .btn {
-      background-color: $clr-main;
+      background-color: $clr-orange;
       color: white;
-      flex: 0 1 200px;
+      flex: 0 1 100px;
+      box-shadow: 0 0 3px rgb(131, 131, 131);
+      height: 30px;
+      line-height: 30px;
+      outline: none;
+      font-weight: 400;
+
+      &:hover {
+        background-color: $clr-main;
+      }
     }
   }
 }

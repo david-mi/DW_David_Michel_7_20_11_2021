@@ -74,10 +74,10 @@ const MessageEdit = (props) => {
   return (
     <form className="form" onSubmit={handleSubmit(sendForm)}>
 
-      <div className="media-infos__container">
+      {/* <div className="media-infos__container">
         <p className='media'>media <i>(optionnel)</i></p>
         <p className='media'>max : 3mo - gif | png | jp(e)g | webm</p>
-      </div>
+      </div> */}
 
       {(imageUrl || attachment) && (
         <>
@@ -87,14 +87,14 @@ const MessageEdit = (props) => {
             </div>
           </div>
           {imageUrl
-            ? <button onClick={reseter} className="btn btn-abort">Annuler</button>
+            ? <button type="button" onClick={reseter} className="btn btn-abort">Annuler</button>
             : isDeletingImg
               ? <MessageDeleteImage data={{ setIsDeletingImg, messageId }} />
-              : <button onClick={() => setIsDeletingImg(true)} className="btn btn-delete">Supprimer</button>}
+              : <button type="button" onClick={() => setIsDeletingImg(true)} className="btn btn-delete">Supprimer</button>}
         </>
       )}
 
-      <label htmlFor="pictureEdit" className='btn btn-browse'>Parcourir</label>
+
       <input
         type="file" id="pictureEdit" style={{ display: "none" }}
         onInput={(e) => setDisplayImage(e.target.files[0])}
@@ -103,8 +103,10 @@ const MessageEdit = (props) => {
       </input>
 
       <div className='input-label__container'>
+        <label htmlFor="pictureEdit" className='btn btn-browse'></label>
         <label htmlFor="text">Votre message {caractersNb}/500</label>
         <textarea
+          autoFocus
           placeholder="Message : entre 10 et 500 caractères"
           id='text' defaultValue={text}
           {...register('text')}
@@ -116,7 +118,7 @@ const MessageEdit = (props) => {
 
       <div className="submit-abort__container">
         <input type="submit" className='send-msg__btn btn'></input>
-        <button className='btn' onClick={() => setIsEditing(false)}>Annuler</button>
+        <button type="button" className='btn' onClick={() => setIsEditing(false)}>Annuler</button>
         {apiError && <small>Erreur : {apiError}</small>}
       </div>
 

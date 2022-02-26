@@ -71,7 +71,7 @@ const MessagesInfos = (props) => {
 
   /* fonction qui va gérer le temps d'animation et de scrolling selon le nombre de
   de commentaires affichés */
-  const animDuration = () => Comments.length * 100 + 500;
+  const animDuration = () => Comments.length * 30 + 400;
 
   /* fonction qui va calculer selons certaines positions et tailles la distance parcourue lors
   de l'animation de scrolling à la fermeture des commentaires */
@@ -104,7 +104,7 @@ const MessagesInfos = (props) => {
     setTimeout(() => {
       setIsShowingComments(false);
       setIsClosingComments(false);
-    }, 800);
+    }, animDuration());
 
   };
 

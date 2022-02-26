@@ -84,11 +84,6 @@ const CommentPost = ({ messageId }) => {
 
         <form className="post-card__form" onSubmit={handleSubmit(sendForm)}>
 
-          <div className="media-infos__container">
-            <p className='media'>media <i>(optionnel)</i></p>
-            <p className='media'>max : 3mo - gif | png | jp(e)g | webm</p>
-          </div>
-
           {imageUrl && (
             <div className='image-post-edit__container'>
               <div className='post-picture__container'>
@@ -98,8 +93,7 @@ const CommentPost = ({ messageId }) => {
             </div>
           )}
           <div className='browse-abort__container'>
-            {imageUrl && <button onClick={imgReseter} className="btn btn-abort">Annuler</button>}
-            <label htmlFor={`commentPicture-${messageId}`} className='btn btn-browse'>Parcourir</label>
+            {imageUrl && <button type="button" onClick={imgReseter} className="btn btn-abort">Annuler</button>}
           </div>
           <input
             type="file" id={`commentPicture-${messageId}`} style={{ display: "none" }}
@@ -110,6 +104,7 @@ const CommentPost = ({ messageId }) => {
 
           <div className='input-label__container'>
             <label htmlFor={`commentText-${messageId}`}>Votre commentaire {caractersNb}/500</label>
+            <label htmlFor={`commentPicture-${messageId}`} className='btn-browse'></label>
             <textarea
               placeholder="Commentaire : entre 3 et 500 caractères"
               id={`commentText-${messageId}`}
@@ -121,7 +116,7 @@ const CommentPost = ({ messageId }) => {
 
           <div className='submit-reset__container'>
             <input type="submit" className='send-msg__btn btn'></input>
-            <button className='reset-btn btn' onClick={resetForm}>Reset</button>
+            <button type="button" className='reset-btn btn' onClick={resetForm}>Reset</button>
             {apiError && <small>Erreur : {apiError}</small>}
           </div>
         </form>

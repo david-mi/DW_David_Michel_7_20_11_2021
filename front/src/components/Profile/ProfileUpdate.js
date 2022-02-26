@@ -79,10 +79,10 @@ const ProfileUpdate = ({ profileData }) => {
   return (
     <form className="form" onSubmit={handleSubmit(sendForm)}>
 
-      <div className="media-infos__container">
+      {/* <div className="media-infos__container">
         <p className='media'>media <i>(optionnel)</i></p>
         <p className='media'>max : 3mo - gif | png | jp(e)g | webm</p>
-      </div>
+      </div> */}
 
       <div className='image-profile-edit__container'>
         <div className='profile-picture__container'>
@@ -91,10 +91,10 @@ const ProfileUpdate = ({ profileData }) => {
         <div className='profil-edit-buttons__container'>
           <label htmlFor="image" className='btn btn-browse'>Parcourir</label>
           {imageUrl
-            ? <a onClick={reseter} className="btn btn-abort">Annuler</a>
+            ? <button type="button" onClick={reseter} className="btn btn-abort">Annuler</button>
             : isDeletingImg
               ? <ProfileDeleteImg data={{ setIsDeletingImg }} />
-              : hasDefaultPic() || <a onClick={() => setIsDeletingImg(true)} className="btn btn-delete">Supprimer</a>}
+              : hasDefaultPic() || <button type="button" onClick={() => setIsDeletingImg(true)} className="btn btn-delete">Supprimer</button>}
         </div>
         <input
           type="file" id="image" style={{ display: "none" }}

@@ -74,11 +74,6 @@ const CommentEdit = (props) => {
   return (
     <form className="form" onSubmit={handleSubmit(sendForm)}>
 
-      <div className="media-infos__container">
-        <p className='media'>media <i>(optionnel)</i></p>
-        <p className='media'>max : 3mo - gif | png | jp(e)g | webm</p>
-      </div>
-
       {(imageUrl || attachment) && (
         <>
           <div className='image-post-edit__container'>
@@ -87,14 +82,13 @@ const CommentEdit = (props) => {
             </div>
           </div>
           {imageUrl
-            ? <button onClick={reseter} className="btn btn-abort">Annuler</button>
+            ? <button type="button" onClick={reseter} className="btn btn-abort">Annuler</button>
             : isDeletingImg
               ? <CommentDeleteImage data={{ setIsDeletingImg, commentId }} />
-              : <button onClick={() => setIsDeletingImg(true)} className="btn btn-delete">Supprimer</button>}
+              : <button type="button" onClick={() => setIsDeletingImg(true)} className="btn btn-delete">Supprimer</button>}
         </>
       )}
 
-      <label htmlFor="pictureEdit" className='btn btn-browse'>Parcourir</label>
       <input
         type="file" id="pictureEdit" style={{ display: "none" }}
         onInput={(e) => setDisplayImage(e.target.files[0])}
@@ -103,6 +97,8 @@ const CommentEdit = (props) => {
       </input>
 
       <div className='input-label__container'>
+        <label htmlFor="pictureEdit" className='btn btn-browse'></label>
+
         <label htmlFor="text">Votre Commentaire {caractersNb}/500</label>
         <textarea
           placeholder="Comment : entre 10 et 500 caractères"
@@ -116,7 +112,7 @@ const CommentEdit = (props) => {
 
       <div className="submit-abort__container">
         <input type="submit" className='send-msg__btn btn'></input>
-        <button className='btn' onClick={() => setIsEditing(false)}>Annuler</button>
+        <button type="button" className='btn' onClick={() => setIsEditing(false)}>Annuler</button>
         {apiError && <small>Erreur : {apiError}</small>}
       </div>
 

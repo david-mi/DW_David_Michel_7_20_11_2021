@@ -1,7 +1,8 @@
 .header {
   display: flex;
+  align-items: center;
   width: 100%;
-  background-color: $clr-secondary;
+  background-color: white;
   padding: 10px;
   box-shadow: 0 0 10px black;
   @media screen and (max-width: $media-header) {
@@ -85,7 +86,7 @@
       }
     }
 
-    img {
+    .profile-pic {
       grid-area: img;
       height: 70px;
       aspect-ratio: 1/1;
@@ -100,6 +101,6 @@
   }
 
   &__logo {
-    max-width: 250px;
+    max-height: 80px;
   }
 }

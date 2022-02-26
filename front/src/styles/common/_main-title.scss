@@ -25,7 +25,7 @@
   padding: 5px 20px;
   transform: translateY(100%);
   animation: up 500ms forwards;
-  color: $clr-secondary;
+  color: white;
 
   &::before {
     position: absolute;
@@ -34,7 +34,7 @@
     left: 0px;
     right: 0px;
     height: 5px;
-    background-color: $clr-secondary;
+    background-color: white;
     transform: scaleX(0);
     animation: outline 500ms 200ms forwards cubic-bezier(0.65, 0.5, 0.15, 1.32);
   }
