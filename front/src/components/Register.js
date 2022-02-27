@@ -16,6 +16,9 @@ import { ShowInput, HideInput } from '../icons-logos/icons';
 // DATA
 import { apiSignup } from '../data/apiData';
 
+/* fonction qui va permettre d'envoyer les informations de connexion afin
+ de s'enregistrer sur l'application. Si les informations sont bonnes, l'api nous renverra 
+ sur /login afin qu'on puisse se connecter */
 const Register = () => {
 
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(registerSchema) });

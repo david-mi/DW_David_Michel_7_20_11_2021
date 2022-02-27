@@ -58,15 +58,12 @@ const CommentPost = ({ messageId }) => {
 
   /* fonction gérant l'envoi des données ainsi que le reset de certains states */
   const sendForm = async (data) => {
-    console.log(data);
-    console.log(data[`commentPicture-${messageId}`]);
     const formData = new FormData();
     formData.append('commentInfos', JSON.stringify(data));
     formData.append('image', data[`commentPicture-${messageId}`][0]);
 
     try {
       await axios.post(`${apiMessage}/${messageId}/comments/new`, formData, getHeaders(token, 'multipart'));
-
       setRefreshToogle((e) => !e);
       reset();
       setCaractersNb(0);

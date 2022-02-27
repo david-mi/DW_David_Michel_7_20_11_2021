@@ -8,8 +8,6 @@ select[name="users"] {
 
 .moderation__container {
   max-width: 600px !important;
-  width: 600px !important;
-  background-color: $clr-secondary;
   box-shadow: 0 0 10px black;
   border-radius: 20px;
   overflow: hidden;
@@ -35,7 +33,6 @@ select[name="users"] {
       "status status";
     place-items: center;
     gap: 30px;
-    background-color: $clr-secondary;
     width: 80%;
 
     @media screen and (max-width: $media) {
@@ -121,12 +118,18 @@ select[name="users"] {
     gap: 30px;
     width: 100%;
     .btn {
-      background-color: $clr-main;
+      background-color: $clr-orange;
       color: white;
       height: 40px;
       line-height: 40px;
       max-width: 200px;
       flex: 0 1 200px;
+      outline: none;
+
+      &:hover {
+        background-color: $clr-main;
+        color: white;
+      }
     }
   }
 }

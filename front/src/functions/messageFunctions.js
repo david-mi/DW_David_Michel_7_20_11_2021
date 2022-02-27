@@ -1,9 +1,10 @@
+/* fonctions qui nous retournent des dates formatées */
+
 const handleDate = (date) => {
 
   const formatDate = new Date(date);
 
   const options = {
-    // weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: "numeric",
@@ -20,7 +21,6 @@ const handleCommentDate = (date) => {
   const formatDate = new Date(date);
 
   const options = {
-    // weekday: 'long',
     year: 'numeric',
     month: 'numeric',
     day: "numeric",

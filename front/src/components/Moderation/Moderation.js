@@ -61,7 +61,6 @@ const Moderation = () => {
       const getUsers = await axios.get(apiUser, getHeaders(token));
       // on retire l'administrateur de la liste
       const adminFilter = getUsers.data.filter(user => user.status !== 'admin');
-      console.log(adminFilter);
       adminFilter.length ? setUsers(adminFilter) : setUsers(null);
     };
 
@@ -82,7 +81,7 @@ const Moderation = () => {
         id="users-select"
         className="slide"
       >
-        <option value="default">--UserList--</option>
+        <option value="default">--Utilisateurs--</option>
         {users && (
           users.map(({ id, firstname, lastname }, key) => (
             <option value={id} key={key}>{`${firstname} ${lastname}`}</option>

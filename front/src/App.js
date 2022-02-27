@@ -30,20 +30,27 @@ const App = () => {
   const [status, setStatus] = useState(null);
   const [USER_ID, setUSER_ID] = useState(null);
 
+
   const loggedCheck = () => {
 
+    /* on vérifie si l'utilisateur possède un token stocké dans le localStorage */
     const check = localStorage.getItem('token');
+
+    /* si il en possède un on le parse, on le décode et on regarde si il n'a pas expiré */
     if (check) {
       const getToken = JSON.parse(localStorage.getItem('token'));
       const decodedToken = decodeToken(getToken);
       const isTokenExpired = isExpired(getToken);
 
+      // si le token n'est pas decodable on supprime l'entrée du localStorage et on reset les states
       if (!decodedToken || isTokenExpired) {
         localStorage.clear();
         setIsLogged(false);
         setStatus(null);
         setUSER_ID(null);
       }
+      /* si le token à été décode et qu'il n'est pas expiré on mets les informations dans les différents
+      states et on passe le state servant à définir si l'utilisateur est connecté à true */
       if (decodedToken && !isTokenExpired) {
         const { USER_ID, status } = decodedToken;
         setStatus(status);
@@ -52,6 +59,8 @@ const App = () => {
         setIsLogged(true);
       }
     }
+
+    // si on ne trouve pas d'entrée token dans le storage on reset les states
     if (!check) {
       setIsLogged(false);
       setStatus(null);
@@ -59,8 +68,12 @@ const App = () => {
     }
   };
 
+  // useEffect qui va appliquer la fonction loggedCheck en fonction des changements d'états de isLogged
   useEffect(loggedCheck, [isLogged]);
 
+  /* on va appliquer tout en haut de l'application un contexte contenant plusieurs states que l'on pourra
+  utiliser ou modifier, on utilisera aussi 2 routes de routes privées, une pour quand l'utilisateur est connecté
+  et une autre pour l'administrateur */
   return (
     <loginContext.Provider value={{ isLogged, setIsLogged, token, setToken, USER_ID, status }}>
       <BrowserRouter>

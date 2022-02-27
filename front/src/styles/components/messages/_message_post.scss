@@ -23,20 +23,11 @@
   padding: 20px;
   border-radius: 30px;
 
-  // .post-card__form > * {
-  //   margin-bottom: 30px;
-
-  //   @media screen and (max-width: $media-small) {
-  //     margin-bottom: 20px;
-  //   }
-  // }
-
   .post-card__form {
     display: flex;
     align-items: center;
     flex-direction: column;
     place-items: center;
-    // gap: 0 20px;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: repeat(4, auto);
     grid-template-areas:
@@ -110,7 +101,6 @@
     .input-label__container {
       position: relative;
       grid-area: inputlabel;
-      // width: 100%;
       max-width: 500px;
       margin-bottom: 30px;
 
@@ -119,7 +109,7 @@
         line-height: 1.4rem;
         overflow: visible;
         &::-webkit-scrollbar {
-          width: 0; /* Remove scrollbar space */
+          width: 0;
           background: transparent;
         }
       }

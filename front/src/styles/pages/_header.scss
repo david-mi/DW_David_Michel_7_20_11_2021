@@ -99,8 +99,11 @@
       }
     }
   }
-
-  &__logo {
-    max-height: 80px;
+  .logo__container {
+    max-width: 400px;
+    padding-right: 20px;
+    .header__logo {
+      width: 100%;
+    }
   }
 }

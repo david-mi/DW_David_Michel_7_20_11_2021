@@ -38,7 +38,6 @@ const Profile = () => {
       const res = await axios.get(`${apiUser}/${userId}`, getHeaders(token));
       setProfileData(res.data);
     };
-    console.log('getProfileData');
     getProfileData();
   }, [isUpdating, pictureUpdate, token, USER_ID, id]);
 

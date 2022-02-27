@@ -1,19 +1,14 @@
-@keyframes height {
-  to {
-    height: 100%;
-  }
-}
-
 .post-picture__container {
   grid-area: img;
   border: solid 10px $clr-main;
   justify-self: center;
   margin-top: 20px;
-  height: 0px;
   overflow: hidden;
-  animation: height 500ms 200ms forwards;
+  transform-origin: bottom center;
 
   .post__picture {
+    transform: scale(0);
+    animation: scale-in 500ms 200ms forwards;
     display: block;
     max-width: 100%;
     max-height: 400px;

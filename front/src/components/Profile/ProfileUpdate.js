@@ -20,7 +20,11 @@ const ProfileUpdate = ({ profileData }) => {
   const { setIsUpdating } = useContext(editingContext);
   const { setPictureUpdate } = useContext(profilPictureUpdate);
   const { token, USER_ID } = useContext(loginContext);
-  const { register, handleSubmit, formState: { errors } } = useForm({ resolver: yupResolver(profileSchema) });
+  const { register,
+    handleSubmit,
+    reset,
+    formState: { errors }
+  } = useForm({ resolver: yupResolver(profileSchema) });
 
   const [displayImage, setDisplayImage] = useState(null);
   const [imageUrl, setImageUrl] = useState(null);
@@ -65,8 +69,12 @@ const ProfileUpdate = ({ profileData }) => {
     }
   };
 
-  // fonction pour reset l'url d'image générée 
-  const reseter = () => setDisplayImage(null);
+  /* fonction permettant de reset le state qui indique si on affiche une image et va
+ aussi retirer l'image précédemment enregistrée dans le formulaire */
+  const resetImg = () => {
+    setDisplayImage(null);
+    reset({ picture: { length: 0 } });
+  };
 
   // on check si l'utilisateur à la photo de profil par défaut fourni par le backend
   const hasDefaultPic = () => profilePicture.split('/images/user/')[1] === 'default_profile_picture.jpg';
@@ -93,7 +101,7 @@ const ProfileUpdate = ({ profileData }) => {
             Parcourir
           </label>
           {imageUrl
-            ? <button type="button" onClick={reseter} className="btn btn-abort">Annuler</button>
+            ? <button type="button" onClick={resetImg} className="btn btn-abort">Annuler</button>
             : isDeletingImg
               ? <ProfileDeleteImg data={{ setIsDeletingImg }} />
               : hasDefaultPic() || <button type="button" onClick={() => setIsDeletingImg(true)} className="btn btn-delete">Supprimer</button>}

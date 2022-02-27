@@ -9,6 +9,8 @@ const ModerationRoutes = () => {
 
   const { status } = useContext(loginContext);
 
+  /* si l'utilisateur essayant d'accéder à l'onglet d'administration 
+  n'a pas le statut admin il sera redirigé sur /home */
   return status === 'admin' ? <Outlet /> : <Navigate to="/home" />;
 };
 

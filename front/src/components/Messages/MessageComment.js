@@ -26,7 +26,6 @@ const MessagesComment = ({ data }) => {
           duration: animDuration() + 100,
           smooth: 'easeOutSine'
         });
-        console.log(Comments.length);
       };
       setTimeout(scrollOpeningHandle, 100);
       // scrollOpeningHandle();
