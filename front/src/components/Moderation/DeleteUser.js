@@ -8,7 +8,8 @@ import { loginContext } from '../../Context/context';
 // ICONS
 import Logo from '../../icons-logos/Logo';
 
-const adminApi = 'http://localhost:3000/api/mod/admin';
+// DATA
+import { apiAdmin, getHeaders } from '../../data/apiData';
 
 const DeleteUser = ({ data }) => {
 
@@ -20,8 +21,7 @@ const DeleteUser = ({ data }) => {
   /* fonction permettant d'envoyer la requête qui va supprimer un utilisateur de
   la base de donnée ainsi que gérer certains states */
   const deleteUser = async () => {
-    const headers = { 'Authorization': `Bearer ${token}` };
-    await axios.delete(`${adminApi}/users/${userId}/delete`, { headers });
+    await axios.delete(`${apiAdmin}/users/${userId}/delete`, getHeaders(token));
     setIsDeleted(true);
     setToggleUpdate(e => !e);
   };

@@ -11,6 +11,9 @@ import Title from '../../pages/Title';
 import DeleteUser from './DeleteUser';
 import ChangeStatus from './UpdateUser';
 
+// DATA
+import { apiUser, getHeaders } from '../../data/apiData';
+
 const Moderation = () => {
 
   /* objet qui va permettre des mots plus adaptés pour afficher 
@@ -55,9 +58,7 @@ const Moderation = () => {
     // fonction permettant de récupérer la liste des utilisateurs inscrits sur l'application
     const getUsers = async () => {
       setUser(null);
-      const getUsers = await axios.get(`http://localhost:3000/api/auth/users/`, {
-        headers: { 'Authorization': `Bearer ${token}` }
-      });
+      const getUsers = await axios.get(apiUser, getHeaders(token));
       // on retire l'administrateur de la liste
       const adminFilter = getUsers.data.filter(user => user.status !== 'admin');
       console.log(adminFilter);

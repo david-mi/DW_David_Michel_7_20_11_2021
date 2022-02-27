@@ -1,11 +1,12 @@
-const apiUser = 'http://localhost:3000/api/auth/users';
-const apiMessage = 'http://localhost:3000/api/messages';
-const apiComment = 'http://localhost:3000/api/comments';
-const apiLogin = 'http://localhost:3000/api/auth/login';
-const apiSignup = 'http://localhost:3000/api/auth/signup';
-const apiModeration = 'http://localhost:3000/api/mod';
+export const apiUser = 'http://localhost:3000/api/auth/users';
+export const apiMessage = 'http://localhost:3000/api/messages';
+export const apiComment = 'http://localhost:3000/api/comments';
+export const apiLogin = 'http://localhost:3000/api/auth/login';
+export const apiSignup = 'http://localhost:3000/api/auth/signup';
+export const apiModeration = 'http://localhost:3000/api/mod';
+export const apiAdmin = 'http://localhost:3000/api/mod/admin';
 
-const getHeaders = (token, option) => {
+export const getHeaders = (token, option) => {
 
   if (option === 'multipart') {
     return {
@@ -21,6 +22,5 @@ const getHeaders = (token, option) => {
       'Authorization': `Bearer ${token}`
     }
   };
-};
 
-export { apiUser, apiMessage, apiComment, getHeaders, apiLogin, apiSignup, apiModeration };
+};

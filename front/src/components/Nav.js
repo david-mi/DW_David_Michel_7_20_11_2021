@@ -44,10 +44,6 @@ const Nav = () => {
       getProfilePicture();
       console.log('getProfilePicture');
     }
-    // console.log('userid ' + USER_ID);
-    // console.log('isLogged ' + isLogged);
-    // console.log('token ' + token);
-    // console.log('ismounted ' + isMounted);
     return () => {
       setIsMounted(false);
       console.log('Nav unmounted');

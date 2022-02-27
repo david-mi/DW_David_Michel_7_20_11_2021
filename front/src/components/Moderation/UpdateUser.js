@@ -8,7 +8,8 @@ import { loginContext } from '../../Context/context';
 // ICONS
 import Logo from '../../icons-logos/Logo';
 
-const adminApi = 'http://localhost:3000/api/mod/admin';
+// DATA
+import { apiAdmin, getHeaders } from '../../data/apiData';
 
 const ChangeStatus = ({ data }) => {
 
@@ -21,10 +22,9 @@ const ChangeStatus = ({ data }) => {
   /* fonction permettant d'envoyer la requête qui va changer le status d'un 
   utilisateur dans la base de donnée ainsi que gérer certains states */
   const handleStatus = async (target) => {
-    const headers = { 'Authorization': `Bearer ${token}` };
-    await axios.post(`${adminApi}/users/${userId}/${target}`, null, { headers });
+    await axios.post(`${apiAdmin}/users/${userId}/${target}`, null, getHeaders(token));
     setIsChanged(true);
-    setToggleUpdate(e => !e);
+    setToggleUpdate((e) => !e);
   };
 
   /* useEffect qui va modifier le state contenant l'endpoint de la requête api selon le status

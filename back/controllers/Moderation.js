@@ -8,7 +8,7 @@ exports.setModerator = async (req, res) => {
 
     if (user.status === 'moderator') throw ({ message: 'Cet utilisateur a déjà le status modérateur' });
 
-    user.update({ status: 'moderator' });
+    await user.update({ status: 'moderator' });
 
     res.status(201).json({ message: 'Status modérateur ajouté !' });
   }
@@ -26,7 +26,7 @@ exports.removeModerator = async (req, res) => {
 
     if (user.status === 'user') throw ({ message: 'Cet utilisateur a déjà le status utilisateur' });
 
-    user.update({ status: 'user' });
+    await user.update({ status: 'user' });
 
     res.status(201).json({ message: 'Status modérateur retiré !' });
   }
