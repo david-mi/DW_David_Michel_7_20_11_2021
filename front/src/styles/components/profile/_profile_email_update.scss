@@ -20,3 +20,48 @@
     grid-area: btn;
   }
 }
+
+.email-update__wrapper,
+.password-update__wrapper {
+  .submit-abort__container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    gap: 20px;
+
+    & > * {
+      max-width: 50%;
+    }
+
+    input,
+    button {
+      background-color: $clr-orange;
+      width: 100%;
+      max-width: 100px;
+      color: white;
+      outline: none;
+      height: 30px;
+      line-height: 30px;
+
+      &:hover {
+        background-color: $clr-main;
+      }
+
+      &:focus {
+        outline: 2px solid $clr-main;
+      }
+    }
+
+    small {
+      display: block;
+      position: absolute;
+      color: red;
+      height: 15px;
+      bottom: -25px;
+      min-width: 100%;
+      font-weight: bold;
+      text-align: center;
+    }
+  }
+}

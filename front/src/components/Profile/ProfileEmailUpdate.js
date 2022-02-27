@@ -38,9 +38,15 @@ const ProfileEmailUpdate = () => {
       localStorage.clear();
     }
     catch (err) {
+      console.log(err.response.data);
+
       if (err.response) {
         const { status, statusText } = err.response;
-        const { message } = err.response.data;
+        let { message } = err.response.data;
+
+        if (message.name === "SequelizeUniqueConstraintError") {
+          message = "Le nouvel email est déjà présent dans la base de donnée";
+        }
         setServerInfos({ status, statusText, message });
       }
     }
@@ -90,12 +96,12 @@ const ProfileEmailUpdate = () => {
             {errors.newEmail && <small>{errors.newEmail.message}</small>}
           </div>
 
-          <div className='input-label__container'>
-            <input type="submit" value="Envoyer" />
+          <div className='submit-abort__container'>
+            <input type="submit" className='btn' value="Envoyer" />
+            <button type="button" className='abort-btn btn' onClick={() => navigate(`/profile/${USER_ID}`)}>Annuler</button>
             {serverInfos && <small>Erreur {serverInfos.status} {serverInfos.statusText} {serverInfos.message}</small>}
           </div>
 
-          <button type="button" className='abort-btn' onClick={() => navigate(`/profile/${USER_ID}`)}>Annuler</button>
 
         </form>
       </div>

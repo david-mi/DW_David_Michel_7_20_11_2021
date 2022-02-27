@@ -33,13 +33,15 @@ const ProfilePwUpdate = () => {
   /* fonction qui va envoyer la requête afin de mettre à jour le mot de passe de l'utilisateur. 
   on va aussi nettoyer son localstorage */
   const sendData = async (data) => {
+    console.log(data);
     try {
-      const update = await axios.put(`${apiUser}${USER_ID}/pwupdate`, data, getHeaders(token));
+      const update = await axios.put(`${apiUser}/${USER_ID}/pwupdate`, data, getHeaders(token));
       setServerInfos(update.data.message);
       setChangedPw(true);
       localStorage.clear();
     }
     catch (err) {
+      console.log(err);
       if (err.response) {
         const { status, statusText } = err.response;
         const { message } = err.response.data;
@@ -100,11 +102,11 @@ const ProfilePwUpdate = () => {
             {errors.newPw && <small>{errors.newPw.message}</small>}
           </div>
 
-          <div className='input-label__container'>
-            <input type="submit" value="Send" />
+          <div className='submit-abort__container'>
+            <input type="submit" className='btn' value="Send" />
+            <button type="button" className='abort-btn btn' onClick={() => navigate(`/profile/${USER_ID}`)}>Annuler</button>
             {serverInfos && <small>Erreur {serverInfos.status} {serverInfos.statusText} {serverInfos.message}</small>}
           </div>
-          <button type="button" className='abort-btn' onClick={() => navigate(`/profile/${USER_ID}`)}>Annuler</button>
         </form>
       </div>
     </>
