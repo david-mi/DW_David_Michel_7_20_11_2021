@@ -24,4 +24,5 @@ Pour les champs ADMIN_MAIL (email de l'administrateur) ET ADMIN_PW (mot de passe
 
 ## Frontend
 
-- Se positionner dans le dossier front et exécuter la commande **`npm i`** pour y installer les dépendances et exécuter ensuite la commande **`npm start`** afin de lancer le serveur front
+- Retirer l'extension .example sur le .env situé à la racine du dossier front
+- Se positionner dans le dossier front et exécuter la commande **`npm i`** pour y installer les dépendances et exécuter ensuite la commande **`npm start`** afin de lancer le serveur front. Il devrait démarrer sur le port 3001
