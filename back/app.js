@@ -3,7 +3,6 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const cors = require('cors');
-const bcrypt = require('bcrypt');
 
 app.use(cors());
 app.use(express.json());
@@ -13,11 +12,6 @@ const userRoutes = require('./routes/User');
 const messageRoutes = require('./routes/Message');
 const commentRoutes = require('./routes/Comment');
 const moderationRoutes = require('./routes/Moderation');
-
-app.get('/api/ptdr', async (req, res) => {
-  const hash = await bcrypt.hash('superAdmin1234', 10);
-  res.send(hash);
-});
 
 app.use('/api/auth', userRoutes);
 app.use('/api/messages', messageRoutes);

@@ -9,9 +9,9 @@
 
 - Mettez vos informations Mysql dans les champs DB_USERNAME et DB_PW
 
-- Laissez les valeurs ADMIN_MAIL ET ADMIN_PW fournies proposées pour le compte administrateur ou alors mettez des valeurs personnalisées en respectant les conditions mises dans le .env
+- Laissez les valeurs ADMIN_MAIL ET ADMIN_PW proposées pour le compte administrateur ou alors mettez vos valeurs personnalisées en respectant les conditions données dans le .env
 
-- Se positionner dans le dossier backend et rentrer la commande **`npm i`** pour y installer les dépendances
+- Se positionner dans le dossier backend et exécuter la commande **`npm i`** pour y installer les dépendances
 
 - Dans ce même dossier, exécuter la commande **`npm run init-database`** qui aura pour effet de lancer les 3 commandes suivantes:
 
@@ -22,10 +22,10 @@
 | npx sequelize db:migrate | effectuer la migration des tables
 | npx sequelize db:seed:all | injecter un compte administrateur dans la base de donnée
 
-- exécuter la commande npm start afin de lancer le serveur
+- exécuter la commande npm start afin de lancer le serveur backend
 
 ## Frontend
 
-- Se positionner dans le dossier front via un terminal et rentrer la commande **`npm i`** pour y installer les dépendances
+- Se positionner dans le dossier front et exécuter la commande **`npm i`** pour y installer les dépendances
 
-- Rentrer le commande **npm start** afin de lancer le projet React
+- Exécuter le commande **npm start** afin de lancer le serveur front
