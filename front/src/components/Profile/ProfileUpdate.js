@@ -136,7 +136,7 @@ const ProfileUpdate = ({ profileData }) => {
       <div className='input-label__container'>
         <label htmlFor="bio">Votre bio {caractersNb}/400</label>
         <textarea
-          placeholder="Bio : entre 10 et 400 caractères"
+          placeholder="Bio : 400 caractères maximum"
           defaultValue={bio}
           {...register('bio')}
           maxLength="400"
