@@ -10,7 +10,6 @@
   i {
     font-size: 0.8rem;
     color: $clr-orange;
-    // font-weight: normal;
   }
 
   input,
@@ -46,10 +45,6 @@
       transition: background-color 600ms, font-size 400ms, border-radius 300ms;
       border-radius: 5px;
 
-      // &:focus {
-      //   outline: 3px solid $clr-main;
-      // }
-
       &:hover {
         cursor: pointer;
         background-color: $clr-main;
@@ -84,15 +79,11 @@
 
   small {
     position: absolute;
-    color: red;
+    color: $clr-orange;
     height: 15px;
     bottom: -20px;
     left: 50%;
     transform: translateX(-50%);
     width: 100%;
-
-    &:last-child {
-      color: rgb(104, 0, 90);
-    }
   }
 }

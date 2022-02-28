@@ -42,8 +42,8 @@ const ProfileUpdate = ({ profileData }) => {
       : setImageUrl(null);
   }, [displayImage]);
 
-  // useEffect qui va supprimer l'erreur affichée venant de l'api au bout d'une seconde
-  useEffect(() => apiError && setTimeout(() => setApiError(''), 1000), [apiError]);
+  // useEffect qui va supprimer l'erreur affichée venant de l'api au bout de 3 secondes
+  useEffect(() => apiError && setTimeout(() => setApiError(''), 3000), [apiError]);
 
   // useEffect qui va initialiser la longueur de la bio, 0 si null
   useEffect(() => bio ? setCaractersNb(bio.length) : setCaractersNb(0), []);

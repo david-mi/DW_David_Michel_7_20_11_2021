@@ -80,9 +80,6 @@ const MessagesComment = ({ data }) => {
         </span>
         {showCommentUsers && Comments.length
           ? (
-            // au hover, le nom, prénom et pseudo de l'utilisateur seront affichés 
-            // ainsi que le nombre de commentaires si l'utilisateur à commenté ce post 
-            // plus d'une fois
             <ul className='comment-list'>
               {users().map((user, idx) => (
                 <li key={idx}>

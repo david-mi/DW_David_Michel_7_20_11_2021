@@ -38,14 +38,13 @@ const Login = () => {
       const { token } = response.data;
       localStorage.setItem('token', JSON.stringify(token));
       setApiError(false);
-      // setToken(token);
       setIsLogged(true);
       navigate('/home');
     }
     catch (err) {
-      const { status, statusText } = err.response;
-      const { message } = err.response.data;
-      setApiError({ status, statusText, message });
+      const { status, data } = err.response;
+      const { error, message } = data;
+      setApiError({ status, message: message || error });
     }
   };
 
@@ -79,7 +78,7 @@ const Login = () => {
 
           <div className='input-label__container'>
             <input type="submit" value="Send" />
-            {Apierror && <small>Erreur {Apierror.status} {Apierror.statusText} {Apierror.message}</small>}
+            {Apierror && <small>Erreur {Apierror.status} | {Apierror.message}</small>}
           </div>
 
         </form>

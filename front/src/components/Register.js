@@ -34,8 +34,8 @@ const Register = () => {
       navigate('/login');
     }
     catch (err) {
-      const { status, statusText, data } = err.response;
-      setApiError({ status, statusText, data });
+      const { status, data } = err.response;
+      setApiError({ status, data });
     }
 
   };
@@ -87,7 +87,7 @@ const Register = () => {
 
           <div className='input-label__container'>
             <input type="submit" value="Send" />
-            {Apierror && <small>Erreur {Apierror.status} {Apierror.statusText} {Apierror.data}</small>}
+            {Apierror && <small>Erreur {Apierror.status} | {Apierror.data}</small>}
           </div>
 
         </form>

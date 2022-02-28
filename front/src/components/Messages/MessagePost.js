@@ -40,8 +40,8 @@ const MessagePost = () => {
       : setImageUrl(null);
   }, [displayImage]);
 
-  // useEffect qui va supprimer l'erreur affichée venant de l'api au bout d'une seconde
-  useEffect(() => apiError && setTimeout(() => setApiError(''), 1000), [apiError]);
+  // useEffect qui va supprimer l'erreur affichée venant de l'api au bout de 3 secondes
+  useEffect(() => apiError && setTimeout(() => setApiError(''), 3000), [apiError]);
 
   /* fonction permettant de reset le formulaire ainsi que l'image affichée */
   const resetForm = () => {
