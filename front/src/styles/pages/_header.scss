@@ -56,11 +56,11 @@
 
     svg {
       color: $clr-main;
-      font-size: 3.4rem;
+      font-size: 3rem;
       transition: all 300ms;
       transform: scale(0.8);
       @media screen and (max-width: $media-header) {
-        font-size: 3.6rem;
+        font-size: 3.2rem;
       }
 
       &:hover {

@@ -9,10 +9,8 @@
 - Retirer l'extension .example sur le .env situé à la racine du dossier back
 - Mettez vos valeurs personnelles dans les champs DB_USERNAME et DB_PW
 - Mettez les valeurs ADMIN_MAIL ET ADMIN_PW fournies à la racine du .zip
-- Se  positionner dans le dossier backend via un terminal et rentrer la commande **npm i** pour y installer les dépendances
-- rentrer la commande **`npx sequelize db:create`** qui va créer la base de donnée
-- rentrer la commande **`npx sequelize db:migrate`** qui va configurer la base de donnée
-- rentrer la commande **`npx sequelize db:seed:all`** qui va ajouter un administrateur préconfiguré dans dans la base de donnée
+- Se positionner dans le dossier backend et rentrer la commande **`npm i`** pour y installer les dépendances
+- Dans ce même dossier, exécuter la commande **`npm run init-database`** qui aura pour effet de lancer les 4 commandes suivantes: npx sequelize db:drop pour supprimer la base de donnée si elle existe déjà npx sequelize db:create pour créer la base de donnée mysql, npx sequelize db:migrate afin d'effectuer la migration des tables et npx sequelize db:seed:all afin d'injecter le compte administrateur
 - rentrer la commande **`node server`** afin de lancer le serveur
 
 ## Frontend

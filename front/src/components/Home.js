@@ -21,17 +21,19 @@ const Home = () => {
   const [messages, setMessages] = useState(null);
   const [refreshToogle, setRefreshToogle] = useState(false);
 
-  /* fonction qui va faire une requête api afin de récupérer 
-  toutes les informations qui seront affichés (messages, commentaires, likes, utilisateurs...)*/
-  const getMessages = async () => {
-    const res = await axios.get(apiMessage + '/all', getHeaders(token));
-    const data = res.data;
-    setMessages(data);
-  };
-
   /* useEffect qui va appeler la fonction getMessages à chaque changement d'état
   du state refreshToggle */
-  useEffect(getMessages, [refreshToogle]);
+  useEffect(() => {
+
+    /* fonction qui va faire une requête api afin de récupérer 
+    toutes les informations qui seront affichés (messages, commentaires, likes, utilisateurs...)*/
+    const getMessages = async () => {
+      const res = await axios.get(apiMessage + '/all', getHeaders(token));
+      const data = res.data;
+      setMessages(data);
+    };
+    getMessages();
+  }, [refreshToogle]);
 
   return (
     <>

@@ -125,8 +125,6 @@ exports.passwordUpdate = async (req, res) => {
 
 exports.signup = async (req, res) => {
 
-
-
   try {
 
     const isExisting = await User.findAll(

@@ -22,7 +22,6 @@ const Nav = () => {
 
   //fonction permettant de récupérer les infos d'un utilisateur pour afficher sa photo de profil
   const getProfilePicture = async () => {
-    const headers = { 'Authorization': `Bearer ${token}` };
     const res = await axios.get(`${apiUser}/${USER_ID}`, getHeaders(token));
     const { profilePicture } = res.data;
     setAddPicture(profilePicture);
@@ -42,11 +41,9 @@ const Nav = () => {
     setIsMounted(true);
     if (isLogged && isMounted && USER_ID) {
       getProfilePicture();
-      console.log('getProfilePicture');
     }
     return () => {
       setIsMounted(false);
-      console.log('Nav unmounted');
     };
 
   }, [isLogged, pictureUpdate, USER_ID]);

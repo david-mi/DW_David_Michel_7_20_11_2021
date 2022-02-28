@@ -33,7 +33,6 @@ const ProfilePwUpdate = () => {
   /* fonction qui va envoyer la requête afin de mettre à jour le mot de passe de l'utilisateur. 
   on va aussi nettoyer son localstorage */
   const sendData = async (data) => {
-    console.log(data);
     try {
       const update = await axios.put(`${apiUser}/${USER_ID}/pwupdate`, data, getHeaders(token));
       setServerInfos(update.data.message);
@@ -41,7 +40,6 @@ const ProfilePwUpdate = () => {
       localStorage.clear();
     }
     catch (err) {
-      console.log(err);
       if (err.response) {
         const { status, statusText } = err.response;
         const { message } = err.response.data;

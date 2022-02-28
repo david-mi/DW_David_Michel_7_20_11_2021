@@ -38,8 +38,6 @@ const ProfileEmailUpdate = () => {
       localStorage.clear();
     }
     catch (err) {
-      console.log(err.response.data);
-
       if (err.response) {
         const { status, statusText } = err.response;
         let { message } = err.response.data;
