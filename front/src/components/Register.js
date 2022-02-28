@@ -61,6 +61,7 @@ const Register = () => {
 
           <div className='input-label__container'>
             <label htmlFor="password">Votre mot de passe</label>
+            <i className='pw-infos'>6 caractères mini : au moins 1 minuscule, 1 majuscule, 1 chiffre</i>
             <input placeholder="mot de passe" type={isHidden ? 'password' : 'text'} {...register('password')} />
             <div className='password-toggle' onClick={passwordToggle}>{isHidden ? <HideInput /> : <ShowInput />}</div>
             {errors.password && <small>{errors.password.message}</small>}

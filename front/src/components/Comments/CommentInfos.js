@@ -37,8 +37,8 @@ const CommentInfos = ({ comment }) => {
     if (commentUserId === USER_ID) {
       return (
         <>
-          <div className='del-icon__wrapper' onClick={() => setIsDeleting(true)}><DeleteIcon /></div>
-          <div className='edit-icon__wrapper' onClick={() => setIsEditing(true)}><EditIcon /></div>
+          <button className='del-icon__wrapper' onClick={() => setIsDeleting(true)}><DeleteIcon /></button>
+          <button className='edit-icon__wrapper' onClick={() => setIsEditing(true)}><EditIcon /></button>
         </>
       );
     }
@@ -46,7 +46,7 @@ const CommentInfos = ({ comment }) => {
     /* si le status de l'utilisateur est admin ou alors le status de l'utilisateur est modérateur et que le commentaire
     n'a pas été posté par un admin, on affiche le bouton de suppression sur la carte du commentaire */
     if (status === 'admin' || (status === 'moderator' && !isCommentByAdmin)) {
-      return <div className='del-icon__wrapper' onClick={() => setIsDeleting(true)}><DeleteIcon /></div>;
+      return <button className='del-icon__wrapper' onClick={() => setIsDeleting(true)}><DeleteIcon /></button>;
     }
 
     return null;

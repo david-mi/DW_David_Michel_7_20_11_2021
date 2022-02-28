@@ -1,13 +1,13 @@
 @keyframes logoanim {
   0% {
-    transform: rotate(0turn) scale(0.8);
+    transform: scale(0.8) rotate(0turn);
   }
   50% {
-    transform: rotate(180deg) scale(1);
+    transform: scale(1) rotate(180deg);
     fill: black;
   }
   100% {
-    transform: rotate(1turn) scale(0.8);
+    transform: scale(0.8) rotate(1turn);
   }
 }
 
@@ -30,6 +30,7 @@
     grid-area: svg;
     animation: logoanim 2s linear infinite;
     width: 80px;
+    transform-origin: center;
   }
 
   .logo-goupomania {
@@ -47,13 +48,17 @@
     gap: 40px;
 
     .btn {
-      max-width: 200px;
-      line-height: 40px;
-      height: 40px;
+      max-width: 150px;
+      line-height: 30px;
+      height: 30px;
       width: 100%;
       color: white;
-      background-color: $clr-main;
+      background-color: $clr-orange;
       flex: 0;
+
+      &:hover {
+        background-color: $clr-main;
+      }
     }
   }
 }

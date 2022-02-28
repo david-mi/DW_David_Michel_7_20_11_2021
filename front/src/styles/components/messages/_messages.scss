@@ -20,13 +20,10 @@
   position: relative;
   box-shadow: 0 0 5px black;
   border-radius: 10px;
-  // background-color: rgba(255, 255, 255, 0.486);
   background-color: white;
-  // background-color: $clr-secondary-light;
   width: 100%;
   display: grid;
   place-items: center;
-  // gap: 30px;
   padding: 20px;
   font-size: 1.1rem;
   font-weight: bold;
@@ -84,7 +81,7 @@
     height: 40px;
     aspect-ratio: 1/1;
     border-radius: 50%;
-    border: 2px solid $clr-main;
+    box-shadow: 0 0 0px 3px $clr-orange;
     position: absolute;
     right: -50px;
     object-fit: cover;

@@ -25,12 +25,16 @@
 
     .btn {
       flex: 0 1 200px;
-      background-color: $clr-main;
+      background-color: $clr-orange;
       color: white;
-      max-width: 50%;
+      min-width: 50%;
+
+      &:focus {
+        outline: $clr-main 3px solid;
+      }
 
       &:hover {
-        background-color: $clr-orange;
+        background-color: $clr-main;
       }
     }
   }

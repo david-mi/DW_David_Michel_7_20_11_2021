@@ -24,6 +24,7 @@ select[name="users"] {
 
   .moderation-infos__container {
     display: grid;
+    width: 100%;
     grid-template-columns: repeat(2, 1fr);
     grid-template-rows: auto repeat(4, auto);
     grid-template-areas:
@@ -33,7 +34,6 @@ select[name="users"] {
       "status status";
     place-items: center;
     gap: 30px;
-    width: 80%;
 
     @media screen and (max-width: $media) {
       grid-template-columns: 1fr;
@@ -124,7 +124,6 @@ select[name="users"] {
       line-height: 40px;
       max-width: 200px;
       flex: 0 1 200px;
-      outline: none;
 
       &:hover {
         background-color: $clr-main;

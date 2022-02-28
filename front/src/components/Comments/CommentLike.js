@@ -39,7 +39,7 @@ const CommentLike = ({ data }) => {
   on va afficher le prénom / nom / pseudo des utilisateurs qui ont like le commentaire */
   return (
     <div className='like-container'>
-      <span className="like-btn" onClick={sendLike}><LikeIcon hasLiked={hasLiked} /></span>
+      <button className="like-btn" onClick={sendLike}><LikeIcon hasLiked={hasLiked} /></button>
       <span className='likeNb'
         onMouseOver={() => setshowLikeCommentUsers(true)}
         onMouseLeave={() => setshowLikeCommentUsers(false)}>

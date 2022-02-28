@@ -39,7 +39,7 @@ const MessageDislike = ({ data }) => {
   on va afficher le prénom / nom / pseudo des utilisateurs qui ont dislike le message */
   return (
     <div className='dislike-container'>
-      <span className='dislike-btn' onClick={sendDislike}><DislikeIcon hasDisliked={hasDisliked} /></span>
+      <button className='dislike-btn' onClick={sendDislike}><DislikeIcon hasDisliked={hasDisliked} /></button>
       <span className='dislikeNb'
         onMouseOver={() => setShowDislikeUsers(true)}
         onMouseLeave={() => setShowDislikeUsers(false)}>

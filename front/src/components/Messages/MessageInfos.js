@@ -47,8 +47,8 @@ const MessagesInfos = ({ data }) => {
     if (messageUserId === USER_ID) {
       return (
         <>
-          <div className='del-icon__wrapper' onClick={() => setIsDeleting(true)}><DeleteIcon /></div>
-          <div className='edit-icon__wrapper' onClick={() => setIsEditing(true)}><EditIcon /></div>
+          <button className='del-icon__wrapper' onClick={() => setIsDeleting(true)}><DeleteIcon /></button>
+          <button className='edit-icon__wrapper' onClick={() => setIsEditing(true)}><EditIcon /></button>
         </>
       );
     }
@@ -56,7 +56,7 @@ const MessagesInfos = ({ data }) => {
     /* si le status de l'utilisateur est admin ou alors le status de l'utilisateur est modérateur et que le message
     n'a pas été posté par un admin, on affiche le bouton de suppression sur la carte du message */
     if (status === 'admin' || (status === 'moderator' && !isMessageByAdmin)) {
-      return <div className='del-icon__wrapper' onClick={() => setIsDeleting(true)}><DeleteIcon /></div>;
+      return <button className='del-icon__wrapper' onClick={() => setIsDeleting(true)}><DeleteIcon /></button>;
     }
 
     return null;
@@ -122,8 +122,8 @@ const MessagesInfos = ({ data }) => {
               <p className='text'>{text}</p>
               <MessagesLikes data={{ likeList, messageId }} />
               <MessageDislike data={{ dislikeList, messageId }} />
-              <MessagesComment data={{ Comments, isShowingComments, setIsShowingComments, animDuration, cmtContainerRef }} />
               {ownMessage()}
+              <MessagesComment data={{ Comments, isShowingComments, setIsShowingComments, animDuration, cmtContainerRef }} />
             </>
           )
         }
