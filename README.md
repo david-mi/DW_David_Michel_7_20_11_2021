@@ -17,9 +17,10 @@
 
 | nom|rôle  |
 |--|--|
-|  npx sequelize db:drop| supprimer la base de donnée si elle existe déjà  |
-|npx sequelize db:create |  créer la base de donnée mysql 
+| npx sequelize db:drop| supprimer la base de donnée si elle existe déjà  
+| npx sequelize db:create |  créer la base de donnée mysql 
 | npx sequelize db:migrate | effectuer la migration des tables
+| npx sequelize db:seed:all | injecter un compte administrateur dans la base de donnée
 
 - exécuter la commande npm start afin de lancer le serveur
 
