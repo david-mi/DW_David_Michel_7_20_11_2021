@@ -12,7 +12,6 @@ const idCommentCompare = require('../middlewares/idCommentCompare');
 const commentCtrl = require('../controllers/Comment');
 const commentVoteCtrl = require('../controllers/CommentVote');
 
-
 router.put('/comments/:id', auth, idCommentCompare, multer, commentSchema, commentCtrl.editComment);
 
 router.post('/messages/:id/comments/new', auth, multer, commentSchema, commentCtrl.postComment);

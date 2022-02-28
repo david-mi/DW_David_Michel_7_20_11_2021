@@ -14,7 +14,6 @@ const rateLimit = require('../middlewares/rateLimit');
 // CONTROLLERS
 const userCtrl = require('../controllers/User');
 
-
 router.get('/users', auth, userCtrl.getAllUsers);
 router.get('/users/:id/profile', auth, userIdCompare, userCtrl.showProfile);
 router.get('/users/:id', auth, userCtrl.showProfile);
