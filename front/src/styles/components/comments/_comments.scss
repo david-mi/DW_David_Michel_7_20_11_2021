@@ -203,18 +203,10 @@
         cursor: pointer;
       }
 
-      &:not(.like-icon) {
+      &:not(.like-icon, .dislike-icon) {
         &:hover {
           color: $clr-orange;
         }
-      }
-    }
-
-    .like-icon {
-      fill: $clr-main;
-
-      &:hover {
-        fill: #f44336;
       }
     }
 
@@ -297,29 +289,6 @@
     .edit-icon__wrapper {
       grid-area: edit;
     }
-  }
-
-  @keyframes like {
-    to {
-      transform: scale(1.4);
-    }
-  }
-
-  .disliked {
-    color: red !important;
-  }
-
-  .liked {
-    transform: scale(1);
-    fill: #f44336 !important;
-    animation: like 500ms reverse;
-  }
-
-  .neutral {
-    transform: scale(1);
-    fill: $clr-main;
-    color: $clr-main;
-    animation: like 500ms reverse;
   }
 }
 

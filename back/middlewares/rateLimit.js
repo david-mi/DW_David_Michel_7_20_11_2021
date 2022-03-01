@@ -5,7 +5,7 @@ const minutes = 10;
 module.exports = rateLimit({
   /// réglé sur 15 minutes et 5 essais
   windowMs: minutes * 60 * 1000,
-  max: 5,
+  max: 15,
   skipSuccessfulRequests: true,
   handler: (req, res) => {
     return res.status(429).json({

@@ -90,7 +90,7 @@ const ProfileUpdate = ({ profileData }) => {
           {isShowingMediaInfos && (
             <div className="media-infos">
               <p className='size'><span>Taille maximale :</span>3mo</p>
-              <p className='formats'><span>Formats acceptés :</span>gif | png | jp(e)g | webm</p>
+              <p className='formats'><span>Formats acceptés :</span>gif | png | jp(e)g | webp</p>
             </div>
           )}
           <label
