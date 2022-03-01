@@ -89,6 +89,8 @@ const passwordSchema = yup.object().shape({
 
 const userValid = async (req, res, next) => {
 
+  let userInfos = "";
+
   // on regarde quel est l'endpoint de la requête
   const path = req.route.path;
   const pathEmail = '/users/:id/emailupdate';
@@ -112,7 +114,7 @@ const userValid = async (req, res, next) => {
 
     if (path === pathProfile) {
       // on regarde si le champ userInfos du formData existe
-      const userInfos = req.body.userInfos;
+      userInfos = req.body.userInfos;
       if (!userInfos) throw ({ message: 'userInfos ne peut être vide' });
       // on parse les données et on les valide ou non avec le schéma yup
       const parsedData = profileParser(userInfos);

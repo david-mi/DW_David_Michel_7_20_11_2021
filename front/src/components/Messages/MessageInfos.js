@@ -123,7 +123,7 @@ const MessagesInfos = ({ data }) => {
               <MessagesLikes data={{ likeList, messageId }} />
               <MessageDislike data={{ dislikeList, messageId }} />
               {ownMessage()}
-              <MessagesComment data={{ Comments, isShowingComments, setIsShowingComments, animDuration, cmtContainerRef }} />
+              <MessagesComment data={{ Comments, isShowingComments, setIsShowingComments, animDuration, cmtContainerRef, handleClosing }} />
             </>
           )
         }

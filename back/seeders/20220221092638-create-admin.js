@@ -11,9 +11,9 @@ module.exports = {
       id: 1,
       email: process.env.ADMIN_MAIL,
       password: hash,
-      username: 'GroupoAdmin',
+      username: 'GA',
       firstname: 'Groupomania',
-      lastname: 'Administrateur',
+      lastname: 'Admin',
       bio: 'Administrateur de Groupomania',
       profilePicture: "http://localhost:3000/images/user/default_profile_picture.jpg",
       status: 'admin'

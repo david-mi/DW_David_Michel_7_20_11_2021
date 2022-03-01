@@ -7,7 +7,7 @@ import { MessageIcon } from '../../icons-logos/icons';
 
 const MessagesComment = ({ data }) => {
 
-  const { Comments, isShowingComments, setIsShowingComments, animDuration, cmtContainerRef } = data;
+  const { Comments, isShowingComments, setIsShowingComments, animDuration, cmtContainerRef, handleClosing } = data;
 
   const [showCommentUsers, setShowCommentsUsers] = useState(null);
 
@@ -32,6 +32,9 @@ const MessagesComment = ({ data }) => {
     }
   }, [isShowingComments]);
 
+  const handleComments = () => {
+    isShowingComments ? handleClosing() : setIsShowingComments(true);
+  };
 
   // permet de compter le nombre de commentaire par utilisateur sur un post
   // au lieu d'afficher par exemple 2 fois Jean, une variable nb sera incrémenté et 
@@ -51,12 +54,12 @@ const MessagesComment = ({ data }) => {
 
       find
         ? find.nb++
-        : arr[i] = {
+        : arr.push({
           firstname: cmt.firstname,
           lastname: cmt.lastname,
           username: cmt.username,
           nb: 1
-        };
+        });
 
       return arr;
 
@@ -69,7 +72,7 @@ const MessagesComment = ({ data }) => {
     <>
       <div className='comment-container'>
         <button className='comment-btn'
-          onClick={() => setIsShowingComments(e => !e)}>
+          onClick={handleComments}>
           <MessageIcon />
         </button>
         <span className='commentNb'
