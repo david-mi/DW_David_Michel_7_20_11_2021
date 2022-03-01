@@ -9,7 +9,7 @@ module.exports = rateLimit({
   skipSuccessfulRequests: true,
   handler: (req, res) => {
     return res.status(429).json({
-      error: `You avez dépassé le nombre maximal de tentatives (${req.rateLimit.limit}). Veuillez attendre ${minutes} minutes`
+      error: `You avez dépassé le nombre maximal de requêtes (${req.rateLimit.limit}). Veuillez attendre ${minutes} minutes`
     });
   }
 });
