@@ -12,7 +12,7 @@
 
 .disliked {
   animation: voting alternate 300ms;
-  color: red;
+  color: red !important;
   &:hover {
     color: red !important;
   }
