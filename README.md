@@ -1,5 +1,6 @@
 
 <p  align="center"><img  src="front\public\images\logos\logo-for-gihub.png"></p>
+[![Watch the video](https://i.imgur.com/jwSsX9Z.gif)](https://www.youtube.com/watch?v=RzUy_aSykCo)
 
 # Installation du Projet 7 - Groupomania (à faire dans l'ordre)
 
