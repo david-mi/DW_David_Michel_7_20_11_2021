@@ -1,6 +1,8 @@
 
 <p  align="center"><img  src="front\public\images\logos\logo-for-gihub.png"></p>
-[![Watch the video](https://i.imgur.com/jwSsX9Z.gif)](https://www.youtube.com/watch?v=RzUy_aSykCo)
+<p  align="center">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/RzUy_aSykCo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+</p>
 
 # Installation du Projet 7 - Groupomania (à faire dans l'ordre)
 
