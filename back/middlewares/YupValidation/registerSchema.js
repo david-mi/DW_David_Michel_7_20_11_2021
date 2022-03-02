@@ -4,7 +4,7 @@ const yup = require('yup');
 // regex pour les noms et prénoms
 const namesRegex = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð\s'.-]+$/;
 // regex pour les caractères interdits
-const forbiddenChars = /[$\/<>;]/;
+const forbiddenChars = /[$<>;]/;
 
 // schéma yup pour les données d'une inscription
 const registerSchema = yup.object().shape({

@@ -4,7 +4,7 @@ import * as yup from 'yup';
 // regex pour les noms et prénoms
 const namesRegex = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð\s'.-]+$/;
 // regex pour les caractères interdits
-const forbiddenChars = /[$\/<>;]/;
+const forbiddenChars = /[$<>;]/;
 
 const registerSchema = yup.object().shape({
 

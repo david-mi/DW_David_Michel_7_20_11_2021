@@ -13,7 +13,7 @@ const ProfileInfos = ({ profileData }) => {
   return (
     <ul className='profile-infos__container'>
       <div className='profile-picture__container'>
-        <img src={profilePicture} className="profile__picture" alt="photo de profil" />
+        <img src={profilePicture} className="profile__picture" alt="avatar de l'utilisateur" />
       </div>
       <li className='username-container'>
         <span className='attribute'>PSEUDO</span>

@@ -8,7 +8,7 @@ const { handleErrorImage } = require('../../tools/handleImage');
 // regex pour les noms et prénoms
 const namesRegex = /^[a-zA-ZàáâäãåąčćęèéêëėįìíîïłńòóôöõøùúûüųūÿýżźñçčšžÀÁÂÄÃÅĄĆČĖĘÈÉÊËÌÍÎÏĮŁŃÒÓÔÖÕØÙÚÛÜŲŪŸÝŻŹÑßÇŒÆČŠŽ∂ð\s'.-]+$/;
 // regex pour les caractères interdits
-const forbiddenChars = /[$\/<>;]/;
+const forbiddenChars = /[$<>;]/;
 
 // schéma yup pour les données d'un profil
 const profileSchema = yup.object().shape({

@@ -2,7 +2,7 @@
 import * as yup from 'yup';
 
 // regex pour les caractères interdits
-const forbiddenChars = /[$\/<>;]/;
+const forbiddenChars = /[$<>;]/;
 
 const loginSchema = yup.object().shape({
 

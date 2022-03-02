@@ -2,7 +2,7 @@
 const yup = require('yup');
 
 // regex pour les caractères interdits
-const forbiddenChars = /[$\/<>;]/;
+const forbiddenChars = /[$<>;]/;
 
 const commentSchema = yup.object().shape({
 

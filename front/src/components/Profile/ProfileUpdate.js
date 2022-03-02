@@ -84,7 +84,7 @@ const ProfileUpdate = ({ profileData }) => {
 
       <div className='image-profile-edit__container'>
         <div className='profile-picture__container'>
-          <img src={imageUrl || profilePicture} className="profile__picture"></img>
+          <img src={imageUrl || profilePicture} className="profile__picture" alt="avatar de l'utilisateur"></img>
         </div>
         <div className='profil-edit-buttons__container'>
           {isShowingMediaInfos && (

@@ -6,7 +6,7 @@ const { messageParser } = require('../../tools/jsonParser');
 const { handleErrorImage } = require('../../tools/handleImage');
 
 // regex pour les caractères interdits
-const forbiddenChars = /[$\/<>;]/;
+const forbiddenChars = /[$<>;]/;
 
 // schéma yup pour les données d'un message
 const postSchema = yup.object().shape({

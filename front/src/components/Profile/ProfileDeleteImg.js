@@ -1,6 +1,6 @@
 // LIBRARIES
 import axios from 'axios';
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext } from 'react';
 
 // CONTEXT
 import { profilPictureUpdate } from '../../Context/context';

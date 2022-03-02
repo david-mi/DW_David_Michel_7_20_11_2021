@@ -2,7 +2,7 @@
 const yup = require('yup');
 
 // regex pour les caractères interdits
-const forbiddenChars = /[$\/<>;]/;
+const forbiddenChars = /[$<>;]/;
 
 // schéma yup pour les données d'une authentification
 const loginSchema = yup.object().shape({
