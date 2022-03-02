@@ -1,7 +1,7 @@
 
 <p  align="center"><img  src="front\public\images\logos\logo-for-gihub.png"></p>
-## Vidéo de démonstration (cliquez sur le gif pour être redirigé): 
-<a href="https://www.youtube.com/watch?v=RzUy_aSykCo"><img src="https://i.imgur.com/jwSsX9Z.gif"></img></a>
+
+<p  align="center"><a href="https://www.youtube.com/watch?v=RzUy_aSykCo"><img src="https://media.giphy.com/media/lzCrImV2Jbb3UPsg68/giphy.gif"></img></a></p>
 
 # Installation du Projet 7 - Groupomania (à faire dans l'ordre)
 
