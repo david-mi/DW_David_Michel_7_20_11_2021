@@ -1,6 +1,5 @@
 
 <p  align="center"><img  src="front\public\images\logos\logo-for-gihub.png"></p>
-
 <p  align="center"><a href="https://www.youtube.com/watch?v=RzUy_aSykCo"><img src="https://media.giphy.com/media/lzCrImV2Jbb3UPsg68/giphy.gif"></img></a></p>
 
 # Installation du Projet 7 - Groupomania (à faire dans l'ordre)
@@ -13,7 +12,7 @@
 
 Pour les champs ADMIN_MAIL (email de l'administrateur) ET ADMIN_PW (mot de passe de l'administrateur) vous pouvez laisser les valeurs proposées par défaut ou alors mettre vos propres valeurs en respectant les conditions données dans le .env
 
-- Se positionner dans le dossier back et exécuter la commande **`npm i`** pour y installer les dépendances et exécuter la commande **`npm run db-init`** qui aura pour effet de lancer les 3 commandes suivantes:
+- Se positionner dans le dossier back et exécuter la commande **`npm i`** pour y installer les dépendances et exécuter la commande **`npm run db-init`** qui aura pour effet de lancer les 4 commandes suivantes:
 
 | nom|rôle  |
 |--|--|
