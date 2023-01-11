@@ -10,13 +10,13 @@ export let apiModeration = '';
 export let apiAdmin = '';
 
 if (window.location.hostname !== "localhost") {
-  apiUser = 'https://david-mi-groupomania-backend.herokuapp.com/api/auth/users';
-  apiMessage = 'https://david-mi-groupomania-backend.herokuapp.com/api/messages';
-  apiComment = 'https://david-mi-groupomania-backend.herokuapp.com/api/comments';
-  apiLogin = 'https://david-mi-groupomania-backend.herokuapp.com/api/auth/login';
-  apiSignup = 'https://david-mi-groupomania-backend.herokuapp.com/api/auth/signup';
-  apiModeration = 'https://david-mi-groupomania-backend.herokuapp.com/api/mod';
-  apiAdmin = 'https://david-mi-groupomania-backend.herokuapp.com/api/mod/admin';
+  apiUser = 'https://backend-production-645b.up.railway.app/api/auth/users';
+  apiMessage = 'https://backend-production-645b.up.railway.app/api/messages';
+  apiComment = 'https://backend-production-645b.up.railway.app/api/comments';
+  apiLogin = 'https://backend-production-645b.up.railway.app/api/auth/login';
+  apiSignup = 'https://backend-production-645b.up.railway.app/api/auth/signup';
+  apiModeration = 'https://backend-production-645b.up.railway.app/api/mod';
+  apiAdmin = 'https://backend-production-645b.up.railway.app/api/mod/admin';
 }
 else {
 
