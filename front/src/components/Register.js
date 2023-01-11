@@ -87,7 +87,7 @@ const Register = () => {
 
           <div className='input-label__container'>
             <input type="submit" value="Send" />
-            {Apierror && <small>Erreur {Apierror.status} | {Apierror.data}</small>}
+            {Apierror && <small>Erreur {Apierror.status}</small>}
           </div>
 
         </form>
